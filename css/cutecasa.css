@@ -1,2 +1,10 @@
-@import url(http://fonts.googleapis.com/css?family=Lily+Script+One);
+@import url(http://fonts.googleapis.com/css?family=Lily+Script+One|Bree+Serif);
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Lily Script One", cursive;
+}
+
+p {
+    font-family: "Bree Serif", serif;
+    font-size: 1.2em;
+}
