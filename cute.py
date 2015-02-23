@@ -6,8 +6,8 @@ from flask import Flask, request, session, g, redirect, url_for, \
 import os
 
 # Read configuration from environment variables - these are set by the secret script that we don't commit...
-DATABASE = 'secret/cute.db'
-DEBUG = True
+DATABASE = os.environ.get('CUTE_DB')
+DEBUG = os.environ.get('CUTE_DEBUG') in ['True', 'true', '1', 'yes']
 SECRET_KEY = os.environ.get('CUTE_SECRET_KEY')
 USERNAME = os.environ.get('CUTE_USERNAME')
 PASSWORD = os.environ.get('CUTE_PASSWORD')
