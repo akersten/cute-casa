@@ -17,11 +17,11 @@ if USERNAME is None:
     exit(1)
 
 if PASSWORD is None:
-    print("Password not set! Run through the secret shell script.");
+    print("Password not set! Run through the secret shell script.")
     exit(1)
 
 if SECRET_KEY is None:
-    print("Secret key not set! Run through the secret shell script.");
+    print("Secret key not set! Run through the secret shell script.")
     exit(1)
 
 print("k")
