@@ -31,6 +31,7 @@ if SECRET_KEY is None:
 if PORT is None:
     print("Port is not set! Run through the secret shell script.")
     exit(1)
+PORT = int(PORT)
 
 print("Starting CuteCasa backend " + VERSION + "...")
 
