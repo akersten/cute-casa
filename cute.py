@@ -14,6 +14,7 @@ DEBUG = os.environ.get('CUTE_DEBUG') in ['True', 'true', '1', 'yes']
 SECRET_KEY = os.environ.get('CUTE_SECRET_KEY')
 USERNAME = os.environ.get('CUTE_USERNAME')
 PASSWORD = os.environ.get('CUTE_PASSWORD')
+PORT = os.environ.get('CUTE_PORT')
 
 if USERNAME is None:
     print("Username not set! Run through the secret shell script.")
@@ -25,6 +26,10 @@ if PASSWORD is None:
 
 if SECRET_KEY is None:
     print("Secret key not set! Run through the secret shell script.")
+    exit(1)
+
+if PORT is None:
+    print("Port is not set! Run through the secret shell script.")
     exit(1)
 
 print("Starting CuteCasa backend " + VERSION + "...")
@@ -56,7 +61,7 @@ def splash():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=PORT)
 
 
 def init_db():
