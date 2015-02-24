@@ -7,28 +7,22 @@
           content="CuteCasa - the centralized home management system: rent payment/lease administration, IoT integration, maintenance reminders, dashboards, floorplans">
 
     <!-- Bootstrap styles -->
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-theme.min.css') }}">
 
     <!-- User styles -->
-    <link rel="stylesheet" href="../static/css/cutecasa.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cutecasa.css') }}">
 
     <!-- Bootstrap js -->
-    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
     <title>CuteCasa</title>
 </head>
 <body>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>CuteCasa</h1>
-            <p>
-                A centralized home management system; rent payment/lease administration, IoT integration, maintenance reminders, dashboards, floorplans
-            </p>
-        </div>
-    </div>
+    {% block body %}
+    {% endblock %}
 </div>
 
 </body>
