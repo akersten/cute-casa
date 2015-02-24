@@ -4,6 +4,7 @@
  * Color scheme and variables.
  **/
 :root {
+    /* These should be in order of decreasing brightness. */
     --color1: #A971FF;
     --color2: #9866E5;
     --color3: #7F55BF;
@@ -14,6 +15,16 @@
     --dim3: #A89CBF;
     --dim4: #70687F;
     --dim5: #383440;
+
+    --accent1: #70AFFF;
+    --accent2: #4898FF;
+    --accent3: #1C7EFC;
+    --highlight1: #FF7E63;
+    --highlight2: #FF5A37;
+    --highlight3: #FF3207;
+
+    --white: #EEE;
+    --black: #444;
 }
 
 /**
@@ -37,6 +48,18 @@
  * Custom styles.
  **/
 
+a, a:visited {
+    color: var(--accent2);
+}
+
+a:hover {
+    color: var(--accent1);
+}
+
+a.btn-primary {
+    color: var(--white);
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: "Lily Script One", cursive;
     color: var(--color1);
@@ -45,5 +68,6 @@ h1, h2, h3, h4, h5, h6 {
 p {
     font-family: "Bree Serif", serif;
     font-size: 1.5em;
+    color: var(--black);
 }
 
