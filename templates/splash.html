@@ -4,30 +4,122 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-md-12">
             <h1>CuteCasa</h1>
         </div>
     </div>
 </div>
 
 <div class="jumbotron">
-    <p>
-        <a href="/login" class="btn btn-primary">Login</a>
-        <a href="/register" class="btn btn-default">Register</a>
-    </p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-center">
+                    Centralized home administration.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-center">
+                    <a href="/login" class="btn btn-lg btn-block btn-primary">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container">
-<div class="row">
-    <div class="col-md-12">
-        <p>CuteCasa is a centralized home management system. Handle rent payment, lease administration, floorplans, and IoT integration all in one spot.</p>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
 
+    <!-- Feature blurbs -->
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <h2>IoT Integration</h2>
+
+            <p class="text-left">
+                Connect your devices using <a href="http://scrymg.com">Scrymg</a> and command them online.
+                Aggregate and analyze data throughout your home.
+            </p>
+        </div>
+        <div class="col-md-6 text-center">
+            <h2>Floorplans</h2>
+
+            <p class="text-left">
+                Use our innovative floorplan editor to draw your house.
+                Control devices in every room.
+            </p>
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <h2>Task Delegation</h2>
+
+            <p class="text-left">
+                Keep track of who needs to take out the garbage, do the dishes, sweep the floors, and clean the
+                bathroom.
+                Automatically generate fair schedules and send text reminders.
+            </p>
+        </div>
+        <div class="col-md-6 text-center">
+            <h2>Dashboards</h2>
+
+            <p class="text-left">
+                See the heartbeat of your house &mdash; view data from all modules in one place to see what needs doing.
+
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <h2>Maintenance Reminders</h2>
+
+            <p class="text-left">
+                Set up SMS alerts and never forget to change a furnace filter again.
+                We'll walk you through setting up only the reminders that matter to your house.
+            </p>
+        </div>
+        <div class="col-md-6 text-center">
+            <h2>Lease Management</h2>
+
+            <p class="text-left">
+                Set up automatic payments via Stripe integration &mdash; never miss rent again!
+            </p>
+        </div>
+    </div>
+
 </div>
+
+<div class="jumbotron footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>Contact</h3>
+                <p>
+                    CuteCasa is a self-hosted solution deployed in many different instances.
+                    You should contact whoever hosts your instance - they should put their name here.
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <h3>Made in Madison</h3>
+                <p>
+                    CuteCasa is a project by <a href="http://kersten.email">Alex Kersten</a>.
+                </p>
+            </div>
+
+            <div class="col-sm-4">
+                <h3>Open Source</h3>
+                <p>
+                    CuteCasa is developed under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.
+                    The project can be found, forked, and fiddled with on the <a href="https://github.com/akersten/cute-casa">CuteCasa GitHub page</a>.
+                    Any feature requests or bug reports should be filed as issues against the project on GitHub.
+                </p>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}
