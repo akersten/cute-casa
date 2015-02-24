@@ -50,6 +50,11 @@ def teardown_request(exception):
         db.close()
 
 
+@app.route('/')
+def splash():
+    return render_template('splash.html')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
 
