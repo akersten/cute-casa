@@ -1,10 +1,49 @@
 @import url(http://fonts.googleapis.com/css?family=Lily+Script+One|Bree+Serif);
 
+/**
+ * Color scheme and variables.
+ **/
+:root {
+    --color1: #A971FF;
+    --color2: #9866E5;
+    --color3: #7F55BF;
+    --color4: #55397F;
+    --color5: #2A1C40;
+    --dim1: #E0D0FF;
+    --dim2: #C9BBE5;
+    --dim3: #A89CBF;
+    --dim4: #70687F;
+    --dim5: #383440;
+}
+
+/**
+ * Bootstrap style overrides.
+ **/
+.jumbotron {
+    background-color: var(--dim1);
+}
+
+.btn-primary {
+    background: linear-gradient(var(--color1), var(--color2));
+    border-color: var(--color3);
+}
+
+.btn-primary:hover {
+    border-color: var(--color3);
+    background: linear-gradient( var(--color2), var(--color1));
+}
+
+/**
+ * Custom styles.
+ **/
+
 h1, h2, h3, h4, h5, h6 {
     font-family: "Lily Script One", cursive;
+    color: var(--color1);
 }
 
 p {
     font-family: "Bree Serif", serif;
-    font-size: 1.2em;
+    font-size: 1.5em;
 }
+
