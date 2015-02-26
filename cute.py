@@ -77,7 +77,7 @@ def login():
         if session.get('logged_in'):
             abort(409)  # You can't log in twice...
 
-        if (request.form['loginPassword'] is None) or (request.form['loginName'] is None):
+        if (request.form['loginPassword'] is None) or (request.form['loginEmail'] is None):
             abort(400)
 
         hash = hashlib.pbkdf2_hmac('sha512', \
@@ -85,7 +85,7 @@ def login():
                                    bytearray(SALT, 'utf-8'), \
                                    100000)
 
-        c = g.db.execute(queries.CHECK_LOGIN, [request.form['loginName'], hash])
+        c = g.db.execute(queries.CHECK_LOGIN, [request.form['loginEmail'], hash])
         e = [dict(count=row[0]) for row in c.fetchall()]
 
         if e[0]['count'] > 0:
