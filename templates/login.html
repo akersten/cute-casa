@@ -10,7 +10,11 @@
         <div class="col-md-4">
             <h2>Login to CuteCasa</h2>
 
-            <form>
+            {% for m in get_flashed_messages() %}
+                <p>{{ m }}</p>
+            {% endfor %}
+
+            <form method="POST" action="{{ url_for('login') }}">
                 <div class="form-group">
                     <label for="loginName">
                         <h3>Username</h3>

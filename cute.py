@@ -7,6 +7,7 @@ from contextlib import closing
 import os
 import queries
 import hashlib
+import array
 
 VERSION = "0.0.0"
 
@@ -76,15 +77,35 @@ def login():
         if session.get('logged_in'):
             abort(409)  # You can't log in twice...
 
-        hash = hashlib.pbkdf2_hmac('sha512', request.form['loginPassword'], SALT, 100000)
-        hash.update(request.form['loginPassword'])
+        if (request.form['loginPassword'] is None) or (request.form['loginName'] is None):
+            abort(400)
 
-        g.db.execute(queries.CHECK_LOGIN, request.form['loginName'], hash.digest())
+        hash = hashlib.pbkdf2_hmac('sha512', \
+                                   bytearray(request.form['loginPassword'], 'utf-8'), \
+                                   bytearray(SALT, 'utf-8'), \
+                                   100000)
 
-        # TODO: Try login
-        print('asdf')
+        c = g.db.execute(queries.CHECK_LOGIN, [request.form['loginName'], hash])
+        e = [dict(count=row[0]) for row in c.fetchall()]
+
+        if e[0]['count'] > 0:
+            flash("valid (" + str(e[0]['count']) + ")")
+
+            session['logged_in'] = True
+        else:
+            flash("invalid (" + str(e[0]['count']) + ")")
+
+        return render_template('login.html')
     else:
         return render_template('login.html')
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():  # TODO: Session tokens
+    if session.get('logged_in'):
+        session.pop('logged_in')
+        return redirect(url_for('splash'))
+    abort(401)
 
 
 if __name__ == '__main__':
