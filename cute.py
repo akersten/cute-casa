@@ -89,15 +89,49 @@ def login():
         e = [dict(count=row[0]) for row in c.fetchall()]
 
         if e[0]['count'] > 0:
-            flash("valid (" + str(e[0]['count']) + ")")
+            flash("valid (" + str(e[0]['count']) + ") " + str(hash))
 
             session['logged_in'] = True
         else:
-            flash("invalid (" + str(e[0]['count']) + ")")
+            flash("invalid (" + str(e[0]['count']) + ") " + str(hash))
 
         return render_template('login.html')
     else:
         return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        if session.get('logged_in'):
+            abort(409)  # You can't register while logged in...
+
+        if (request.form['registerPassword'] is None) or (request.form['registerEmail'] is None):
+            abort(400)
+
+        if (len(request.form['registerPassword']) < 2) or (len(request.form['registerEmail']) < 3):
+            flash("email or password too short")
+            return render_template('register.html')
+
+        hash = hashlib.pbkdf2_hmac('sha512', \
+                                   bytearray(request.form['registerPassword'], 'utf-8'), \
+                                   bytearray(SALT, 'utf-8'), \
+                                   100000)
+
+        c = g.db.execute(queries.CHECK_EMAIL, [request.form['registerEmail'],])
+        e = [dict(count=row[0]) for row in c.fetchall()]
+
+        if e[0]['count'] > 0:
+            flash("email in use")
+            return render_template('register.html')
+
+        g.db.execute(queries.REGISTER, [request.form['registerEmail'], hash])
+        g.db.commit();
+
+        flash("registered!")
+
+        return render_template('register.html')
+    else:
+        return render_template('register.html')
 
 
 @app.route('/logout', methods=['GET', 'POST'])
