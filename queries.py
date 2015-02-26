@@ -1,0 +1,1 @@
+CHECK_LOGIN = "SELECT COUNT(*) FROM users WHERE email=? AND password=?"

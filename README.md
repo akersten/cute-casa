@@ -28,6 +28,7 @@ launch the program:
     export CUTE_USERNAME="admin"
     export CUTE_PASSWORD="set a secret password"
     export CUTE_PORT="5050"
+    export CUTE_SALT="16 or so good random bytes"
     python3 cute.py
 
 Set it executable (`chmod +x cute.sh`) and run it (`./cute.sh`). If everything's set up correctly, CuteCasa will now be

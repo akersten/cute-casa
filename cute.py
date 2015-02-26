@@ -5,6 +5,8 @@ from flask import Flask, request, session, g, redirect, url_for, \
 from contextlib import closing
 
 import os
+import queries
+import hashlib
 
 VERSION = "0.0.0"
 
@@ -15,22 +17,29 @@ SECRET_KEY = os.environ.get('CUTE_SECRET_KEY')
 USERNAME = os.environ.get('CUTE_USERNAME')
 PASSWORD = os.environ.get('CUTE_PASSWORD')
 PORT = os.environ.get('CUTE_PORT')
+SALT = os.environ.get('CUTE_SALT')
+
+
+def notSet(problem):
+    print(problem + " not set! Run through the secret shell script.")
+    exit(1)
+
 
 if USERNAME is None:
-    print("Username not set! Run through the secret shell script.")
-    exit(1)
+    notSet("Username")
 
 if PASSWORD is None:
-    print("Password not set! Run through the secret shell script.")
-    exit(1)
+    notSet("Password")
 
 if SECRET_KEY is None:
-    print("Secret key not set! Run through the secret shell script.")
-    exit(1)
+    notSet("Secret key")
+
+if SALT is None:
+    notSet("Salt")
 
 if PORT is None:
-    print("Port is not set! Run through the secret shell script.")
-    exit(1)
+    notSet("Port")
+
 PORT = int(PORT)
 
 print("Starting CuteCasa backend " + VERSION + "...")
@@ -64,6 +73,14 @@ def splash():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        if session.get('logged_in'):
+            abort(409)  # You can't log in twice...
+
+        hash = hashlib.pbkdf2_hmac('sha512', request.form['loginPassword'], SALT, 100000)
+        hash.update(request.form['loginPassword'])
+
+        g.db.execute(queries.CHECK_LOGIN, request.form['loginName'], hash.digest())
+
         # TODO: Try login
         print('asdf')
     else:
