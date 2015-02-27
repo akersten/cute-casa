@@ -141,6 +141,11 @@ def logout():  # TODO: Session tokens
         return redirect(url_for('splash'))
     abort(401)
 
+@app.route('/floorplan', methods=['GET', 'POST'])
+def floorplan():
+    if not session.get('logged_in'):
+        abort(401)
+    return render_template('floorplan.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT)

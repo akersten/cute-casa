@@ -4,17 +4,24 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-12">
+            <h2>Floorplan Editor</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
 
-        </div>
-        <div class="col-md-4">
-            
-        </div>
-        <div class="col-md-4">
+            <div id="floorplanCanvasContainer">
+                <!-- The width and height here are set dynamically in JS. -->
+                <canvas id="floorplanCanvas" width="1" height="1">
+                    Your browser does not support modern web technologies, please upgrade.
+                </canvas>
+            </div>
+
+            <script type="text/javascript" src="{{ url_for('static', filename='js/floorplan.js') }}"></script>
 
         </div>
     </div>
-
 
 </div>
 
