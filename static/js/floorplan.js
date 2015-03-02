@@ -1,3 +1,25 @@
+/**
+ * Configuration...
+ */
+
+const BORDER_COLOR = '#efefef';
+const BORDER_WIDTH = 4;
+
+const GRID_COLOR = '#';
+const GRID_WIDTH = 2;
+const GRID_SPACING = 16;
+
+/**
+ * Instance variables ;)
+ */
+
+var posX = 0; // Where are we in the world?
+var posY = 0;
+
+/**
+ * Canvas initialization...
+ */
+
 var canvas = document.getElementById('floorplanCanvas');
 var c = canvas.getContext('2d');
 
@@ -29,8 +51,20 @@ function redraw() {
     var width = canvas.clientWidth;
     var height = canvas.clientHeight;
 
-    c.strokeStyle = 'blue';
-    c.lineWidth = '5';
+    // Draw a border around the canvas to make it look nice...
+    c.strokeStyle = BORDER_COLOR;
+    c.lineWidth = BORDER_WIDTH;
+    c.strokeRect(0, 0, width, height);
 
-    c.strokeRect(width / 2 - 30, height / 2 - 25, 60, 50);
+    // Draw gridlines
+    c.strokeStyle = GRID_COLOR;
+    c.lineWidth = GRID_WIDTH;
+
+    for (var i = 0; i < height; i += GRID_SPACING) {
+        c.strokeRect(0, i + posY % GRID_SPACING, width, GRID_WIDTH);
+    }
+
+    for (var i = 0; i < width; i += GRID_SPACING) {
+        c.strokeRect(i + posX % GRID_SPACING, 0, GRID_WIDTH, height);
+    }
 }
