@@ -50,6 +50,7 @@ function mouseMoveListener(e) {
     var offset = document.getElementById('floorplanCanvas').getBoundingClientRect();
     mX = e.clientX - offset.left;
     mY = e.clientY - offset.top;
+    redraw();
 }
 
 $('#floorplanCanvas').on('mousemove', mouseMoveListener);
