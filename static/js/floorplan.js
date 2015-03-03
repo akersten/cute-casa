@@ -15,7 +15,8 @@ const GRID_SPACING = 16;
 
 var posX = 0; // Where are we in the world?
 var posY = 0;
-
+var mX = 0; // Mouse x and y.
+var mY = 0;
 /**
  * Canvas initialization...
  */
@@ -44,6 +45,18 @@ var c = canvas.getContext('2d');
     }
 })();
 
+
+function mouseMoveListener(e) {
+    var offset = document.getElementById('floorplanCanvas').getBoundingClientRect();
+    mX = e.clientX - offset.left;
+    mY = e.clientY - offset.top;
+}
+
+$('#floorplanCanvas').on('mousemove', mouseMoveListener);
+
+
+
+
 /**
  * Drawing of canvas elements happens here.
  */
@@ -67,4 +80,7 @@ function redraw() {
     for (var i = 0; i < width; i += GRID_SPACING) {
         c.strokeRect(i + posX % GRID_SPACING, 0, GRID_WIDTH, height);
     }
+
+    c.strokeStyle="#ff0000";
+    c.strokeRect(mX, mY, 10, 10);
 }
