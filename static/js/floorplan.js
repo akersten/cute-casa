@@ -102,7 +102,11 @@ function mouseUpListener(e) {
 $('#floorplanCanvas').on('mousemove', mouseMoveListener);
 $('#floorplanCanvas').on('mousedown', mouseDownListener);
 $('#floorplanCanvas').on('mouseup', mouseUpListener);
-$('#floorplanCanvas').on('contextmenu', function(){return false;});
+$('#floorplanCanvas').on('contextmenu', function () {
+    return false;
+});
+
+
 /**
  * Drawing of canvas elements happens here.
  */
