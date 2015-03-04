@@ -17,6 +17,7 @@ var posX = 0; // Where are we in the world?
 var posY = 0;
 var mX = 0; // Mouse x and y.
 var mY = 0;
+
 /**
  * Canvas initialization...
  */
@@ -56,8 +57,6 @@ function mouseMoveListener(e) {
 $('#floorplanCanvas').on('mousemove', mouseMoveListener);
 
 
-
-
 /**
  * Drawing of canvas elements happens here.
  */
@@ -82,6 +81,6 @@ function redraw() {
         c.strokeRect(i + posX % GRID_SPACING, 0, GRID_WIDTH, height);
     }
 
-    c.strokeStyle="#ff0000";
+    c.strokeStyle = "#ff0000";
     c.strokeRect(mX, mY, 10, 10);
 }
