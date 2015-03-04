@@ -2,9 +2,9 @@
  * Configuration...
  */
 
-const BACKGROUND_COLOR = '#f3f3f3';
-const BORDER_COLOR = '#efefef';
-const HIGHLIGHT_COLOR = '#f9f9f9';
+const BACKGROUND_COLOR = '#f9f9f9';
+const BORDER_COLOR = '#f4f4f4';
+const HIGHLIGHT_COLOR = '#fcfcfc';
 const BORDER_WIDTH = 4;
 
 const GRID_COLOR = '#';
@@ -65,7 +65,6 @@ function mouseMoveListener(e) {
     var dY = mY - lmY;
 
     if (mb3) {
-        console.log("dX: " + dX + " dY: " + dY + "posX: " + posX + " posY: " +posY );
         posX -= dX;
         posY -= dY;
     }
