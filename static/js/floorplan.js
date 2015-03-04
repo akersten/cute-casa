@@ -2,8 +2,9 @@
  * Configuration...
  */
 
-const BACKGROUND_COLOR = '#f9f9f9';
+const BACKGROUND_COLOR = '#f3f3f3';
 const BORDER_COLOR = '#efefef';
+const HIGHLIGHT_COLOR = '#f9f9f9';
 const BORDER_WIDTH = 4;
 
 const GRID_COLOR = '#';
@@ -117,6 +118,11 @@ function redraw() {
     c.strokeStyle = BORDER_COLOR;
     c.lineWidth = BORDER_WIDTH;
     c.strokeRect(0, 0, width, height);
+
+    // Fill current row and column
+    c.fillStyle = HIGHLIGHT_COLOR;
+    c.fillRect(mX - mX % GRID_SPACING - (posX % GRID_SPACING), 0, GRID_SPACING, height);
+    c.fillRect(0, mY - mY % GRID_SPACING - (posY % GRID_SPACING), width, GRID_SPACING);
 
     // Draw gridlines
     c.strokeStyle = GRID_COLOR;
