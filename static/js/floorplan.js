@@ -47,7 +47,7 @@ var c = canvas.getContext('2d');
 
 
 function mouseMoveListener(e) {
-    var offset = document.getElementById('floorplanCanvas').getBoundingClientRect();
+    var offset = $('#floorplanCanvas')[0].getBoundingClientRect();
     mX = e.clientX - offset.left;
     mY = e.clientY - offset.top;
     redraw();
