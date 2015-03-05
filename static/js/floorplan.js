@@ -2,9 +2,9 @@
  * Configuration...
  */
 
-const BACKGROUND_COLOR = '#f9f9f9';
-const BORDER_COLOR = '#f4f4f4';
-const HIGHLIGHT_COLOR = '#fcfcfc';
+const BACKGROUND_COLOR = '#eaeaea';
+const BORDER_COLOR = '#e4e4e4';
+const HIGHLIGHT_COLOR = '#f1f1f1';
 const BORDER_WIDTH = 4;
 
 const GRID_COLOR = '#';
@@ -30,6 +30,46 @@ var mb3 = false;
 
 var canvas = document.getElementById('floorplanCanvas');
 var c = canvas.getContext('2d');
+
+
+/**
+ * Drawing of canvas elements happens here.
+ */
+function redraw() {
+    var width = canvas.clientWidth;
+    var height = canvas.clientHeight;
+
+    c.fillStyle = BACKGROUND_COLOR;
+    c.fillRect(0, 0, width, height);
+
+    // Draw a border around the canvas to make it look nice...
+    c.strokeStyle = BORDER_COLOR;
+    c.lineWidth = BORDER_WIDTH;
+    c.strokeRect(0, 0, width, height);
+
+    // Fill current row and column
+    c.fillStyle = HIGHLIGHT_COLOR;
+    c.fillRect((mX + posX % GRID_SPACING), 0, GRID_SPACING, height);
+    c.fillRect(0, (mY + posY % GRID_SPACING), width, GRID_SPACING);
+
+    // Draw gridlines
+    c.strokeStyle = GRID_COLOR;
+    c.lineWidth = GRID_WIDTH;
+
+    for (var i = 0; i < height; i += GRID_SPACING) {
+        c.strokeRect(0, i - (posY % GRID_SPACING), width, GRID_WIDTH);
+    }
+
+    for (var i = 0; i < width; i += GRID_SPACING) {
+        c.strokeRect(i - (posX % GRID_SPACING), 0, GRID_WIDTH, height);
+    }
+    c.strokeRect(mX, mY, 10, 10);
+}
+
+
+//
+// Event listeners and initialization follow.
+//
 
 /**
  * Event listener to keep canvas coordinate system syncrhonized with CSS coordinates on window resize.
@@ -105,38 +145,3 @@ $('#floorplanCanvas').on('mouseup', mouseUpListener);
 $('#floorplanCanvas').on('contextmenu', function () {
     return false;
 });
-
-
-/**
- * Drawing of canvas elements happens here.
- */
-function redraw() {
-    var width = canvas.clientWidth;
-    var height = canvas.clientHeight;
-
-    c.fillStyle = BACKGROUND_COLOR;
-    c.fillRect(0, 0, width, height);
-
-    // Draw a border around the canvas to make it look nice...
-    c.strokeStyle = BORDER_COLOR;
-    c.lineWidth = BORDER_WIDTH;
-    c.strokeRect(0, 0, width, height);
-
-    // Fill current row and column
-    c.fillStyle = HIGHLIGHT_COLOR;
-    c.fillRect(mX - mX % GRID_SPACING - (posX % GRID_SPACING), 0, GRID_SPACING, height);
-    c.fillRect(0, mY - mY % GRID_SPACING - (posY % GRID_SPACING), width, GRID_SPACING);
-
-    // Draw gridlines
-    c.strokeStyle = GRID_COLOR;
-    c.lineWidth = GRID_WIDTH;
-
-    for (var i = 0; i < height; i += GRID_SPACING) {
-        c.strokeRect(0, i - (posY % GRID_SPACING), width, GRID_WIDTH);
-    }
-
-    for (var i = 0; i < width; i += GRID_SPACING) {
-        c.strokeRect(i - (posX % GRID_SPACING), 0, GRID_WIDTH, height);
-    }
-    c.strokeRect(mX, mY, 10, 10);
-}
