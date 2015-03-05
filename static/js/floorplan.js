@@ -20,6 +20,8 @@ var mX = 0; // Mouse x and y.
 var mY = 0;
 var lmX = 0; // Last mouse x and mouse y.
 var lmY = 0;
+var col = 0; // Mouse col and row in absolute terms
+var row = 0;
 var mb1 = false; // Mouse button states.
 var mb2 = false;
 var mb3 = false;
@@ -118,8 +120,10 @@ function mouseMoveListener(e) {
         posY -= dY;
     }
 
-    var cc = resolveMouse();
-    console.log("row: " + cc.row + " col: " + cc.col);
+    var cr = resolveMouse();
+    col = cr.col;
+    row = cr.row;
+
     redraw();
 }
 
