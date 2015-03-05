@@ -1,7 +1,6 @@
-/**
- * Configuration...
- */
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Configuration...
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const BACKGROUND_COLOR = '#eaeaea';
 const BORDER_COLOR = '#e4e4e4';
 const HIGHLIGHT_COLOR = '#f1f1f1';
@@ -11,31 +10,40 @@ const GRID_COLOR = '#';
 const GRID_WIDTH = 2;
 const GRID_SPACING = 24;
 
-/**
- * Instance variables ;)
- */
-var posX = 0; // Where are we in the world?
-var posY = 0;
-var mX = 0; // Mouse x and y.
-var mY = 0;
-var lmX = 0; // Last mouse x and mouse y.
-var lmY = 0;
-var col = 0; // Mouse col and row in absolute terms
-var row = 0;
-var mb1 = false; // Mouse button states.
-var mb2 = false;
-var mb3 = false;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Object definitions...
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Canvas initialization...
- */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Instance variables...
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Position - where is the viewport looking in absolute coordinates?
+var worldX = 0;
+var worldY = 0;
+
+// Mouse position - x and y in viewport terms.
+var mouseViewX = 0;
+var mouseViewY = 0;
+
+// Mouse row/col - in absolute coordinates.
+var mouseCol = 0;
+var mouseRow = 0;
+
+// Mouse button states - true for down, false for up.
+var mouse1 = false;
+var mouse2 = false;
+var mouse3 = false;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Canvas initialization...
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var canvas = document.getElementById('floorplanCanvas');
 var c = canvas.getContext('2d');
 
 
 /**
- * Drawing of canvas elements happens here.
+ * Draw canvas elements.
  */
 function redraw() {
     var width = canvas.clientWidth;
@@ -51,39 +59,39 @@ function redraw() {
 
     // Fill current row and column
     c.fillStyle = HIGHLIGHT_COLOR;
-    c.fillRect((mX + posX % GRID_SPACING), 0, GRID_SPACING, height);
-    c.fillRect(0, (mY + posY % GRID_SPACING), width, GRID_SPACING);
+    c.fillRect((mouseViewX + worldX % GRID_SPACING), 0, GRID_SPACING, height);
+    c.fillRect(0, (mouseViewY + worldY % GRID_SPACING), width, GRID_SPACING);
 
     // Draw gridlines
     c.strokeStyle = GRID_COLOR;
     c.lineWidth = GRID_WIDTH;
 
     for (var i = 0; i < height; i += GRID_SPACING) {
-        c.strokeRect(0, i - (posY % GRID_SPACING), width, GRID_WIDTH);
+        c.strokeRect(0, i - (worldY % GRID_SPACING), width, GRID_WIDTH);
     }
 
     for (var i = 0; i < width; i += GRID_SPACING) {
-        c.strokeRect(i - (posX % GRID_SPACING), 0, GRID_WIDTH, height);
+        c.strokeRect(i - (worldX % GRID_SPACING), 0, GRID_WIDTH, height);
     }
-    c.strokeRect(mX, mY, 10, 10);
+    c.strokeRect(mouseViewX, mouseViewY, 10, 10);
 }
 
 /**
- * Resolve the mouse position into row/col
+ * Resolve the mouse position into row/col.
  */
 function resolveMouse() {
     return {
-        row: Math.floor((mY + posY) / GRID_SPACING),
-        col: Math.floor((mX + posX) / GRID_SPACING)
+        row: Math.floor((mouseViewY + worldY) / GRID_SPACING),
+        col: Math.floor((mouseViewX + worldX) / GRID_SPACING)
     };
 }
 
-//
-// Event listeners and initialization follow.
-//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Event listeners and initialization...
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Event listener to keep canvas coordinate system syncrhonized with CSS coordinates on window resize.
+ * Keep canvas coordinate system syncrhonized with CSS coordinates on window resize.
  */
 (function () {
     var canvas = $('#floorplanCanvas');
@@ -103,61 +111,76 @@ function resolveMouse() {
     }
 })();
 
-
+/**
+ * Want to track where the mouse moved to update, also implements scroll-dragging.
+ */
 function mouseMoveListener(e) {
     var offset = $('#floorplanCanvas')[0].getBoundingClientRect();
 
-    // Update mouse positions and calculate deltas
-    lmX = mX;
-    lmY = mY;
-    mX = e.clientX - offset.left;
-    mY = e.clientY - offset.top;
-    var dX = mX - lmX;
-    var dY = mY - lmY;
+    // Calculate current mouse position
+    var newX = e.clientX - offset.left;
+    var newY = e.clientY - offset.top;
 
-    if (mb3) {
-        posX -= dX;
-        posY -= dY;
+    // Calculate deltas
+    var dX = newX - mouseViewX;
+    var dY = newY - mouseViewY;
+
+    // Update global mouse position
+    mouseViewX = newX;
+    mouseViewY = newY;
+
+    // Move viewport if scrolling
+    if (mouse3) {
+        worldX -= dX;
+        worldY -= dY;
     }
 
+    // Calculate and update column and row locations
     var cr = resolveMouse();
-    col = cr.col;
-    row = cr.row;
+    mouseCol = cr.col;
+    mouseRow = cr.row;
 
     redraw();
 }
 
+/**
+ * Watch for mousedown events and set global flags.
+ */
 function mouseDownListener(e) {
     switch (e.which) {
         case 1:
-            mb1 = true;
+            mouse1 = true;
             break;
         case 2:
-            mb2 = true;
+            mouse2 = true;
             break;
         case 3:
-            mb3 = true;
+            mouse3 = true;
             break;
     }
 }
 
+/**
+ * Watch for mouseup events and set global flags.
+ */
 function mouseUpListener(e) {
     switch (e.which) {
         case 1:
-            mb1 = false;
+            mouse1 = false;
             break;
         case 2:
-            mb2 = false;
+            mouse2 = false;
             break;
         case 3:
-            mb3 = false;
+            mouse3 = false;
             break;
     }
 }
 
+// Register listeners
 $('#floorplanCanvas').on('mousemove', mouseMoveListener);
 $('#floorplanCanvas').on('mousedown', mouseDownListener);
 $('#floorplanCanvas').on('mouseup', mouseUpListener);
 $('#floorplanCanvas').on('contextmenu', function () {
-    return false;
+    return false; // Disable context menu on canvas for RMB dragging
 });
