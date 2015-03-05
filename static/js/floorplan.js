@@ -66,6 +66,15 @@ function redraw() {
     c.strokeRect(mX, mY, 10, 10);
 }
 
+/**
+ * Resolve the mouse position into row/col
+ */
+function resolveMouse() {
+    return {
+        row: Math.floor((mY + posY) / GRID_SPACING),
+        col: Math.floor((mX + posX) / GRID_SPACING)
+    };
+}
 
 //
 // Event listeners and initialization follow.
@@ -108,6 +117,9 @@ function mouseMoveListener(e) {
         posX -= dX;
         posY -= dY;
     }
+
+    var cc = resolveMouse();
+    console.log("row: " + cc.row + " col: " + cc.col);
     redraw();
 }
 
