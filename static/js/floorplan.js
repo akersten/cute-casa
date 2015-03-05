@@ -99,8 +99,6 @@ function Wall(colA, rowA, colB, rowB) {
             setCursorGrab();
         } else if (mouseCol == this.endpointB.c && mouseRow == this.endpointB.r) {
             setCursorGrab();
-        } else {
-            setCursorDefault();
         }
 
         // If we're moving, keep the endpoint locations updated.
@@ -273,6 +271,9 @@ function mouseMoveListener(e) {
     var cr = resolveMouse();
     mouseCol = cr.col;
     mouseRow = cr.row;
+
+    // Reset the cursor before letting objects change it.
+    setCursorDefault();
 
     // Propogate mouse movement events to all world objects...
     for (var i = 0; i < worldObjects.length; i++) {
