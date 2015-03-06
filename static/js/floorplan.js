@@ -383,9 +383,9 @@ function mouseWheelListener(e) {
                                                                             // negative... Woo browser interop!
 
     if (distance > 0) {
-        zoomIn();
+        zoomCanvas(1);
     } else {
-        zoomOut();
+        zoomCanvas(-1);
     }
 }
 
@@ -416,16 +416,20 @@ function setCursorDefault() {
     $('#floorplanCanvas').css('cursor', 'default');
 }
 
+/**
+ * Zoom in or out.
+ */
+function zoomCanvas(direction) {
+    // TODO: Perserve center point by finding the row/col identified in the center of the current zoom and repositioning
+    if (direction > 0) {
+        GRID_SPACING = Math.min(32, GRID_SPACING + 1);
+    } else {
+        GRID_SPACING = Math.max(10, GRID_SPACING - 1);
+    }
 
-function zoomIn() {
-    GRID_SPACING = Math.min(32, GRID_SPACING + 1);
     redraw();
 }
 
-function zoomOut() {
-    GRID_SPACING = Math.max(10, GRID_SPACING - 1);
-    redraw();
-}
 
 //
 // Debug functions
