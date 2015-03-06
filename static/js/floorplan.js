@@ -68,28 +68,76 @@ function Wall(colA, rowA, colB, rowB) {
         ctx.lineWidth = WALL_THICKNESS;
 
 
-        // Draw lines connecting the two endpoints.
+        // Draw a wall connecting the two endpoints. We want this wall to be of bounding thickness, so let's think about
+        // this. The innermost and outermost pairs of verts won't have a line connecting them - we just want lines
+        // between the middle-distance pairs of verts, to form the wall.
+        ctx.fillStyle = WALL_COLOR_LIGHT;
         ctx.strokeStyle = WALL_COLOR_MEDIUM;
+
+
+        // Find the quadrant that one endpoint is in relative to the other - this way we know which 2 verts need to be
+        // connected with straight lines.
+        if (aY > bY) {
+            quadrant = aX > bX ? 1 : 2;
+        } else {
+            quadrant = aX > bX ? 4 : 3;
+        }
+
+
+
+        // Calculate middle endpoint positions.
+        var mediumPoint1A = {x: 0, y: 0};
+        var mediumPoint1B = {x: 0, y: 0};
+        var mediumPoint2A = {x: 0, y: 0};
+        var mediumPoint2B = {x: 0, y: 0};
+
+        switch (quadrant) {
+            case 1:
+            case 3:
+                mediumPoint1A.x = aX + GRID_SPACING;
+                mediumPoint1A.y = aY;
+                mediumPoint1B.x = bX + GRID_SPACING;
+                mediumPoint1B.y = bY;
+
+                mediumPoint2A.x = aX;
+                mediumPoint2A.y = aY + GRID_SPACING;
+                mediumPoint2B.x = bX;
+                mediumPoint2B.y = bY + GRID_SPACING;
+                break;
+            case 2:
+            case 4:
+                mediumPoint1A.x = aX;
+                mediumPoint1A.y = aY;
+                mediumPoint1B.x = bX;
+                mediumPoint1B.y = bY;
+
+                mediumPoint2A.x = aX + GRID_SPACING;
+                mediumPoint2A.y = aY + GRID_SPACING;
+                mediumPoint2B.x = bX + GRID_SPACING;
+                mediumPoint2B.y = bY + GRID_SPACING;
+                break;
+            default:
+
+        }
+
+        // Create the path between the medium points.
         ctx.beginPath();
-        ctx.moveTo(aX, aY);
-        ctx.lineTo(bX, bY);
-        ctx.lineTo(bX + GRID_SPACING, bY);
-        ctx.lineTo(aX + GRID_SPACING, aY);
-        ctx.lineTo(aX + GRID_SPACING, aY + GRID_SPACING);
-        ctx.lineTo(bX + GRID_SPACING, bY + GRID_SPACING);
-        ctx.lineTo(bX, bY + GRID_SPACING);
-        ctx.lineTo(aX, aY + GRID_SPACING);
+
+        // Move to the first medium point, draw to its pair, draw to the second's pair, draw to the second..
+        ctx.moveTo(mediumPoint1A.x, mediumPoint1A.y);
+        ctx.lineTo(mediumPoint1B.x, mediumPoint1B.y);
+        ctx.lineTo(mediumPoint2B.x, mediumPoint2B.y);
+        ctx.lineTo(mediumPoint2A.x, mediumPoint2A.y);
+
+        ctx.fill();
         ctx.stroke();
 
-
-        // Draw handles on each endpoint. Fill in with a color if they're being dragged.
+        // Draw handles on each endpoint.
+        //TODO: Feedback fill if being dragged
         ctx.fillStyle = WALL_COLOR_LIGHT;
-        //TODO
-
         ctx.strokeStyle = WALL_COLOR_DARK;
         ctx.strokeRect(aX, aY, GRID_SPACING, GRID_SPACING);
         ctx.strokeRect(bX, bY, GRID_SPACING, GRID_SPACING);
-
 
     };
 
