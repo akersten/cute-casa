@@ -1,4 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Configuration...
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const BACKGROUND_COLOR = '#eaeaea';
@@ -13,7 +12,7 @@ const WALL_THICKNESS = 3;
 
 const GRID_COLOR = '#';
 const GRID_WIDTH = 2;
-const GRID_SPACING = 24;
+var GRID_SPACING = 24; // Can adjust to zoom in/out
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Object definitions...
@@ -375,10 +374,26 @@ function mouseUpListener(e) {
     }
 }
 
+/**
+ * Watch for mousewheel events.
+ */
+function mouseWheelListener(e) {
+    var distance = e.originalEvent.wheelDelta || - e.originalEvent.detail;  // Stupid firefox, not only does it use a
+                                                                            // different event, its deltas are also
+                                                                            // negative... Woo browser interop!
+
+    if (distance > 0) {
+        zoomIn();
+    } else {
+        zoomOut();
+    }
+}
+
 // Register listeners
 $('#floorplanCanvas').on('mousemove', mouseMoveListener);
 $('#floorplanCanvas').on('mousedown', mouseDownListener);
 $('#floorplanCanvas').on('mouseup', mouseUpListener);
+$('#floorplanCanvas').on('mousewheel DOMMouseScroll', mouseWheelListener);
 $('#floorplanCanvas').on('contextmenu', function () {
     return false; // Disable context menu on canvas for RMB dragging
 });
@@ -399,6 +414,17 @@ function setCursorGrab() {
  */
 function setCursorDefault() {
     $('#floorplanCanvas').css('cursor', 'default');
+}
+
+
+function zoomIn() {
+    GRID_SPACING = Math.min(32, GRID_SPACING + 1);
+    redraw();
+}
+
+function zoomOut() {
+    GRID_SPACING = Math.max(10, GRID_SPACING - 1);
+    redraw();
 }
 
 //
