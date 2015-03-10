@@ -34,9 +34,11 @@ Drawable.prototype = {
     },
     mousedownHandler: function (evt) {
         alert("Inherit the mousedown function...");
+        return true;
     },
     mouseupHandler: function (evt) {
         alert("Inherit the mouseup function...")
+        return true;
     }
 };
 
@@ -179,13 +181,16 @@ function Wall(colA, rowA, colB, rowB) {
                 if (mouseCol == this.endpointA.c && mouseRow == this.endpointA.r) {
 
                     this.endpointA.moving = true;
+                    return true;
                 } else if (mouseCol == this.endpointB.c && mouseRow == this.endpointB.r) {
                     this.endpointB.moving = true;
+                    return true;
                 }
                 break;
             default:
                 break;
         }
+        return false;
     };
 
     this.mouseupHandler = function (evt) {
@@ -194,10 +199,12 @@ function Wall(colA, rowA, colB, rowB) {
                 // No matter where the click was, we are no longer moving.
                 this.endpointA.moving = false;
                 this.endpointB.moving = false;
+                return true;
                 break;
             default:
                 break;
         }
+        return false;
     };
 }
 Wall.prototype = Drawable;
@@ -359,8 +366,14 @@ function mouseDownListener(e) {
     }
 
     // Propogate mousedown events to all world objects...
+    var consumed = false;
     for (var i = 0; i < worldObjects.length; i++) {
-        worldObjects[i].mousedownHandler(e);
+        consumed |= worldObjects[i].mousedownHandler(e);
+    }
+
+    if (consumed !== true) {
+        // Default mouse-down actions here.
+
     }
 }
 
@@ -381,8 +394,15 @@ function mouseUpListener(e) {
     }
 
     // Propogate mouseup events to all world objects...
+    var consumed = false;
     for (var i = 0; i < worldObjects.length; i++) {
-        worldObjects[i].mouseupHandler(e);
+        consumed |= worldObjects[i].mouseupHandler(e);
+    }
+
+    if (consumed !== true) {
+        // Default mouse-up actions here.
+
+        // The default action is to create a new wall.
     }
 }
 
