@@ -131,12 +131,26 @@ function Wall(colA, rowA, colB, rowB) {
         ctx.fill();
         ctx.stroke();
 
-        // Draw handles on each endpoint.
-        //TODO: Feedback fill if being dragged
-        ctx.fillStyle = WALL_COLOR_LIGHT;
+        // Draw handles on each endpoint, and feedback fill if being dragged.
         ctx.strokeStyle = WALL_COLOR_DARK;
+
+        if (this.endpointA.moving === true) {
+            ctx.fillStyle = BACKGROUND_COLOR;
+        } else {
+            ctx.fillStyle = WALL_COLOR_MEDIUM;
+        }
+        ctx.fillRect(aX, aY, GRID_SPACING, GRID_SPACING);
         ctx.strokeRect(aX, aY, GRID_SPACING, GRID_SPACING);
+
+        if (this.endpointB.moving === true) {
+            ctx.fillStyle = BACKGROUND_COLOR;
+        } else {
+            ctx.fillStyle = WALL_COLOR_MEDIUM;
+        }
+
+        ctx.fillRect(bX, bY, GRID_SPACING, GRID_SPACING);
         ctx.strokeRect(bX, bY, GRID_SPACING, GRID_SPACING);
+
 
     };
 
