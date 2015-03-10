@@ -199,6 +199,11 @@ function Wall(colA, rowA, colB, rowB) {
                 // No matter where the click was, we are no longer moving.
                 this.endpointA.moving = false;
                 this.endpointB.moving = false;
+
+                // Check for degenerate walls and remove them.
+                if (this.endpointA.c == this.endpointB.c && this.endpointA.r == this.endpointB.r) {
+                    removeWall(this);
+                }
                 return true;
                 break;
             default:
@@ -371,8 +376,23 @@ function mouseDownListener(e) {
         consumed |= worldObjects[i].mousedownHandler(e);
     }
 
-    if (consumed !== true) {
+    if (consumed != true) {
         // Default mouse-down actions here.
+
+        switch (e.which) {
+            case 1:
+                // The default action is to create a new wall.
+
+                // Create a wall object with its first wall fixed, and its second endpoint set to moving.
+                var w = addWall(mouseCol, mouseRow, mouseCol, mouseRow);
+                w.endpointB.moving = true;
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+
+        }
 
     }
 }
@@ -399,10 +419,8 @@ function mouseUpListener(e) {
         consumed |= worldObjects[i].mouseupHandler(e);
     }
 
-    if (consumed !== true) {
+    if (consumed != true) {
         // Default mouse-up actions here.
-
-        // The default action is to create a new wall.
     }
 }
 
@@ -462,14 +480,16 @@ function zoomCanvas(direction) {
     redraw();
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// World modification functions, like wall addition and removal, and room creation and destruction
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//
-// Debug functions
-//
-
-function addWall() {
-
-    var w = new Wall(1, 1, 5, 1);
-
+function addWall(cA, rA, cB, rB) {
+    var w = new Wall(cA, rA, cB, rB);
     worldObjects.push(w);
+    return w;
+}
+
+function removeWall(wall) {
+    worldObjects.splice(worldObjects.indexOf(wall), 1);
 }
