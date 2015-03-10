@@ -470,7 +470,6 @@ function setCursorDefault() {
  * Zoom in or out.
  */
 function zoomCanvas(direction) {
-    // TODO: Perserve center point by finding the row/col identified in the center of the current zoom and repositioning
     if (direction > 0) {
         GRID_SPACING = Math.min(32, GRID_SPACING + 1);
     } else {
