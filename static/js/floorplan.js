@@ -150,8 +150,6 @@ function Wall(colA, rowA, colB, rowB) {
 
         ctx.fillRect(bX, bY, GRID_SPACING, GRID_SPACING);
         ctx.strokeRect(bX, bY, GRID_SPACING, GRID_SPACING);
-
-
     };
 
     this.mousemoveHandler = function () {
