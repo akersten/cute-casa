@@ -57,6 +57,16 @@ Room.prototype.constructor = Room;
  * A wall has a start and endpoint, and fill in-between.
  */
 function Wall(colA, rowA, colB, rowB) {
+    // A flag used in various graph traversals to mark the node (this wall). The searcher is responsible for resetting
+    // these after a search. Example use of determining room membership.
+    this.qtmark = false;
+
+
+    this.wallId = -1; // A unique ID for this wall within the world
+
+    this.roomMembership = null; // The room membership of this wall
+
+
     this.endpointA = {c: colA, r: rowA, moving: false};
     this.endpointB = {c: colB, r: rowB, moving: false};
     this.draw = function (ctx, offX, offY) {
@@ -483,12 +493,33 @@ function zoomCanvas(direction) {
 // World modification functions, like wall addition and removal, and room creation and destruction
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+var highestWall = -1; // The current highest-numbered wall in the world. If this is -1, figure out what the highest wall
+                    // is and start counting from there.
+
 function addWall(cA, rA, cB, rB) {
+    if (highestWall == -1) {
+        // Determine where to start counting based on existing walls.
+        for (var i = 0; i < worldObjects.length; i++) {
+            if (i.hasOwnProperty('wallId')) {
+                if (i.wallId > highestWall) {
+                    highestWall = i.wallId;
+                }
+            }
+        }
+    }
+
     var w = new Wall(cA, rA, cB, rB);
+    w.wallId = ++highestWall;
     worldObjects.push(w);
+    console.log("Added a wall with id " + w.wallId);
     return w;
 }
 
 function removeWall(wall) {
     worldObjects.splice(worldObjects.indexOf(wall), 1);
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// World operations
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
