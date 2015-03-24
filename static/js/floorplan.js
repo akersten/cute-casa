@@ -51,6 +51,24 @@ function Room() {
     this.roomId = -1; // A unique ID for this room within the world.
 
     this.roomName = "unnamed room";
+
+
+
+    this.mousemoveHandler = function () {
+
+    };
+
+    this.mousedownHandler = function (evt) {
+        return false;
+    };
+
+    this.mouseupHandler = function (evt) {
+        return false;
+    };
+
+    this.draw = function(ctx, offX, offY) {
+
+    };
 }
 Room.prototype = Drawable;
 Room.prototype.constructor = Room;
