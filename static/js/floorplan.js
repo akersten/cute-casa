@@ -543,7 +543,7 @@ function addWall(cA, rA, cB, rB) {
 
 function removeWall(wall) {
     if (!wall instanceof Wall) {
-        console.log("[WARNING] removeWall called on something that wasn't a wall.");
+        console.error("removeWall called on something that wasn't a wall.");
     }
 
     worldObjects.splice(worldObjects.indexOf(wall), 1);
@@ -556,7 +556,7 @@ function removeWall(wall) {
  */
 function removeRoom(room) {
     if (!room instanceof Room) {
-        console.log("[WARNING] removeRoom called on something that wasn't a room.");
+        console.error("removeRoom called on something that wasn't a room.");
     }
     var removedId = room.roomId;
 
@@ -572,14 +572,42 @@ function removeRoom(room) {
     worldObjects.splice(worldObjects.indexOf(room), 1);
 }
 
+function getRoomById(roomId) {
+    for (var i = 0; i < worldObjects.length; i++) {
+        if (worldObjects[i] instanceof Room) {
+            if (worldObjects[i].roomId === roomId) {
+                return worldObjects[i];
+            }
+        }
+    }
+
+    return null;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // World operations
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+function findWallsWithEndpointAt(endpoint) {
+    var res = [];
+
+    for (var i = 0; i < worldObjects.length; i++) {
+        if (worldObjects[i] instanceof Wall) {
+            if ( (endpoint.c === worldObjects[i].endpointA.c && endpoint.r === worldObjects[i].endpointA.r) ||
+                (endpoint.c === worldObjects[i].endpointB.c && endpoint.r === worldObjects[i].endpointB.r)) {
+                res.push(worldObjects[i]);
+            }
+        }
+    }
+
+    return res;
+}
+
 /**
  * A wall has died and we need to figure out if this has destroyed any rooms.
  *
- * @param killedWall The wall that was killed.
+ * @param killed Wall The wall that was killed.
  */
 function recalculateRoomsD(killedWall) {
     // For each room in this wall's room memberships, kill it.
@@ -597,5 +625,46 @@ function recalculateRoomsD(killedWall) {
  * @param changingWall The wall that was changed.
  */
 function recalculateRoomsC(changingWall) {
+    var newRooms = [];
 
+    function checkCycle(wall, roomId) {
+        // Check if this room cycle still exists. Base case, this wall is the same as the changing wall.
+        if (wall === changingWall) {
+            // We made it back! There's a cycle.
+            return true;
+        }
+
+        // Find walls at each endpoint and see if any have the same room... Just pick endpoint A for now - if it's a
+        // cycle it really won't matter.
+        var walls = findWallsWithEndpointAt(wall.endpointA);
+
+        for (var i = 0; i < walls.length; i++) {
+            // If this wall has the same roomId membership, continue to check for cycles.
+            if (walls[i].roomMembership.indexOf(roomId) > -1) {
+                if (checkCycle(walls[i], roomId)) {
+                    return true;
+                }
+            }
+        }
+
+        // No cycles were found for this roomId.
+        return false;
+    }
+
+    var killRooms = [];
+    // For any rooms that are in my list, see if any are still fully connected and keep them in the list.
+    for (var i = 0; i < changingWall.roomMembership.length; i++) {
+        if (!checkCycle(changingWall, changingWall.roomMembership[i])) {
+            killRooms.push(changingWall.roomMembership[i]);
+        }
+    }
+
+    for (var i = 0; i < killRooms.length; i++) {
+        removeRoom(getRoomById(killRooms[i]));
+    }
+
+    // Now, find any rooms that are in my list and aren't in newRooms, and kill them.
+    // TODO.
+    
+    // See if any new rooms got created. TODO: This is the hard part
 }
