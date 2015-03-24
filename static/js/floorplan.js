@@ -47,7 +47,10 @@ Drawable.prototype = {
  * A room is a container/"layer" for walls and other household objects.
  */
 function Room() {
-    this.walls = [];
+//    this.walls = [];
+    this.roomId = -1; // A unique ID for this room within the world.
+
+    this.roomName = "unnamed room";
 }
 Room.prototype = Drawable;
 Room.prototype.constructor = Room;
@@ -64,7 +67,7 @@ function Wall(colA, rowA, colB, rowB) {
 
     this.wallId = -1; // A unique ID for this wall within the world
 
-    this.roomMembership = null; // The room membership of this wall
+    this.roomMembership = []; // The room membership of this wall (an array of room IDs).
 
 
     this.endpointA = {c: colA, r: rowA, moving: false};
@@ -211,9 +214,32 @@ function Wall(colA, rowA, colB, rowB) {
                 this.endpointB.moving = false;
 
                 // Check for degenerate walls and remove them.
+                var degenerate = false;
+
+                // The first degenerate wall is one with zero length.
                 if (this.endpointA.c == this.endpointB.c && this.endpointA.r == this.endpointB.r) {
                     removeWall(this);
+                    degenerate = true;
                 }
+
+                // The second type of degenerate wall is one that completely overlaps another wall. Check against all
+                // others (yep) and remove this one if need be.
+
+
+                // Wall structures changed, check for room creation and destruction.
+                if (degenerate) {
+                    recalculateRoomsD(this);
+
+                    // TODO: still the case that destroying a partitioning wall will leave the surrounding 4 walls in a
+                    // state where there is no interior room but the walls clearly constitute a room. Need to probably
+                    // call a global recalculate here.
+
+                    // Actually, the way we'll get around this is requiring all rooms to have endpoints matching on
+                    // walls (so no T-intersections with a non-endpoint part of the wall).
+                } else {
+                    recalculateRoomsC(this);
+                }
+
                 return true;
                 break;
             default:
@@ -516,10 +542,60 @@ function addWall(cA, rA, cB, rB) {
 }
 
 function removeWall(wall) {
+    if (!wall instanceof Wall) {
+        console.log("[WARNING] removeWall called on something that wasn't a wall.");
+    }
+
     worldObjects.splice(worldObjects.indexOf(wall), 1);
+}
+
+/**
+ * Kill a room and remove it from any lists of walls.
+ *
+ * @param room The room being removed.
+ */
+function removeRoom(room) {
+    if (!room instanceof Room) {
+        console.log("[WARNING] removeRoom called on something that wasn't a room.");
+    }
+    var removedId = room.roomId;
+
+    for (var i = 0; i < worldObjects.length;i++) {
+        if (worldObjects[i] instanceof Wall) {
+            var idx = worldObjects[i].roomMembership.indexOf(room);
+            if (idx > -1) {
+                worldObjects[i].roomMembership.splice(idx, 1);
+            }
+        }
+    }
+
+    worldObjects.splice(worldObjects.indexOf(room), 1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // World operations
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * A wall has died and we need to figure out if this has destroyed any rooms.
+ *
+ * @param killedWall The wall that was killed.
+ */
+function recalculateRoomsD(killedWall) {
+    // For each room in this wall's room memberships, kill it.
+    var tmpArray = killedWall.roomMembership.slice(0); // The original might be modified by the removeRoom function.
+
+    for (var i = 0; i < tmpArray.length; i++) {
+        removeRoom(tmpArray[i]);
+    }
+}
+
+
+/**
+ * A wall was created or moved and we need to figure out if this has created or modified any rooms.
+ *
+ * @param changingWall The wall that was changed.
+ */
+function recalculateRoomsC(changingWall) {
+
+}
