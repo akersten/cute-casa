@@ -710,8 +710,6 @@ function recalculateRoomsC(changingWall) {
                 continue;
             }
 
-            if (connectedWalls[i].roomMembership.indexOf())
-
             var res = findNewCycle(connectedWalls[i], composingWalls.splice(0), forbiddenCycles);
 
             if (res.length > 0) {
