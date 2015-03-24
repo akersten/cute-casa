@@ -522,13 +522,15 @@ function zoomCanvas(direction) {
 var highestWall = -1; // The current highest-numbered wall in the world. If this is -1, figure out what the highest wall
                     // is and start counting from there.
 
+var highestRoom = -1; // Same thing for rooms.
+
 function addWall(cA, rA, cB, rB) {
     if (highestWall == -1) {
         // Determine where to start counting based on existing walls.
         for (var i = 0; i < worldObjects.length; i++) {
-            if (i.hasOwnProperty('wallId')) {
-                if (i.wallId > highestWall) {
-                    highestWall = i.wallId;
+            if (worldObjects[i] instanceof Wall) {
+                if (worldObjects[i].wallId > highestWall) {
+                    highestWall = worldObjects[i].wallId;
                 }
             }
         }
@@ -656,6 +658,8 @@ function recalculateRoomsC(changingWall) {
     for (var i = 0; i < changingWall.roomMembership.length; i++) {
         if (!checkCycle(changingWall, changingWall.roomMembership[i])) {
             killRooms.push(changingWall.roomMembership[i]);
+        } else {
+            newRooms.push(changingWall.roomMembership[i]);
         }
     }
 
@@ -664,7 +668,79 @@ function recalculateRoomsC(changingWall) {
     }
 
     // Now, find any rooms that are in my list and aren't in newRooms, and kill them.
-    // TODO.
-    
-    // See if any new rooms got created. TODO: This is the hard part
+    changingWall.roomMembership = newRooms.splice(0);
+
+    // See if any new rooms got created with recursive cycle discovery.
+    function findNewCycle(wall, composingWalls, forbiddenCycles) {
+        // BFS to find this same wall. Base case is we found it.
+        if (wall == changingWall) {
+            return composingWalls;
+        }
+
+        // Only descend into a wall if it doesn't contain any of the cycles in the forbidden array
+        var connectedWalls = findWallsWithEndpointAt(wall.endpointA);
+        for (var i = 0; i < connectedWalls.length; i++) {
+
+            // Check room memberships against blacklist
+            var failed = false;
+            for (var j = 0; j < forbiddenCycles.length; j++) {
+                if (connectedWalls[i].roomMembership.indexOf(forbiddenCycles[j]) > -1) {
+                    failed = true;
+                }
+            }
+            if (failed) {
+                continue;
+            }
+
+            if (connectedWalls[i].roomMembership.indexOf())
+
+            var res = findNewCycle(connectedWalls[i], composingWalls.splice(0), forbiddenCycles);
+
+            if (res.length > 0) {
+                return res;
+            }
+        }
+
+        return [];
+    }
+
+    // For each wall at one of our endpoints (again, endpoint A since it won't matter if there's truly a cycle), see if
+    // any of the walls comes back and isn't already a room that we belong to.
+    var connections = findWallsWithEndpointAt(changingWall.endpointA);
+
+    var newCycle = [];
+
+    for (var i = 0; i < connections.length; i++) {
+        var tmpCycle = findNewCycle(connections[i], [changingWall], changingWall.roomMembership).length;
+        if (tmpCycle.length > 0) {
+            // Found a new cycle!
+            newCycle = tmpCycle.splice(0);
+            break;
+        }
+    }
+
+    // Create a new room with this cycle - really, that means adding the room ID to each of the walls.
+
+    if (highestRoom == -1) {
+        // Determine where to start counting based on existing rooms..
+        for (var i = 0; i < worldObjects.length; i++) {
+            if (worldObjects[i] instanceof Room) {
+                if (worldObjects[i].roomId > highestRoom) {
+                    highestRoom = worldObjects[i].roomId;
+                }
+            }
+        }
+    }
+
+    var r = new Room();
+    r.roomId = ++highestRoom;
+
+    // Add this room ID to the containing walls' room lists
+    for (var i = 0; i < newCycle.length; i++) {
+        newCycle[i].roomMembership.push(r.roomId);
+    }
+
+    worldObjects.push(r);
+    console.log("Added a room with id " + r.roomId);
+    return r;
 }
