@@ -1,0 +1,33 @@
+/**
+ * Floorplan-specific stuff
+ **/
+
+
+/**
+ * The floorplan canvas itself - provide the background color.
+ **/
+#floorplanCanvas {
+    background-color: #f9f9f9;
+}
+
+/**
+ * The canvas container - fill the screen.
+ **/
+#floorplanCanvasContainer {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/**
+ * The floating toolbox on the lower right of the editor.
+ **/
+#floorplanFloater {
+    position: fixed;
+    right: 1em;
+    bottom: 1em;
+    width: 15vw;
+    height: 30vh;
+    border: 1px solid #333;
+    background-color: #ffeeee;
+}

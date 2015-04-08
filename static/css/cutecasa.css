@@ -102,15 +102,3 @@ p {
     color: var(--black);
 }
 
-
-/**
- * Floorplan-specific stuff
- **/
-#floorplanCanvas {
-    background-color: #f9f9f9;
-}
-
-#floorplanCanvasContainer {
-    width: 100%;
-    height: 75vh;
-}
