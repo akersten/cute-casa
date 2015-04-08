@@ -37,7 +37,7 @@ Drawable.prototype = {
         return true;
     },
     mouseupHandler: function (evt) {
-        alert("Inherit the mouseup function...")
+        alert("Inherit the mouseup function...");
         return true;
     }
 };
