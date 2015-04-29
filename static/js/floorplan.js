@@ -74,6 +74,7 @@ function Room() {
 Room.prototype = Drawable;
 Room.prototype.constructor = Room;
 
+Room.highestRoom = -1; // Highest numbered room ID
 
 /**
  * A wall has a start and endpoint, and fill in-between.
@@ -247,7 +248,7 @@ function Wall(colA, rowA, colB, rowB) {
 
                 // Wall structures changed, check for room creation and destruction.
                 if (degenerate) {
-                    recalculateRoomsD(this);
+                    //recalculateRoomsD(this);
 
                     // TODO: still the case that destroying a partitioning wall will leave the surrounding 4 walls in a
                     // state where there is no interior room but the walls clearly constitute a room. Need to probably
@@ -256,7 +257,7 @@ function Wall(colA, rowA, colB, rowB) {
                     // Actually, the way we'll get around this is requiring all rooms to have endpoints matching on
                     // walls (so no T-intersections with a non-endpoint part of the wall).
                 } else {
-                    recalculateRoomsC(this);
+                    //recalculateRoomsC(this);
                 }
 
                 return true;
@@ -269,6 +270,9 @@ function Wall(colA, rowA, colB, rowB) {
 }
 Wall.prototype = Drawable;
 Wall.prototype.constructor = Wall;
+
+Wall.highestWall = -1; // The current highest-numbered wall in the world. If this is -1, figure out what the highest wall
+                    // is and start counting from there.
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Instance variables...
@@ -537,26 +541,9 @@ function zoomCanvas(direction) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // World modification functions, like wall addition and removal, and room creation and destruction
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-var highestWall = -1; // The current highest-numbered wall in the world. If this is -1, figure out what the highest wall
-                    // is and start counting from there.
-
-var highestRoom = -1; // Same thing for rooms.
-
 function addWall(cA, rA, cB, rB) {
-    if (highestWall == -1) {
-        // Determine where to start counting based on existing walls.
-        for (var i = 0; i < worldObjects.length; i++) {
-            if (worldObjects[i] instanceof Wall) {
-                if (worldObjects[i].wallId > highestWall) {
-                    highestWall = worldObjects[i].wallId;
-                }
-            }
-        }
-    }
-
     var w = new Wall(cA, rA, cB, rB);
-    w.wallId = ++highestWall;
+    w.wallId = ++Wall.highestWall;
     worldObjects.push(w);
     console.log("Added a wall with id " + w.wallId);
     return w;
@@ -568,196 +555,4 @@ function removeWall(wall) {
     }
 
     worldObjects.splice(worldObjects.indexOf(wall), 1);
-}
-
-/**
- * Kill a room and remove it from any lists of walls.
- *
- * @param room The room being removed.
- */
-function removeRoom(room) {
-    if (!room instanceof Room) {
-        console.error("removeRoom called on something that wasn't a room.");
-    }
-    var removedId = room.roomId;
-
-    for (var i = 0; i < worldObjects.length;i++) {
-        if (worldObjects[i] instanceof Wall) {
-            var idx = worldObjects[i].roomMembership.indexOf(room);
-            if (idx > -1) {
-                worldObjects[i].roomMembership.splice(idx, 1);
-            }
-        }
-    }
-
-    worldObjects.splice(worldObjects.indexOf(room), 1);
-}
-
-function getRoomById(roomId) {
-    for (var i = 0; i < worldObjects.length; i++) {
-        if (worldObjects[i] instanceof Room) {
-            if (worldObjects[i].roomId === roomId) {
-                return worldObjects[i];
-            }
-        }
-    }
-
-    return null;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// World operations
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-function findWallsWithEndpointAt(endpoint) {
-    var res = [];
-
-    for (var i = 0; i < worldObjects.length; i++) {
-        if (worldObjects[i] instanceof Wall) {
-            if ( (endpoint.c === worldObjects[i].endpointA.c && endpoint.r === worldObjects[i].endpointA.r) ||
-                (endpoint.c === worldObjects[i].endpointB.c && endpoint.r === worldObjects[i].endpointB.r)) {
-                res.push(worldObjects[i]);
-            }
-        }
-    }
-
-    return res;
-}
-
-/**
- * A wall has died and we need to figure out if this has destroyed any rooms.
- *
- * @param killed Wall The wall that was killed.
- */
-function recalculateRoomsD(killedWall) {
-    // For each room in this wall's room memberships, kill it.
-    var tmpArray = killedWall.roomMembership.slice(0); // The original might be modified by the removeRoom function.
-
-    for (var i = 0; i < tmpArray.length; i++) {
-        removeRoom(tmpArray[i]);
-    }
-}
-
-
-/**
- * A wall was created or moved and we need to figure out if this has created or modified any rooms.
- *
- * @param changingWall The wall that was changed.
- */
-function recalculateRoomsC(changingWall) {
-    var newRooms = [];
-
-    function checkCycle(wall, roomId) {
-        // Check if this room cycle still exists. Base case, this wall is the same as the changing wall.
-        if (wall === changingWall) {
-            // We made it back! There's a cycle.
-            return true;
-        }
-
-        // Find walls at each endpoint and see if any have the same room... Just pick endpoint A for now - if it's a
-        // cycle it really won't matter.
-        var walls = findWallsWithEndpointAt(wall.endpointA);
-
-        for (var i = 0; i < walls.length; i++) {
-            // If this wall has the same roomId membership, continue to check for cycles.
-            if (walls[i].roomMembership.indexOf(roomId) > -1) {
-                if (checkCycle(walls[i], roomId)) {
-                    return true;
-                }
-            }
-        }
-
-        // No cycles were found for this roomId.
-        return false;
-    }
-
-    var killRooms = [];
-    // For any rooms that are in my list, see if any are still fully connected and keep them in the list.
-    for (var i = 0; i < changingWall.roomMembership.length; i++) {
-        if (!checkCycle(changingWall, changingWall.roomMembership[i])) {
-            killRooms.push(changingWall.roomMembership[i]);
-        } else {
-            newRooms.push(changingWall.roomMembership[i]);
-        }
-    }
-
-    for (var i = 0; i < killRooms.length; i++) {
-        removeRoom(getRoomById(killRooms[i]));
-    }
-
-    // Now, find any rooms that are in my list and aren't in newRooms, and kill them.
-    changingWall.roomMembership = newRooms.splice(0);
-
-    // See if any new rooms got created with recursive cycle discovery.
-    function findNewCycle(wall, composingWalls, forbiddenCycles) {
-        // BFS to find this same wall. Base case is we found it.
-        if (wall == changingWall) {
-            return composingWalls;
-        }
-
-        // Only descend into a wall if it doesn't contain any of the cycles in the forbidden array
-        var connectedWalls = findWallsWithEndpointAt(wall.endpointA);
-        for (var i = 0; i < connectedWalls.length; i++) {
-
-            // Check room memberships against blacklist
-            var failed = false;
-            for (var j = 0; j < forbiddenCycles.length; j++) {
-                if (connectedWalls[i].roomMembership.indexOf(forbiddenCycles[j]) > -1) {
-                    failed = true;
-                }
-            }
-            if (failed) {
-                continue;
-            }
-
-            var res = findNewCycle(connectedWalls[i], composingWalls.splice(0), forbiddenCycles);
-
-            if (res.length > 0) {
-                return res;
-            }
-        }
-
-        return [];
-    }
-
-    // For each wall at one of our endpoints (again, endpoint A since it won't matter if there's truly a cycle), see if
-    // any of the walls comes back and isn't already a room that we belong to.
-    var connections = findWallsWithEndpointAt(changingWall.endpointA);
-
-    var newCycle = [];
-
-    for (var i = 0; i < connections.length; i++) {
-        var tmpCycle = findNewCycle(connections[i], [changingWall], changingWall.roomMembership).length;
-        if (tmpCycle.length > 0) {
-            // Found a new cycle!
-            newCycle = tmpCycle.splice(0);
-            break;
-        }
-    }
-
-    // Create a new room with this cycle - really, that means adding the room ID to each of the walls.
-
-    if (highestRoom == -1) {
-        // Determine where to start counting based on existing rooms..
-        for (var i = 0; i < worldObjects.length; i++) {
-            if (worldObjects[i] instanceof Room) {
-                if (worldObjects[i].roomId > highestRoom) {
-                    highestRoom = worldObjects[i].roomId;
-                }
-            }
-        }
-    }
-
-    var r = new Room();
-    r.roomId = ++highestRoom;
-
-    // Add this room ID to the containing walls' room lists
-    for (var i = 0; i < newCycle.length; i++) {
-        newCycle[i].roomMembership.push(r.roomId);
-    }
-
-    worldObjects.push(r);
-    console.log("Added a room with id " + r.roomId);
-    return r;
 }
