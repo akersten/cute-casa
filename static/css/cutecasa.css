@@ -71,6 +71,10 @@
     background: linear-gradient( var(--color2), var(--color1));
 }
 
+.btn-primary:focus {
+    background: linear-gradient(var(--color1), var(--color2));;
+}
+
 /**
  * Custom styles.
  **/
