@@ -20,14 +20,13 @@
 }
 
 /**
- * The floating toolbox on the lower right of the editor.
+ * The floating toolbox.
  **/
 #floorplanFloater {
     position: fixed;
-    right: 1em;
-    bottom: 1em;
+    top: 1em;
+    left: 1em;
     width: 15vw;
-    height: 30vh;
     border: 1px solid #ffefef;
     background-color: #ffeeee;
     box-shadow: 0px 0px 8px black;
