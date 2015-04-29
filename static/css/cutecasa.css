@@ -1,5 +1,9 @@
 @import url(http://fonts.googleapis.com/css?family=Lily+Script+One|Bree+Serif);
 
+a {
+    outline: none !important;
+}
+
 /**
  * Color scheme and variables.
  **/
@@ -72,7 +76,7 @@
 }
 
 .btn-primary:focus {
-    background: linear-gradient(var(--color1), var(--color2));;
+    background: linear-gradient(var(--color1), var(--color2));
 }
 
 /**
