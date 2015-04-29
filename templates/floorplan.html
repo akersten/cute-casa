@@ -2,7 +2,6 @@
 {% block body %}
 
 
-
 <div id="floorplanCanvasContainer">
     <!-- The width and height here are set dynamically in JS. -->
     <canvas id="floorplanCanvas" width="1" height="1">
@@ -13,14 +12,37 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/floorplan.js') }}"></script>
 
 <div id="floorplanFloater">
-        <a href="#" class="btn btn-default btn-lg" onclick="addWall(); return false;"><span class="glyphicon glyphicon-move"> </span></a>
-        <a href="#" class="btn btn-default btn-lg" onclick="addWall(); return false;"><span class="glyphicon glyphicon-chevron-left" style="transform: rotate(-45deg)"> </span></a>
-    <a href="#" class="btn btn-default btn-lg" onclick="addWall(); return false;"><span class="glyphicon glyphicon-unchecked"> </span></a>
-<a href="#" class="btn btn-default btn-lg" onclick="addWall(); return false;"><span class="glyphicon glyphicon-folder-open" style="transform: rotate(90deg)"> </span></a>
-<a href="#" class="btn btn-default btn-lg" onclick="addWall(); return false;"><span class="glyphicon glyphicon-th-large"> </span></a>
+    <!-- Toolbar -->
+    <a href="#" class="btn btn-default btn-lg"
+       onclick="selectTool('moveTool'); return false;"
+       id="moveTool">
+        <span class="glyphicon glyphicon-move"> </span>
+    </a>
 
+    <a href="#" class="btn btn-default btn-lg"
+       onclick="selectTool('wallTool'); return false;"
+       id="wallTool">
+        <span class="glyphicon glyphicon-chevron-left" style="transform: rotate(-45deg)"> </span>
+    </a>
 
+    <a href="#" class="btn btn-default btn-lg"
+       onclick="selectTool('roomTool'); return false;"
+       id="roomTool">
+        <span class="glyphicon glyphicon-unchecked"> </span>
+    </a>
 
+    <a href="#" class="btn btn-default btn-lg"
+       onclick="selectTool('doorTool'); return false;"
+       id="doorTool">
+        <span class="glyphicon glyphicon-folder-open" style="transform: rotate(90deg)"> </span>
+    </a>
+
+    <a href="#" class="btn btn-default btn-lg"
+       onclick="selectTool('windowTool'); return false;"
+       id="windowTool">
+        <span class="glyphicon glyphicon-th-large"> </span>
+    </a>
+    
 </div>
 
 
