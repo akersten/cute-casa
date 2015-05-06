@@ -5,12 +5,15 @@ var toolNames = [
   "moveTool", "wallTool", "roomTool", "doorTool", "windowTool"
 ];
 
+var currentTool = "none";
+
 function selectTool(tool) {
     for (var i = 0; i < toolNames.length; i++) {
         $('#' + toolNames[i]).removeClass('btn-primary');
     }
 
     var t = $('#' + tool);
+    currentTool = tool;
     t.addClass('btn-primary');
 }
 
@@ -204,11 +207,13 @@ function Wall(colA, rowA, colB, rowB) {
     };
 
     this.mousemoveHandler = function () {
-        // Turn cursor if we're over a handle.
-        if (mouseCol == this.endpointA.c && mouseRow == this.endpointA.r) {
-            setCursorGrab();
-        } else if (mouseCol == this.endpointB.c && mouseRow == this.endpointB.r) {
-            setCursorGrab();
+        // Turn cursor if we're over a handle and on an appropriate tool.
+        if (currentTool === "moveTool") {
+            if (mouseCol == this.endpointA.c && mouseRow == this.endpointA.r) {
+                setCursorGrab();
+            } else if (mouseCol == this.endpointB.c && mouseRow == this.endpointB.r) {
+                setCursorGrab();
+            }
         }
 
         // If we're moving, keep the endpoint locations updated.
@@ -227,14 +232,16 @@ function Wall(colA, rowA, colB, rowB) {
         switch (evt.which) {
             case 1:
                 // Check if there was a click in a handle - if so, set its moving property.
-                if (mouseCol == this.endpointA.c && mouseRow == this.endpointA.r) {
-
-                    this.endpointA.moving = true;
-                    return true;
-                } else if (mouseCol == this.endpointB.c && mouseRow == this.endpointB.r) {
-                    this.endpointB.moving = true;
-                    return true;
+                if (currentTool === "moveTool") {
+                    if (mouseCol == this.endpointA.c && mouseRow == this.endpointA.r) {
+                        this.endpointA.moving = true;
+                        return true;
+                    } else if (mouseCol == this.endpointB.c && mouseRow == this.endpointB.r) {
+                        this.endpointB.moving = true;
+                        return true;
+                    }
                 }
+
                 break;
             default:
                 break;
