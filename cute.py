@@ -91,7 +91,10 @@ def login():
         if e[0]['count'] > 0:
             flash("valid (" + str(e[0]['count']) + ") " + str(hash))
 
+            # User is now logged in - set sesion variables
             session['logged_in'] = True
+            session['email'] = request.form['loginEmail']
+
         else:
             flash("invalid (" + str(e[0]['count']) + ") " + str(hash))
 
@@ -125,7 +128,7 @@ def register():
             return render_template('register.html')
 
         g.db.execute(queries.REGISTER, [request.form['registerEmail'], hash])
-        g.db.commit();
+        g.db.commit()
 
         flash("registered!")
 
@@ -146,6 +149,14 @@ def floorplan():
     if not session.get('logged_in'):
         abort(401)
     return render_template('floorplan.html')
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    if not session.get('logged_in'):
+        abort(401)
+    return render_template('dashboard.html')
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT)
