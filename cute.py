@@ -112,9 +112,9 @@ def register():
             flash("email or password too short")
             return render_template('register.html')
 
-        hash = hashlib.pbkdf2_hmac('sha512', \
-                                   bytearray(request.form['registerPassword'], 'utf-8'), \
-                                   bytearray(SALT, 'utf-8'), \
+        hash = hashlib.pbkdf2_hmac('sha512',
+                                   bytearray(request.form['registerPassword'], 'utf-8'),
+                                   bytearray(SALT, 'utf-8'),
                                    100000)
 
         c = g.db.execute(queries.CHECK_EMAIL, [request.form['registerEmail'],])
