@@ -465,6 +465,10 @@ function mouseDownListener(e) {
     var consumed = false;
     for (var i = 0; i < worldObjects.length; i++) {
         consumed |= worldObjects[i].mousedownHandler(e);
+
+
+        if (consumed)
+            break;
     }
 
     if (consumed != true) {
@@ -528,6 +532,10 @@ function mouseUpListener(e) {
     var consumed = false;
     for (var i = 0; i < worldObjects.length; i++) {
         consumed |= worldObjects[i].mouseupHandler(e);
+
+        // Don't early break on consumption of mouseup because we want all world objects to be aware of them, like when
+        // rooms are created, all of the walls need to keep knowing. I guess this can be made to work, but just make
+        // sure it doesn't break things.
     }
 
     if (consumed != true) {
