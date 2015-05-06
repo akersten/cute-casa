@@ -495,10 +495,13 @@ function mouseDownListener(e) {
                     var r = addWall(mouseCol, mouseRow, mouseCol, mouseRow);
 
                     t.endpointB.movingX = true;
+                    
                     l.endpointB.movingY = true;
+
                     b.endpointA.movingY = true;
                     b.endpointB.movingX = true;
                     b.endpointB.movingY = true;
+
                     r.endpointA.movingX = true;
                     r.endpointB.movingX = true;
                     r.endpointB.movingY = true;
