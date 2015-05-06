@@ -80,9 +80,9 @@ def login():
         if (request.form['loginPassword'] is None) or (request.form['loginEmail'] is None):
             abort(400)
 
-        hash = hashlib.pbkdf2_hmac('sha512', \
-                                   bytearray(request.form['loginPassword'], 'utf-8'), \
-                                   bytearray(SALT, 'utf-8'), \
+        hash = hashlib.pbkdf2_hmac('sha512',
+                                   bytearray(request.form['loginPassword'], 'utf-8'),
+                                   bytearray(SALT, 'utf-8'),
                                    100000)
 
         c = g.db.execute(queries.CHECK_LOGIN, [request.form['loginEmail'], hash])
