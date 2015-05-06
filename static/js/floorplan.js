@@ -15,6 +15,9 @@ function selectTool(tool) {
     var t = $('#' + tool);
     currentTool = tool;
     t.addClass('btn-primary');
+
+    // Refocus the canvas so keyboard events go to it
+    $('#floorplanCanvas').focus()
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -512,6 +515,12 @@ function mouseDownListener(e) {
     }
 }
 
+function keyDownListener(e) {
+    // If it's a number 1 through 5, select one of the tools
+    if (e.which >= 49 && e.which <= 53) {
+        selectTool(toolNames[e.which - 49])
+    }
+}
 /**
  * Watch for mouseup events and set global flags.
  */
@@ -566,6 +575,8 @@ $('#floorplanCanvas').on('mousewheel DOMMouseScroll', mouseWheelListener);
 $('#floorplanCanvas').on('contextmenu', function () {
     return false; // Disable context menu on canvas for RMB dragging
 });
+
+$('#floorplanCanvas').on('keydown',  keyDownListener);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Utility functions
