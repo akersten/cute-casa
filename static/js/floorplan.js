@@ -109,8 +109,8 @@ function Wall(colA, rowA, colB, rowB) {
     this.roomMembership = []; // The room membership of this wall (an array of room IDs).
 
 
-    this.endpointA = {c: colA, r: rowA, moving: false};
-    this.endpointB = {c: colB, r: rowB, moving: false};
+    this.endpointA = {c: colA, r: rowA, movingX: false, movingY: false};
+    this.endpointB = {c: colB, r: rowB, movingX: false, movingY: false};
     this.draw = function (ctx, offX, offY) {
         // Upper-left corners of each endpoint.
         var aX = this.endpointA.c * GRID_SPACING - offX;
@@ -188,7 +188,7 @@ function Wall(colA, rowA, colB, rowB) {
         // Draw handles on each endpoint, and feedback fill if being dragged.
         ctx.strokeStyle = WALL_COLOR_DARK;
 
-        if (this.endpointA.moving === true) {
+        if (this.endpointA.movingX === true || this.endpointA.movingY === true) {
             ctx.fillStyle = BACKGROUND_COLOR;
         } else {
             ctx.fillStyle = WALL_COLOR_MEDIUM;
@@ -196,7 +196,7 @@ function Wall(colA, rowA, colB, rowB) {
         ctx.fillRect(aX, aY, GRID_SPACING, GRID_SPACING);
         ctx.strokeRect(aX, aY, GRID_SPACING, GRID_SPACING);
 
-        if (this.endpointB.moving === true) {
+        if (this.endpointB.movingX === true || this.endpointB.movingY === true) {
             ctx.fillStyle = BACKGROUND_COLOR;
         } else {
             ctx.fillStyle = WALL_COLOR_MEDIUM;
@@ -217,13 +217,18 @@ function Wall(colA, rowA, colB, rowB) {
         }
 
         // If we're moving, keep the endpoint locations updated.
-        if (this.endpointA.moving) {
-            this.endpointA.r = mouseRow;
+        if (this.endpointA.movingX) {
             this.endpointA.c = mouseCol;
         }
-        if (this.endpointB.moving) {
-            this.endpointB.r = mouseRow;
+        if (this.endpointA.movingY) {
+            this.endpointA.r = mouseRow;
+        }
+
+        if (this.endpointB.movingX) {
             this.endpointB.c = mouseCol;
+        }
+        if (this.endpointB.movingY) {
+            this.endpointB.r = mouseRow;
         }
     };
 
@@ -234,10 +239,12 @@ function Wall(colA, rowA, colB, rowB) {
                 // Check if there was a click in a handle - if so, set its moving property.
                 if (currentTool === "moveTool") {
                     if (mouseCol == this.endpointA.c && mouseRow == this.endpointA.r) {
-                        this.endpointA.moving = true;
+                        this.endpointA.movingX = true;
+                        this.endpointA.movingY = true;
                         return true;
                     } else if (mouseCol == this.endpointB.c && mouseRow == this.endpointB.r) {
-                        this.endpointB.moving = true;
+                        this.endpointB.movingX = true;
+                        this.endpointB.movingY = true;
                         return true;
                     }
                 }
@@ -253,8 +260,10 @@ function Wall(colA, rowA, colB, rowB) {
         switch (evt.which) {
             case 1:
                 // No matter where the click was, we are no longer moving.
-                this.endpointA.moving = false;
-                this.endpointB.moving = false;
+                this.endpointA.movingX = false;
+                this.endpointA.movingY = false;
+                this.endpointB.movingX = false;
+                this.endpointB.movingY = false;
 
                 // Check for degenerate walls and remove them.
                 var degenerate = false;
@@ -463,11 +472,31 @@ function mouseDownListener(e) {
 
         switch (e.which) {
             case 1:
-                // The default action is to create a new wall.
+                // Default action depends on which tool we have selected.
 
-                // Create a wall object with its first wall fixed, and its second endpoint set to moving.
-                var w = addWall(mouseCol, mouseRow, mouseCol, mouseRow);
-                w.endpointB.moving = true;
+                if (currentTool === "wallTool") {
+                    // Create a wall object with its first wall fixed, and its second endpoint set to moving.
+                    var w = addWall(mouseCol, mouseRow, mouseCol, mouseRow);
+                    w.endpointB.movingX = true;
+                    w.endpointB.movingY = true;
+
+                } else if (currentTool == "roomTool") {
+                    // Create four walls, and set moving on a few of their endpoints.
+                    var t = addWall(mouseCol, mouseRow, mouseCol, mouseRow);
+                    var l = addWall(mouseCol, mouseRow, mouseCol, mouseRow);
+                    var b = addWall(mouseCol, mouseRow, mouseCol, mouseRow);
+                    var r = addWall(mouseCol, mouseRow, mouseCol, mouseRow);
+
+                    t.endpointB.movingX = true;
+                    l.endpointB.movingY = true;
+                    b.endpointA.movingY = true;
+                    b.endpointB.movingX = true;
+                    b.endpointB.movingY = true;
+                    r.endpointA.movingX = true;
+                    r.endpointB.movingX = true;
+                    r.endpointB.movingY = true;
+                }
+
                 break;
             case 2:
                 break;
