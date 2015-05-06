@@ -515,12 +515,6 @@ function mouseDownListener(e) {
     }
 }
 
-function keyDownListener(e) {
-    // If it's a number 1 through 5, select one of the tools
-    if (e.which >= 49 && e.which <= 53) {
-        selectTool(toolNames[e.which - 49])
-    }
-}
 /**
  * Watch for mouseup events and set global flags.
  */
@@ -564,6 +558,16 @@ function mouseWheelListener(e) {
         zoomCanvas(1);
     } else {
         zoomCanvas(-1);
+    }
+}
+
+/**
+ * Watch for keydown events.
+ */
+function keyDownListener(e) {
+    // If it's a number 1 through 5, select one of the tools
+    if (e.which >= 49 && e.which <= 53) {
+        selectTool(toolNames[e.which - 49])
     }
 }
 
