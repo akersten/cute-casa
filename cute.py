@@ -4,6 +4,8 @@ from flask import Flask, request, session, g, redirect, url_for, \
     abort, render_template, flash
 from contextlib import closing
 
+from src import shared
+
 import os
 import queries
 import hashlib
@@ -64,6 +66,8 @@ def teardown_request(exception):
     db = getattr(g, 'db', None)
     if db is not None:
         db.close()
+
+
 
 
 @app.route('/')
@@ -146,15 +150,24 @@ def logout():  # TODO: Session tokens
 
 @app.route('/floorplan', methods=['GET', 'POST'])
 def floorplan():
+    """
+    The floorplanning view.
+    :return: The floorplan template.
+    """
     if not session.get('logged_in'):
         abort(401)
     return render_template('floorplan/floorplan.html')
 
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    if not session.get('logged_in'):
-        abort(401)
+    """
+    Render the dashboard view. This will be the home screen that everyone sees upon logging in.
+    :return: The render template.
+    """
+    shared.checkLogin()
     return render_template('dashboard.html')
+
 
 
 
