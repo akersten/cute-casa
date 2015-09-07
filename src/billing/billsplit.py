@@ -9,6 +9,4 @@ def billsplit():
     Render the billsplit view.
     :return: The render template.
     """
-    flash("yes it's working")
-    flash("aw yeah")
     return render_template('billing/billsplit.html')
