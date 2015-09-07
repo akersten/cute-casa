@@ -1,4 +1,7 @@
-# all the imports
+# ######################################################################################################################
+# The application entry point. Run this via cute.sh so that environment variables are set.
+# ######################################################################################################################
+
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
     abort, render_template, flash
@@ -24,6 +27,10 @@ SALT = os.environ.get('CUTE_SALT')
 
 
 def notSet(problem):
+    """
+    Abort initialization if any of the configuration environment variables isn't set.
+    :param problem: The item that is not set.
+    """
     print(problem + " not set! Run through the secret shell script.")
     exit(1)
 
@@ -168,6 +175,14 @@ def dashboard():
     shared.checkLogin()
     return render_template('dashboard.html')
 
+
+@app.route('/billing/billsplit', methods=['GET', 'POST'])
+def billing_billsplit():
+    """
+    Render the billsplit view.
+    :return: The render template.
+    """
+    return render_template('billing/billsplit.html')
 
 
 
