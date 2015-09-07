@@ -91,7 +91,7 @@ def login():
         if e[0]['count'] > 0:
             flash("valid (" + str(e[0]['count']) + ") " + str(hash))
 
-            # User is now logged in - set sesion variables
+            # User is now logged in - set session variables
             session['logged_in'] = True
             session['email'] = request.form['loginEmail']
 
