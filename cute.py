@@ -87,6 +87,8 @@ def splash():
 def login():
     if request.method == 'POST':
         if session.get('logged_in'):
+            # Attempting to POST to the login screen twice is different than visiting it. Here, we error out because a
+            # normal use case of hitting the screen and being redirected to the dashboard is a GET.
             abort(409)  # You can't log in twice...
 
         if (request.form['loginPassword'] is None) or (request.form['loginUsername'] is None):
@@ -112,7 +114,11 @@ def login():
 
         return render_template('login.html')
     else:
-        return render_template('login.html')
+        if session.get('logged_in'):
+            # Navigating to the login view after being logged in - redirect to the dashboard.
+            return redirect(url_for('dashboard'))
+        else:
+            return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
