@@ -8,6 +8,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
 from contextlib import closing
 
 from src import shared
+from src.billing import billsplit
 
 import os
 import queries
@@ -176,14 +177,13 @@ def dashboard():
     return render_template('dashboard.html')
 
 
+# ######################################################################################################################
+# Routes defined in modules.
+# ######################################################################################################################
+
 @app.route('/billing/billsplit', methods=['GET', 'POST'])
 def billing_billsplit():
-    """
-    Render the billsplit view.
-    :return: The render template.
-    """
-    return render_template('billing/billsplit.html')
-
+    return billsplit.billsplit()
 
 
 if __name__ == '__main__':
