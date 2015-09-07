@@ -148,7 +148,7 @@ def logout():  # TODO: Session tokens
 def floorplan():
     if not session.get('logged_in'):
         abort(401)
-    return render_template('floorplan.html')
+    return render_template('floorplan/floorplan.html')
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
