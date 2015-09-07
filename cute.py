@@ -103,14 +103,12 @@ def login():
         e = [dict(count=row[0]) for row in c.fetchall()]
 
         if e[0]['count'] > 0:
-            flash("valid (" + str(e[0]['count']) + ") " + str(hash))
-
-            # User is now logged in - set session variables
+            # User is now logged in - set session variables and direct to dashboard.
             session['logged_in'] = True
             session['username'] = request.form['loginUsername']
-
+            return redirect(url_for('dashboard'))
         else:
-            flash("invalid (" + str(e[0]['count']) + ") " + str(hash))
+            flash('Invalid username or password.')
 
         return render_template('login.html')
     else:
