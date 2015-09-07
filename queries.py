@@ -1,4 +1,4 @@
-CHECK_EMAIL = "SELECT COUNT(*) FROM users WHERE email=?"
-CHECK_LOGIN = "SELECT COUNT(*) FROM users WHERE email=? AND password=?"
+CHECK_USERNAME = "SELECT COUNT(*) FROM users WHERE username=?"
+CHECK_LOGIN = "SELECT COUNT(*) FROM users WHERE username=? AND password=?"
 
-REGISTER = "INSERT INTO users (email, password) VALUES (?, ?)"
+REGISTER = "INSERT INTO users (username, password) VALUES (?, ?)"

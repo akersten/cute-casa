@@ -88,7 +88,7 @@ def login():
         if session.get('logged_in'):
             abort(409)  # You can't log in twice...
 
-        if (request.form['loginPassword'] is None) or (request.form['loginEmail'] is None):
+        if (request.form['loginPassword'] is None) or (request.form['loginUsername'] is None):
             abort(400)
 
         hash = hashlib.pbkdf2_hmac('sha512',
@@ -96,7 +96,7 @@ def login():
                                    bytearray(SALT, 'utf-8'),
                                    100000)
 
-        c = g.db.execute(queries.CHECK_LOGIN, [request.form['loginEmail'], hash])
+        c = g.db.execute(queries.CHECK_LOGIN, [request.form['loginUsername'], hash])
         e = [dict(count=row[0]) for row in c.fetchall()]
 
         if e[0]['count'] > 0:
@@ -104,7 +104,7 @@ def login():
 
             # User is now logged in - set session variables
             session['logged_in'] = True
-            session['email'] = request.form['loginEmail']
+            session['username'] = request.form['loginUsername']
 
         else:
             flash("invalid (" + str(e[0]['count']) + ") " + str(hash))
@@ -119,11 +119,11 @@ def register():
         if session.get('logged_in'):
             abort(409)  # You can't register while logged in...
 
-        if (request.form['registerPassword'] is None) or (request.form['registerEmail'] is None):
+        if (request.form['registerPassword'] is None) or (request.form['registerUsername'] is None):
             abort(400)
 
-        if (len(request.form['registerPassword']) < 2) or (len(request.form['registerEmail']) < 3):
-            flash("email or password too short")
+        if (len(request.form['registerPassword']) <= 3) or (len(request.form['registerUsername']) <= 3):
+            flash("Your username and password must each be at least 3 characters long.")
             return render_template('register.html')
 
         hash = hashlib.pbkdf2_hmac('sha512',
@@ -131,17 +131,17 @@ def register():
                                    bytearray(SALT, 'utf-8'),
                                    100000)
 
-        c = g.db.execute(queries.CHECK_EMAIL, [request.form['registerEmail'],])
+        c = g.db.execute(queries.CHECK_USERNAME, [request.form['registerUsername'],])
         e = [dict(count=row[0]) for row in c.fetchall()]
 
         if e[0]['count'] > 0:
-            flash("email in use")
+            flash("That username is already in use.")
             return render_template('register.html')
 
-        g.db.execute(queries.REGISTER, [request.form['registerEmail'], hash])
+        g.db.execute(queries.REGISTER, [request.form['registerUsername'], hash])
         g.db.commit()
 
-        flash("registered!")
+        flash("Successfully registered!")
 
         return render_template('register.html')
     else:
