@@ -1,0 +1,27 @@
+{% extends "head.html" %}
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Bill split!</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-default">Return to Dashboard</a>
+        </div>
+        <div class="col-md-4">
+            {% for m in get_flashed_messages() %}
+                <p>{{ m }}</p>
+            {% endfor %}
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

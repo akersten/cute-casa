@@ -10,16 +10,17 @@ IoT-enabled house, draw floorplans, manage rent, delegate tasks, and more.
 
 ## Technologies
 
-CuteCasa is a web application, with heavy use of JS, Python, HTML, and CSS. Frameworks include jQuery, Flask, and
-Bootstrap.
+* jQuery
+* Flask
+* Bootstrap
+* Sass
 
 ## Setup
 
 Being a self-hosted solution, you'll need to run this on your own equipment. The cute.casa website is intended for
 future paid/dedicated hosting.
 
-First steps of setup include running Python3 and Flask. Create a shell script to load the variables in cute.py and to
-launch the program:
+Install Python3 and Flask. Create a shell script to load the variables in cute.py and to launch the program:
 
     #!/bin/sh
     export CUTE_DB="secret/cute.db"
@@ -28,6 +29,7 @@ launch the program:
     export CUTE_USERNAME="admin"
     export CUTE_PASSWORD="set a secret password"
     export CUTE_PORT="5050"
+    export CUTE_SALT="16 or so good random bytes"
     python3 cute.py
 
 Set it executable (`chmod +x cute.sh`) and run it (`./cute.sh`). If everything's set up correctly, CuteCasa will now be

@@ -1,0 +1,45 @@
+{% extends "head.html" %}
+{% block body %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <h2>Login to CuteCasa</h2>
+
+            {% for m in get_flashed_messages() %}
+                <p>{{ m }}</p>
+            {% endfor %}
+
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="form-group">
+                    <label for="loginUsername">
+                        <h3>Username</h3>
+                    </label>
+                    <input type="text" id="loginUsername" name="loginUsername" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">
+                        <h3>Password</h3>
+                    </label>
+                    <input type="password" id="loginPassword" name="loginPassword" class="form-control">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="form-control">Login</button>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+
+
+</div>
+
+
+{% endblock %}

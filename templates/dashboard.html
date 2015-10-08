@@ -1,0 +1,25 @@
+{% extends "head.html" %}
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Hello {{ session['username'] }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="{{ url_for('billing_billsplit') }}" class="btn btn-default">Bill Split</a>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
