@@ -13,6 +13,7 @@
     <!-- User styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cutecasa.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/floorplan.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/splash.css') }}">
 
     <!-- jQuery -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.3.min.js') }}"></script>
@@ -24,6 +25,9 @@
 </head>
 <body>
 {% block body %}
+{% endblock %}
+
+{% block footer %}
 {% endblock %}
 </body>
 </html>

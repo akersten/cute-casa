@@ -1,0 +1,91 @@
+/******************************************************************************
+ * Splash page specific styles. These can also be used generally on static    *
+ * pages.                                                                     *
+ ******************************************************************************/
+
+/******************************************************************************
+ * Specific styling                                                           *
+ ******************************************************************************/
+
+div.splashBanner {
+    background-color: var(--dim3);
+}
+
+div.splashBanner h1 {
+    color: var(--dim1);
+    text-shadow: 0.05em 0.05em 0.05em var(--gray);
+}
+
+div.splashBanner .subtitle {
+    color: var(--dim1);
+    text-shadow: 0.05em 0.05em 0.05em var(--gray);
+}
+
+/**
+ * Light footer that appears on the splash page.
+ **/
+div.footerLight {
+    padding-top: 2em;
+    padding-bottom: 2em;
+    margin-top: 3em;
+    margin-bottom: 0em;
+    background-color: var(--dim2);
+    border-top: 0.5em solid var(--dim1);
+}
+
+    div.footerLight h1,
+    div.footerLight h2,
+    div.footerLight h3,
+    div.footerLight h4,
+    div.footerLight h5,
+    div.footerLight h6 {
+        color: var(--black);
+        margin-top: 0;
+    }
+
+
+    div.footerLight p {
+        font-size: 1.25em;
+    }
+
+/**
+ * Dark footer that appears below the light footer.
+ **/
+div.footerDark {
+    width: 100%;
+    color: var(--gray);
+    background-color: var(--backgroundDarkDim);
+    box-shadow: inset 0 3px 3px #222;
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+
+    div.footerDark h1,
+    div.footerDark h2,
+    div.footerDark h3,
+    div.footerDark h4,
+    div.footerDark h5,
+    div.footerDark h6 {
+        color: var(--gray);
+        margin-top: 0;
+    }
+
+
+    div.footerDark p {
+        font-size: 1em;
+    }
+
+    div.footerDark a, div.footerDark a:visited {
+        color: var(--dim2);
+    }
+
+        div.footerDark a:hover {
+            color: var(--dim1);
+        }
+
+/**
+ * cuteworks logo styling
+ */
+img.cuteworks-logo {
+    width: 13em;
+}

@@ -1,13 +1,15 @@
 @import url(http://fonts.googleapis.com/css?family=Lily+Script+One|Bree+Serif);
 
-a {
-    outline: none !important;
-}
+/******************************************************************************
+ * Variables and color scheme                                                 *
+ ******************************************************************************/
 
-/**
- * Color scheme and variables.
- **/
 :root {
+    --backgroundLight: #EEEEEE;
+    --backgroundLightDim: #DADADA;
+    --backgroundDark: #333333;
+    --backgroundDarkDim: #282828;
+
     /* These should be in order of decreasing brightness. */
     --color1: #A971FF;
     --color2: #9866E5;
@@ -28,85 +30,68 @@ a {
     --highlight3: #FF3207;
 
     --white: #EEE;
+    --gray: #777;
     --black: #444;
 }
 
-/**
- * Bootstrap style overrides.
- **/
-.jumbotron {
-    background-color: var(--dim1);
-}
-
-/**
- * Make the footer look like a footer.
- **/
-.footer {
-    margin-top: 3em;
-    margin-bottom: 0em;
-    background-color: var(--dim2);
-}
-
-/**
- * Tone down the top spacing on the footer...
- **/
-.jumbotron.footer {
-    padding-top: 1.5em;
-}
-
-.footer p {
-    font-size: 1.25em;
-}
-
-
-.jumbotron h1, .jumbotron h2, .jumbotron h3, .jumbotron h4, .jumbotron h5, .jumbotron h6 {
-    color: var(--black);
-    margin-top: 0em;
-}
-
+/******************************************************************************
+ * Bootstrap overrides                                                        *
+ ******************************************************************************/
 
 .btn-primary {
     background: linear-gradient(var(--color1), var(--color2));
     border-color: var(--color3);
 }
 
-.btn-primary:hover {
-    border-color: var(--color3);
-    background: linear-gradient( var(--color2), var(--color1));
+    .btn-primary:hover {
+        border-color: var(--color3);
+        background: linear-gradient( var(--color2), var(--color1));
+    }
+
+    .btn-primary:focus {
+        background: linear-gradient(var(--color1), var(--color2));
+    }
+
+/******************************************************************************
+ * Customized elements                                                        *
+ ******************************************************************************/
+
+body {
+    background-color: var(--backgroundLightDim);
 }
 
-.btn-primary:focus {
-    background: linear-gradient(var(--color1), var(--color2));
+a {
+    outline: none !important;
 }
 
-/**
- * Custom styles.
- **/
+    a, a:visited {
+        color: var(--accent2);
+    }
 
-a, a:visited {
-    color: var(--accent2);
-}
+    a:hover {
+        color: var(--accent1);
+    }
 
-a:hover {
-    color: var(--accent1);
-}
-
-a.btn-primary {
-    color: var(--white);
-}
+    a.btn-primary {
+        color: var(--white);
+    }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: "Lily Script One", cursive;
     color: var(--color1);
 }
 
-h1 {
-    font-size: 3em;
-}
+    h1 {
+        font-size: 3em;
+    }
 
 p {
     font-family: "Bree Serif", serif;
     font-size: 1.5em;
     color: var(--black);
 }
+
+/******************************************************************************
+ * Specific styling                                                           *
+ ******************************************************************************/
 

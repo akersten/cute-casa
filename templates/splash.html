@@ -2,19 +2,13 @@
 {% block body %}
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>CuteCasa</h1>
-        </div>
-    </div>
-</div>
 
-<div class="jumbotron">
+<div class="jumbotron splashBanner">
     <div class="container">
         <div class="row">
+            <h1 class="text-center">CuteCasa</h1>
             <div class="col-md-12">
-                <p class="text-center">
+                <p class="text-center subtitle">
                     Centralized home administration.
                 </p>
             </div>
@@ -92,26 +86,28 @@
 
 </div>
 
-<div class="jumbotron footer">
+<div class="footerLight">
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <h3>Contact</h3>
+                <h3>Hosting</h3>
                 <p>
-                    CuteCasa is a self-hosted solution deployed in many different instances.
-                    You should contact whoever hosts your instance - they should put their name here.
+                    CuteCasa is a self-hosted solution. When you host this on your own, you should put your contact
+                    information here.
                 </p>
             </div>
             <div class="col-sm-4">
-                <h3>Made in Madison</h3>
+                <h3>Contact</h3>
                 <p>
-                    CuteCasa is a project by <a href="http://kersten.email">Alex Kersten</a>.
+                    If you'd like more information about the project, email
+                    <a href="http://kersten.email">Alex Kersten</a>.
                 </p>
             </div>
-
             <div class="col-sm-4">
                 <h3>Open Source</h3>
                 <p>
+                    We are committed to open source development &mdash; the CuteCasa software is and always will be
+                    free.
                     CuteCasa is developed under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.
                     The project can be found, forked, and fiddled with on the <a href="https://github.com/akersten/cute-casa">CuteCasa GitHub page</a>.
                     Any feature requests or bug reports should be filed as issues against the project on GitHub.
@@ -122,4 +118,8 @@
 
 </div>
 
+{% endblock %}
+
+{% block footer %}
+    {% include "splashfooter.html" %}
 {% endblock %}
