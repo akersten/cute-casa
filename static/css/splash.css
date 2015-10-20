@@ -8,17 +8,28 @@
  ******************************************************************************/
 
 div.splashBanner {
-    background-color: var(--dim3);
+    background-color: var(--color1);
+    box-shadow: 0 3px 3px var(--gray);
 }
 
 div.splashBanner h1 {
-    color: var(--dim1);
+    color: var(--white);
     text-shadow: 0.05em 0.05em 0.05em var(--gray);
 }
 
 div.splashBanner .subtitle {
     color: var(--dim1);
     text-shadow: 0.05em 0.05em 0.05em var(--gray);
+}
+
+div.banner {
+    padding-top: 2em;
+    padding-bottom: 2em;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    background-color: var(--dim2);
+    border-top: 0.5em solid var(--dim1);
+        box-shadow: 0 3px 3px var(--dim3);
 }
 
 /**
@@ -47,6 +58,15 @@ div.footerLight {
     div.footerLight p {
         font-size: 1.25em;
     }
+
+
+/**
+ * Callouts
+ **/
+div.callout {
+    background-color: var(--backgroundLight);
+    box-shadow: 0 0.30em 0.15em var(--gray);
+}
 
 /**
  * Dark footer that appears below the light footer.
