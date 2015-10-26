@@ -91,6 +91,23 @@ p {
     color: var(--black);
 }
 
+div.bezel {
+    background-color: var(--backgroundLight);
+    box-shadow: 0 0.30em 0.15em var(--gray);
+    margin-bottom: 1em;
+}
+
+div.col-bezel {
+    background-color: var(--backgroundLight);
+    box-shadow: 0 0.30em 0.60em var(--gray);
+    margin-bottom: 1em;
+    
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.15em;
+    padding-bottom: 1em;
+}
+
 /******************************************************************************
  * Specific styling                                                           *
  ******************************************************************************/

@@ -22,17 +22,23 @@
                     Centralized Home Administration
                 </h2>
             </div>
+
         </div>
 
 
     </div>
 </div>
 
-        (here are the login and register buttons)
-
-    <div class="banner">
-    Here is a picture
+<div class="container">
+    <div class="row text-center">
+        <a href="{{ url_for('register') }}" class="btn-lg btn-default">Sign Up</a>
+        <a href="{{ url_for('login') }}" class="btn-lg btn-default">Log In</a>
     </div>
+</div>
+
+<div class="banner">
+    splash image
+</div>
 
 
 
@@ -58,7 +64,7 @@
         </div>
     </div>
 
-    </div>
+</div>
 
     <div class="banner">
     Here is a picture
@@ -114,25 +120,11 @@
         </div>
     </div>
 
-</div>
+    </div>
 
 <div class="footerLight">
     <div class="container">
         <div class="row">
-            <div class="col-sm-4">
-                <h3>Hosting</h3>
-                <p>
-                    CuteCasa is a self-hosted solution. When you host this on your own, you should put your contact
-                    information here.
-                </p>
-            </div>
-            <div class="col-sm-4">
-                <h3>Contact</h3>
-                <p>
-                    If you'd like more information about the project, email
-                    <a href="http://kersten.email">Alex Kersten</a>.
-                </p>
-            </div>
             <div class="col-sm-4">
                 <h3>Open Source</h3>
                 <p>
@@ -141,6 +133,21 @@
                     CuteCasa is developed under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.
                     The project can be found, forked, and fiddled with on the <a href="https://github.com/akersten/cute-casa">CuteCasa GitHub page</a>.
                     Any feature requests or bug reports should be filed as issues against the project on GitHub.
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <h3>Hosting</h3>
+                <p>
+                    CuteCasa is a self-hosted solution. When you host this on your own, you should customize this footer
+                    and put your contact information here. The official cute.casa instance is developed and maintained
+                    by <a href="http://kersten.email">Alex Kersten</a>.
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <h3>Release</h3>
+                <p>
+                    CuteCasa is very much a product under active development and registration is currently closed. Check
+                    back frequently for updates!
                 </p>
             </div>
         </div>

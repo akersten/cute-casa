@@ -7,8 +7,9 @@ from flask import Flask, request, session, g, redirect, url_for, \
     abort, render_template, flash
 from contextlib import closing
 
-from src import shared
 from src.billing import billsplit
+from src.user import profile, houseselect
+from src import shared
 
 import os
 import queries
@@ -184,6 +185,21 @@ def dashboard():
 # ######################################################################################################################
 # Routes defined in modules.
 # ######################################################################################################################
+
+
+# ######################################################################################################################
+#   User profile and actions.
+# ######################################################################################################################
+
+@app.route('/user/profile', methods=['GET', 'POST'])
+def user_profile():
+    return profile.profile()
+
+
+@app.route('/user/houseselect', methods=['GET', 'POST'])
+def user_houseselect():
+    return houseselect.houseselect()
+
 
 @app.route('/billing/billsplit', methods=['GET', 'POST'])
 def billing_billsplit():

@@ -1,13 +1,14 @@
 # ######################################################################################################################
-# Certain bills associated with a household are running tallies resolved at the end of each month (like a grocery bill).
+# A user can manage/belong to multiple houses - this is a context screen to prompt the user to select a house, which is
+# then populated in the session.
 # ######################################################################################################################
 
 from flask import flash, render_template
 
 
-def billsplit():
+def houseselect():
     """
-    Render the billsplit view.
+    Render the house select view.
     :return: The render template.
     """
-    return render_template('billing/billsplit.html')
+    return render_template('user/houseselect.html')

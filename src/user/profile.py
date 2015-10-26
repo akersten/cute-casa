@@ -1,13 +1,13 @@
 # ######################################################################################################################
-# Certain bills associated with a household are running tallies resolved at the end of each month (like a grocery bill).
+# A user manages profile details here, like name, email, alert settings, active houses, and subscription information.
 # ######################################################################################################################
 
 from flask import flash, render_template
 
 
-def billsplit():
+def profile():
     """
-    Render the billsplit view.
+    Render the profile view.
     :return: The render template.
     """
-    return render_template('billing/billsplit.html')
+    return render_template('user/profile.html')

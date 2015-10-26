@@ -4,16 +4,35 @@
 
 <div class="container">
 
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Hello {{ session['username'] }}</h1>
+    <div class="row bezel">
+        <div class="col-sm-10">
+
+            <h1>1234 House Street</h1>
+            <h3>Hello {{ session['username'] }}</h3>
+
+
+        </div>
+        <div class="col-sm-2">
+            <a href="{{ url_for("logout") }}" class="btn btn-default btn-sm btn-block">Log out</a>
+            <a href="{{ url_for("user_profile") }}" class="btn btn-default btn-sm btn-block">Profile</a>
+            <a href="{{ url_for("user_houseselect") }}" class="btn btn-default btn-sm btn-block">Change House</a>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-4">
-            <a href="{{ url_for('billing_billsplit') }}" class="btn btn-default">Bill Split</a>
+            <div class="col-bezel">
+                <h2>Activities</h2>
+
+                <a href="{{ url_for('dashboard') }}" class="btn btn-default btn-block"></a>
+                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-default btn-block">Billing</a>
+            </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-8">
+            <div class="col-bezel">
+            <h2>Whiteboard</h2>
+                <p>A whiteboard for messages from this house goes here.</p>
+            </div>
 
         </div>
         <div class="col-md-4">
