@@ -5,6 +5,7 @@
 # ######################################################################################################################
 from flask import abort, session
 
+
 def checkLogin():
     """Check that the user is logged in and transmit an HTTP error if not."""
     if not session.get('logged_in'):

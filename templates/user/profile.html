@@ -1,1 +1,81 @@
-Profile view
+{% extends "head.html" %}
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row bezel">
+        <div class="col-sm-10">
+
+            <h1>
+                <a href="{{ url_for("dashboard") }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
+
+                <i class="fa fa-user"></i>&nbsp;&nbsp;
+                {{ session['username'] }}
+            </h1>
+        </div>
+        <div class="col-sm-2 headroom">
+            <div class="text-right">
+                <a href="{{ url_for("logout") }}" class="btn btn-default btn-sm"><i class="fa fa-sign-out"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="col-bezel">
+                <form method="POST" action="{{ url_for('user_profile') }}" class="form-horizontal">
+                    <h2>User Profile</h2>
+
+                    {% for m in get_flashed_messages() %}
+                        <p>{{ m }}</p>
+                    {% endfor %}
+
+                    <h3>Account Information</h3>
+                    <div class="form-group">
+                        <label for="emailInput" class="control-label col-sm-3">Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control"
+                                   id="emailInput" name="emailInput" value="{{ session['email'] }}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Password</label>
+                        <div class="col-sm-9">
+                            <!-- <a href="#" class="btn btn-default btn-block">Change Password</a> -->
+                        </div>
+                    </div>
+                    <!--
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Subscription</label>
+                        <div class="col-sm-9">
+                            <p>1 Year</p>
+                        </div>
+                    </div>
+                    -->
+
+                    <h3>Contact Information</h3>
+                    <p>
+                        When your housemates need your attention, you will receive an alert via one of the following
+                        methods.
+                    </p>
+                    <div class="form-group">
+                        <label for="cellInput" class="control-label col-sm-3">Cellphone</label>
+                        <div class="col-sm-9">
+                            <input type="tel" class="form-control"
+                                   id="cellInput" name="cellInput" value="{{ session['cellphone'] }}" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9 text-right">
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

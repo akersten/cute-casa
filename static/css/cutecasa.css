@@ -52,6 +52,14 @@
         background: linear-gradient(var(--color1), var(--color2));
     }
 
+.btn-text-left {
+    text-align: left;
+}
+
+.btn-text-right {
+    text-align: right;
+}
+
 /******************************************************************************
  * Customized elements                                                        *
  ******************************************************************************/
@@ -91,6 +99,15 @@ p {
     color: var(--black);
 }
 
+/******************************************************************************
+ * Specific styling                                                           *
+ ******************************************************************************/
+
+.copyFont {
+    font-family: "Bree Serif", serif;
+    font-size: 1.5em;
+}
+
 div.bezel {
     background-color: var(--backgroundLight);
     box-shadow: 0 0.30em 0.15em var(--gray);
@@ -101,14 +118,21 @@ div.col-bezel {
     background-color: var(--backgroundLight);
     box-shadow: 0 0.30em 0.60em var(--gray);
     margin-bottom: 1em;
-    
+
     padding-left: 1em;
     padding-right: 1em;
     padding-top: 0.15em;
     padding-bottom: 1em;
 }
 
-/******************************************************************************
- * Specific styling                                                           *
- ******************************************************************************/
+div.col-bezel h1, div.col-bezel h2, div.col-bezel h3, div.col-bezel h4, div.col-bezel h5, div.col-bezel h6 {
 
+    font-weight: 100;
+}
+
+/*
+ * Some divs shouldn't be tight to the top, give them a bit of headroom.
+ */
+div.headroom {
+    margin-top: 1em;
+}

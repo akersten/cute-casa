@@ -7,38 +7,71 @@
     <div class="row bezel">
         <div class="col-sm-10">
 
-            <h1>1234 House Street</h1>
-            <h3>Hello {{ session['username'] }}</h3>
+            <h1><i class="fa fa-building"></i><i class="fa fa-home"></i>&nbsp;&nbsp;
+                1234 House Street
 
+                    <a href="{{ url_for("household_select") }}" class="btn btn-lg">
+                        <i class="fa fa-cog"></i>
 
+                    </a>
+                    <a href="{{ url_for("household_select") }}" class="btn btn-lg">
+                        <i class="fa fa-home"></i>
+                    </a>
+
+            </h1>
         </div>
-        <div class="col-sm-2">
-            <a href="{{ url_for("logout") }}" class="btn btn-default btn-sm btn-block">Log out</a>
-            <a href="{{ url_for("user_profile") }}" class="btn btn-default btn-sm btn-block">Profile</a>
-            <a href="{{ url_for("user_houseselect") }}" class="btn btn-default btn-sm btn-block">Change House</a>
+        <div class="col-sm-2 headroom">
+            <div class="text-right">
+                <a href="{{ url_for("user_profile") }}" class="btn btn-default btn-sm"><i class="fa fa-user"></i> {{ session['username'] }}</a>
+                <a href="{{ url_for("logout") }}" class="btn btn-default btn-sm"><i class="fa fa-sign-out"></i></a>
+            </div>
         </div>
     </div>
+
+    {%  with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="row" id="informationFlasher">
+                <div class="col-md-12">
+                    <div class="col-bezel">
+                        <h3>Information</h3>
+                        {% for m in messages %}
+                            <p>{{ m }}</p>
+                        {% endfor %}
+                        <a href="#" onclick="$('#informationFlasher').remove(); return false;" class="btn btn-default">
+                            Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
 
     <div class="row">
         <div class="col-md-4">
             <div class="col-bezel">
                 <h2>Activities</h2>
 
-                <a href="{{ url_for('dashboard') }}" class="btn btn-default btn-block"></a>
-                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-default btn-block">Billing</a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-bell-o"></i> Alerts and Reminders</a>
+                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-money"></i> Billing</a>
+                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-tablet"></i> Connected Devices</a>
+                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-list"></i> Duties</a>
             </div>
         </div>
         <div class="col-md-8">
+
             <div class="col-bezel">
-            <h2>Whiteboard</h2>
+            <h2><i class="fa fa-comment-o"></i> Whiteboard</h2>
                 <p>A whiteboard for messages from this house goes here.</p>
             </div>
 
-        </div>
-        <div class="col-md-4">
+            <div class="col-bezel">
+                <h2>Pulse</h2>
+                <p>What is happening</p>
+            </div>
 
         </div>
     </div>
+
 </div>
 
 {% endblock %}
