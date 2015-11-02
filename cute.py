@@ -116,6 +116,8 @@ def login():
             session['cellphone'] = e[0]['cellphone']
             session['displayname'] = e[0]['displayname']
 
+            # Instead of setting h_ session items here, direct to household selection in order to set them. Household
+            # selection menu will check if the person only has one household and will set that as the default.
             return redirect(url_for('dashboard'))
         else:
             flash('Invalid username or password.')

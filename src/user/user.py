@@ -19,6 +19,8 @@ def profile():
                     flash("Display name must not be blank.")
                     return render_template('user/profile.html')
 
+                # TODO: Sanity check on length
+
                 g.db.execute(queries.USER_UPDATE_DISPLAYNAME, [request.form['displaynameInput'], session['id']])
                 g.db.commit()
                 session['displayname'] = request.form['displaynameInput']
@@ -27,6 +29,9 @@ def profile():
         # Email.
         if request.form['emailInput'] is not None:
             if request.form['emailInput'] != session['email']:
+
+                # TODO: Sanity check on length
+
                 g.db.execute(queries.USER_UPDATE_EMAIL, [request.form['emailInput'], session['id']])
                 g.db.commit()
                 session['email'] = request.form['emailInput']
@@ -35,6 +40,9 @@ def profile():
         # Cellphone
         if request.form['cellInput'] is not None:
             if request.form['cellInput'] != session['cellphone']:
+
+                # TODO: Sanity check on length
+
                 g.db.execute(queries.USER_UPDATE_CELLPHONE, [request.form['cellInput'], session['id']])
                 g.db.commit()
                 session['cellphone'] = request.form['cellInput']

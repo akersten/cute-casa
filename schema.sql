@@ -13,8 +13,8 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS households;
 CREATE TABLE households (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT,
-  dwelling_type INTEGER
+  household_name TEXT,
+  household_type INTEGER
 );
 
 -- relation: 1 for member, 2 for admin
@@ -23,6 +23,6 @@ CREATE TABLE household_memberships (
   user INTEGER,
   household INTEGER,
   relation INTEGER,
-  PRIMARY KEY (user, household, relation),
+  PRIMARY KEY (user, household),
   FOREIGN KEY(user) REFERENCES users(id)
 )
