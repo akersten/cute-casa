@@ -103,7 +103,7 @@ def login():
                                    100000)
 
         c = g.db.execute(queries.CHECK_LOGIN, [request.form['loginUsername'], hash])
-        e = [dict(count=row[0], id=row[1], email=row[2], cellphone=row[3]) for row in c.fetchall()]
+        e = [dict(count=row[0], id=row[1], email=row[2], cellphone=row[3], displayname=row[4]) for row in c.fetchall()]
 
         if e[0]['count'] > 0:
             # User is now logged in - set session variables and direct to dashboard.
@@ -114,6 +114,7 @@ def login():
 
             session['email'] = e[0]['email']
             session['cellphone'] = e[0]['cellphone']
+            session['displayname'] = e[0]['displayname']
 
             return redirect(url_for('dashboard'))
         else:
@@ -161,7 +162,10 @@ def register():
             flash("That username is already in use.")
             return render_template('register.html')
 
-        g.db.execute(queries.REGISTER, [request.form['registerUsername'], pwHash, request.form['registerEmail']])
+        g.db.execute(queries.REGISTER, [request.form['registerUsername'],
+                                        request.form['registerUsername'],
+                                        pwHash,
+                                        request.form['registerEmail']])
         g.db.commit()
 
         flash("Successfully registered!")

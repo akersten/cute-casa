@@ -11,7 +11,7 @@
                 <a href="{{ url_for("dashboard") }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
 
                 <i class="fa fa-user"></i>&nbsp;&nbsp;
-                {{ session['username'] }}
+                {{ session['displayname'] }}
             </h1>
         </div>
         <div class="col-sm-2 headroom">
@@ -32,6 +32,22 @@
                     {% endfor %}
 
                     <h3>Account Information</h3>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">Username</label>
+                        <div class="col-sm-9">
+                            <p>{{ session['username'] }}</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="displaynameInput" class="control-label col-sm-3">Display Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control"
+                                   id="displaynameInput" name="displaynameInput" value="{{ session['displayname'] }}" />
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="emailInput" class="control-label col-sm-3">Email</label>
                         <div class="col-sm-9">

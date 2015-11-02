@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   id INTEGER PRIMARY KEY autoincrement,
   username TEXT NOT NULL UNIQUE,
+  displayname TEXT NOT NULL,
   email TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL,
   registration_date INTEGER DEFAULT (DATETIME('now')),

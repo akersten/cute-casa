@@ -22,7 +22,7 @@
         </div>
         <div class="col-sm-2 headroom">
             <div class="text-right">
-                <a href="{{ url_for("user_profile") }}" class="btn btn-default btn-sm"><i class="fa fa-user"></i> {{ session['username'] }}</a>
+                <a href="{{ url_for("user_profile") }}" class="btn btn-default btn-sm"><i class="fa fa-user"></i> {{ session['displayname'] }}</a>
                 <a href="{{ url_for("logout") }}" class="btn btn-default btn-sm"><i class="fa fa-sign-out"></i></a>
             </div>
         </div>
