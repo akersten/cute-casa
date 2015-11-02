@@ -16,7 +16,7 @@
         </div>
         <div class="col-sm-2 headroom">
             <div class="text-right">
-                <a href="{{ url_for("logout") }}" class="btn btn-default btn-sm"><i class="fa fa-sign-out"></i></a>
+                <a href="{{ url_for("logout") }}" class="btn btn-sm"><i class="fa fa-sign-out"></i></a>
             </div>
         </div>
     </div>
@@ -34,30 +34,30 @@
                     <h3>Account Information</h3>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-3">Username</label>
-                        <div class="col-sm-9">
+                        <label class="control-label col-sm-4">Username</label>
+                        <div class="col-sm-8">
                             <p>{{ session['username'] }}</p>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="displaynameInput" class="control-label col-sm-3">Display Name</label>
-                        <div class="col-sm-9">
+                        <label for="displaynameInput" class="control-label col-sm-4">Display Name</label>
+                        <div class="col-sm-8">
                             <input type="text" class="form-control"
                                    id="displaynameInput" name="displaynameInput" value="{{ session['displayname'] }}" />
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="emailInput" class="control-label col-sm-3">Email</label>
-                        <div class="col-sm-9">
+                        <label for="emailInput" class="control-label col-sm-4">Email</label>
+                        <div class="col-sm-8">
                             <input type="email" class="form-control"
                                    id="emailInput" name="emailInput" value="{{ session['email'] }}" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-3">Password</label>
-                        <div class="col-sm-9">
+                        <label class="control-label col-sm-4">Password</label>
+                        <div class="col-sm-8">
                             <!-- <a href="#" class="btn btn-default btn-block">Change Password</a> -->
                         </div>
                     </div>
@@ -76,15 +76,15 @@
                         methods.
                     </p>
                     <div class="form-group">
-                        <label for="cellInput" class="control-label col-sm-3">Cellphone</label>
-                        <div class="col-sm-9">
+                        <label for="cellInput" class="control-label col-sm-4">Cellphone</label>
+                        <div class="col-sm-8">
                             <input type="tel" class="form-control"
                                    id="cellInput" name="cellInput" value="{{ session['cellphone'] }}" />
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9 text-right">
+                        <div class="col-sm-offset-4 col-sm-8 text-right">
                             <button type="submit" class="btn btn-primary">Update Profile</button>
                         </div>
                     </div>
