@@ -53,7 +53,11 @@ def select():
     Render the household select view.
     :return: The render template.
     """
+    if request.method == 'POST':
+        # The user has chosen a house. Make sure they can select this house, set it in the session and redirect to the
+        # dashboard.
+    else:
+        return render_template('household/select.html')
     # TODO: CHeck if the user is a member of multiple households.
     # If so, show a menu
     # if not, select just the one and send them to the dashboard. Populate the session variables here.
-    return render_template('household/select.html')

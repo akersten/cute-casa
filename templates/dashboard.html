@@ -9,7 +9,6 @@
 
             <h1><i class="fa fa-building"></i><i class="fa fa-home"></i>&nbsp;&nbsp;
                 1234 House Street
-
                     <a href="{{ url_for("household_profile") }}" class="btn btn-lg">
                         <i class="fa fa-cog"></i>
 
@@ -51,10 +50,10 @@
             <div class="col-bezel">
                 <h2>Activities</h2>
 
-                <a href="{{ url_for('dashboard') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-bell-o"></i> Alerts and Reminders</a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-bell-o"></i> Alerts &amp; Reminders</a>
                 <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-money"></i> Billing</a>
-                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-tablet"></i> Connected Devices</a>
-                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-list"></i> Duties</a>
+                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-tablet"></i> Connected Devices</a>
+                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-list"></i> Duties</a>
             </div>
         </div>
         <div class="col-md-8">
@@ -64,10 +63,12 @@
                 <p>A whiteboard for messages from this house goes here.</p>
             </div>
 
+            <!--
             <div class="col-bezel">
-                <h2>Pulse</h2>
+                <h2><i class="fa fa-heartbeat"></i> Pulse</h2>
                 <p>What is happening</p>
             </div>
+            -->
 
         </div>
     </div>
