@@ -1,0 +1,136 @@
+@import url(http://fonts.googleapis.com/css?family=Lily+Script+One|Bree+Serif);
+
+/******************************************************************************
+ * Variables and color scheme                                                 *
+ ******************************************************************************/
+
+@backgroundLight: #EEEEEE;
+@backgroundLightDim: #DADADA;
+@backgroundDark: #333333;
+@backgroundDarkDim: #282828;
+
+/* These should be in order of decreasing brightness. */
+@color1: #A971FF;
+@color2: #9866E5;
+@color3: #7F55BF;
+@color4: #55397F;
+@color5: #2A1C40;
+@dim1: #E0D0FF;
+@dim2: #C9BBE5;
+@dim3: #A89CBF;
+@dim4: #70687F;
+@dim5: #383440;
+
+@accent1: #70AFFF;
+@accent2: #4898FF;
+@accent3: #1C7EFC;
+@highlight1: #FF7E63;
+@highlight2: #FF5A37;
+@highlight3: #FF3207;
+
+@white: #EEE;
+@gray: #777;
+@black: #444;
+
+/******************************************************************************
+ * Bootstrap overrides                                                        *
+ ******************************************************************************/
+
+.btn-primary {
+    background: linear-gradient(@color1, @color2);
+    border-color: @color3;
+}
+
+    .btn-primary:hover {
+        border-color: @color3;
+        background: linear-gradient(@color2, @color1);
+    }
+
+    .btn-primary:focus {
+        background: linear-gradient(@color1, @color2);
+    }
+
+.btn-text-left {
+    text-align: left;
+}
+
+.btn-text-right {
+    text-align: right;
+}
+
+/******************************************************************************
+ * Customized elements                                                        *
+ ******************************************************************************/
+
+body {
+    background-color: @backgroundLightDim;
+}
+
+a {
+    outline: none !important;
+}
+
+    a, a:visited {
+        color: @accent2;
+    }
+
+    a:hover {
+        color: @accent1;
+    }
+
+    a.btn-primary {
+        color: @white;
+    }
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Lily Script One", cursive;
+    color: @color1;
+}
+
+    h1 {
+        font-size: 3em;
+    }
+
+p {
+    font-family: "Bree Serif", serif;
+    font-size: 1.5em;
+    color: @black;
+}
+
+/******************************************************************************
+ * Specific styling                                                           *
+ ******************************************************************************/
+
+.copyFont {
+    font-family: "Bree Serif", serif;
+    font-size: 1.5em;
+}
+
+div.bezel {
+    background-color: @backgroundLight;
+    box-shadow: 0 0.30em 0.15em @gray;
+    margin-bottom: 1em;
+}
+
+div.col-bezel {
+    background-color: @backgroundLight;
+    box-shadow: 0 0.30em 0.60em @gray;
+    margin-bottom: 1em;
+
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.15em;
+    padding-bottom: 1em;
+}
+
+div.col-bezel h1, div.col-bezel h2, div.col-bezel h3, div.col-bezel h4, div.col-bezel h5, div.col-bezel h6 {
+
+    font-weight: 100;
+}
+
+/*
+ * Some divs shouldn't be tight to the top, give them a bit of headroom.
+ */
+div.headroom {
+    margin-top: 1em;
+}
