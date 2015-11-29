@@ -14,30 +14,30 @@ def profile():
 
         # Household name.
         if request.form['householdNameInput'] is not None:
-            if request.form['householdNameInput'] != session['h_householdName']:
+            if request.form['householdNameInput'] != session['householdName']:
                 if len(request.form['householdNameInput']) == 0:
                     flash("Household name must not be blank.")
                     return render_template('household/profile.html')
 
                 # TODO: Sanity check on length
 
-                g.db.execute(queries.HOUSEHOLD_UPDATE_HOUSEHOLDNAME, [request.form['householdNameInput'], session['h_']])
+                g.db.execute(queries.HOUSEHOLD_UPDATE_HOUSEHOLDNAME, [request.form['householdNameInput'], session['householdName']])
                 g.db.commit()
-                session['h_householdName'] = request.form['householdNameInput']
+                session['householdName'] = request.form['householdNameInput']
                 flash("Household name updated.")
 
         # Household type.
         if request.form['householdTypeInput'] is not None:
-            if request.form['householdTypeInput'] != session['h_householdType']:
+            if request.form['householdTypeInput'] != session['householdType']:
                 if len(request.form['householdTypeInput']) == 0:
                     flash("Household type must not be blank.")
                     return render_template('household/profile.html')
 
                 # TODO: Sanity checks that this is one of the two allowed values.
 
-                g.db.execute(queries.HOUSEHOLD_UPDATE_HOUSEHOLDTYPE, [request.form['householdTypeInput'], session['h_']])
+                g.db.execute(queries.HOUSEHOLD_UPDATE_HOUSEHOLDTYPE, [request.form['householdTypeInput'], session['householdType']])
                 g.db.commit()
-                session['h_householdType'] = request.form['householdTypeInput']
+                session['householdType'] = request.form['householdTypeInput']
                 flash("Household type updated.")
 
         return redirect(url_for('dashboard'))
