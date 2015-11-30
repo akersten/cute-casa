@@ -4,3 +4,4 @@ cute.sh
 init.sh
 secret
 *.pyc
+static/css
