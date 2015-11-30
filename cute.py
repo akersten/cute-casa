@@ -165,11 +165,10 @@ def register():
             flash("That username is already in use.")
             return render_template('register.html')
 
-        g.db.execute(queries.REGISTER, [request.form['registerUsername'],
-                                        request.form['registerUsername'],
-                                        pwHash,
-                                        request.form['registerEmail']])
-        g.db.commit()
+        db.post_db(queries.REGISTER, [request.form['registerUsername'],
+                                      request.form['registerUsername'],
+                                      pwHash,
+                                      request.form['registerEmail']])
 
         flash("Successfully registered!")
 

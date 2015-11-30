@@ -1,6 +1,7 @@
 from flask import flash, render_template, request, session, g, redirect, url_for
-import queries
 
+from src import db
+import queries
 
 def profile():
     """
@@ -21,8 +22,8 @@ def profile():
 
                 # TODO: Sanity check on length
 
-                g.db.execute(queries.HOUSEHOLD_UPDATE_HOUSEHOLDNAME, [request.form['householdNameInput'], session['householdName']])
-                g.db.commit()
+                db.post_db(queries.HOUSEHOLD_UPDATE_HOUSEHOLDNAME, [request.form['householdNameInput'], session['householdName']])
+
                 session['householdName'] = request.form['householdNameInput']
                 flash("Household name updated.")
 
@@ -35,8 +36,8 @@ def profile():
 
                 # TODO: Sanity checks that this is one of the two allowed values.
 
-                g.db.execute(queries.HOUSEHOLD_UPDATE_HOUSEHOLDTYPE, [request.form['householdTypeInput'], session['householdType']])
-                g.db.commit()
+                db.post_db(queries.HOUSEHOLD_UPDATE_HOUSEHOLDTYPE, [request.form['householdTypeInput'], session['householdType']])
+
                 session['householdType'] = request.form['householdTypeInput']
                 flash("Household type updated.")
 

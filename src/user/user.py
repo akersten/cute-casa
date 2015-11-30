@@ -1,4 +1,6 @@
 from flask import flash, render_template, request, session, g, redirect, url_for
+
+from src import db
 import queries
 
 
@@ -21,8 +23,7 @@ def profile():
 
                 # TODO: Sanity check on length
 
-                g.db.execute(queries.USER_UPDATE_DISPLAYNAME, [request.form['displaynameInput'], session['id']])
-                g.db.commit()
+                db.post_db(queries.USER_UPDATE_DISPLAYNAME, [request.form['displaynameInput'], session['id']])
                 session['displayname'] = request.form['displaynameInput']
                 flash("Display name updated.")
 
@@ -32,8 +33,7 @@ def profile():
 
                 # TODO: Sanity check on length
 
-                g.db.execute(queries.USER_UPDATE_EMAIL, [request.form['emailInput'], session['id']])
-                g.db.commit()
+                db.post_db(queries.USER_UPDATE_EMAIL, [request.form['emailInput'], session['id']])
                 session['email'] = request.form['emailInput']
                 flash("Email updated.")
 
@@ -43,8 +43,8 @@ def profile():
 
                 # TODO: Sanity check on length
 
-                g.db.execute(queries.USER_UPDATE_CELLPHONE, [request.form['cellInput'], session['id']])
-                g.db.commit()
+                db.post_db(queries.USER_UPDATE_CELLPHONE, [request.form['cellInput'], session['id']])
+
                 session['cellphone'] = request.form['cellInput']
                 flash("Cellphone updated.")
 

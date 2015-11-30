@@ -20,6 +20,11 @@ def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)
                 for idx, value in enumerate(row))
 
+def post_db(query, args=()):
+    cur = g.db.execute(query, args)
+    g.db.commit()
+    cur.close()
+
 
 ALLOWED_DYNAMIC_TABLES = ["users", "households", "household_memberships", "admin_log_events"]
 
