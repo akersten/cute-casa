@@ -8,6 +8,15 @@
 
 from enum import IntEnum
 
+def contains(haystack, needle):
+    """
+    Determines if a given enum contains a given value.
+    :param haystack: The enum to search.
+    :param needle: The value to find.
+    :return: True if the given enum contained the given value. False otherwise.
+    """
+    return needle in [e.value for e in haystack]
+
 class e_household_type(IntEnum):
     apartment = 1
     house = 2
@@ -15,3 +24,8 @@ class e_household_type(IntEnum):
 class e_household_relation(IntEnum):
     member = 1
     admin = 2
+
+class e_admin_log_event_level(IntEnum):
+    info = 1
+    warning = 2
+    critical = 3
