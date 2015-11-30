@@ -4,4 +4,5 @@ cute.sh
 init.sh
 secret
 *.pyc
-static/css
+static/css/cutecasa.css
+static/css/splash.css
