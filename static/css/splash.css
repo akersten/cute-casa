@@ -2,112 +2,95 @@
  * Splash page specific styles. These can also be used generally on static    *
  * pages.                                                                     *
  ******************************************************************************/
-
 /******************************************************************************
  * Specific styling                                                           *
  ******************************************************************************/
-
 div.splashBanner {
-    background-color: var(--color1);
-    box-shadow: 0 3px 3px var(--gray);
+  background-color: #A971FF;
+  box-shadow: 0 3px 3px #777;
 }
-
 div.splashBanner h1 {
-    color: var(--white);
-    text-shadow: 0.05em 0.05em 0.05em var(--gray);
+  color: #EEE;
+  text-shadow: 0.05em 0.05em 0.05em #777;
 }
-
 div.splashBanner .subtitle {
-    color: var(--dim1);
-    text-shadow: 0.05em 0.05em 0.05em var(--gray);
+  color: #E0D0FF;
+  text-shadow: 0.05em 0.05em 0.05em #777;
 }
-
 div.banner {
-    padding-top: 2em;
-    padding-bottom: 2em;
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
-    background-color: var(--dim2);
-    border-top: 0.5em solid var(--dim1);
-        box-shadow: 0 3px 3px var(--dim3);
+  padding-top: 2em;
+  padding-bottom: 2em;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  background-color: #C9BBE5;
+  border-top: 0.5em solid #E0D0FF;
+  box-shadow: 0 3px 3px #A89CBF;
 }
-
 /**
  * Light footer that appears on the splash page.
  **/
 div.footerLight {
-    padding-top: 2em;
-    padding-bottom: 2em;
-    margin-top: 3em;
-    margin-bottom: 0em;
-    background-color: var(--dim2);
-    border-top: 0.5em solid var(--dim1);
+  padding-top: 2em;
+  padding-bottom: 2em;
+  margin-top: 3em;
+  margin-bottom: 0em;
+  background-color: #C9BBE5;
+  border-top: 0.5em solid #E0D0FF;
 }
-
-    div.footerLight h1,
-    div.footerLight h2,
-    div.footerLight h3,
-    div.footerLight h4,
-    div.footerLight h5,
-    div.footerLight h6 {
-        color: var(--black);
-        margin-top: 0;
-    }
-
-
-    div.footerLight p {
-        font-size: 1.25em;
-    }
-
-
+div.footerLight h1,
+div.footerLight h2,
+div.footerLight h3,
+div.footerLight h4,
+div.footerLight h5,
+div.footerLight h6 {
+  color: #444;
+  margin-top: 0;
+}
+div.footerLight p {
+  font-size: 1.25em;
+}
 /**
  * Callouts
  **/
 div.callout {
-    background-color: var(--backgroundLight);
-    box-shadow: 0 0.30em 0.15em var(--gray);
+  background-color: #EEEEEE;
+  box-shadow: 0 0.3em 0.15em #777;
 }
-
 /**
  * Dark footer that appears below the light footer.
  **/
 div.footerDark {
-    width: 100%;
-    color: var(--gray);
-    background-color: var(--backgroundDarkDim);
-    box-shadow: inset 0 3px 3px #222;
-    padding-top: 3em;
-    padding-bottom: 3em;
-    position: static;
-    bottom: 0;
+  width: 100%;
+  color: #777;
+  background-color: #282828;
+  box-shadow: inset 0 3px 3px #222;
+  padding-top: 3em;
+  padding-bottom: 3em;
+  position: static;
+  bottom: 0;
 }
-
-    div.footerDark h1,
-    div.footerDark h2,
-    div.footerDark h3,
-    div.footerDark h4,
-    div.footerDark h5,
-    div.footerDark h6 {
-        color: var(--gray);
-        margin-top: 0;
-    }
-
-
-    div.footerDark p {
-        font-size: 1em;
-    }
-
-    div.footerDark a, div.footerDark a:visited {
-        color: var(--dim2);
-    }
-
-        div.footerDark a:hover {
-            color: var(--dim1);
-        }
-
+div.footerDark h1,
+div.footerDark h2,
+div.footerDark h3,
+div.footerDark h4,
+div.footerDark h5,
+div.footerDark h6 {
+  color: #777;
+  margin-top: 0;
+}
+div.footerDark p {
+  font-size: 1em;
+}
+div.footerDark a,
+div.footerDark a:visited {
+  color: #C9BBE5;
+}
+div.footerDark a:hover {
+  color: #E0D0FF;
+}
 /**
  * cuteworks logo styling
  */
 img.cuteworks-logo {
-    width: 13em;
+  width: 13em;
 }
