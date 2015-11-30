@@ -7,6 +7,7 @@
 # These functions rely on consistent naming in the database (e.g. having an id column).
 # ######################################################################################################################
 
+from flask import g
 
 def getSingleValue(table, column, id):
     """
