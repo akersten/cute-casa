@@ -29,3 +29,10 @@ class e_admin_log_event_level(IntEnum):
     info = 1
     warning = 2
     critical = 3
+
+class e_user_authority(IntEnum):
+    """
+    The user authority defines the administrative rights of a user over the particular cutecasa instance.
+    """
+    user = 1,
+    admin = 2

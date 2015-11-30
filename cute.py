@@ -12,9 +12,11 @@ from flask import Flask, request, session, g, redirect, url_for, \
 
 
 from src import shared
+from src import db
 from src.user import user
 from src.household import household
 from src.billing import billing
+from src.admin import admin
 
 import queries
 
@@ -102,20 +104,20 @@ def login():
                                    bytearray(SALT, 'utf-8'),
                                    100000)
 
-        c = g.db.execute(queries.CHECK_LOGIN, [request.form['loginUsername'], hash])
-        e = [dict(count=row[0], id=row[1], email=row[2], cellphone=row[3], displayname=row[4]) for row in c.fetchall()]
+        res = db.query_db(queries.CHECK_LOGIN, [request.form['loginUsername'], hash], True)
 
-        if e[0]['count'] > 0:
+        if res['COUNT(*)'] > 0:
             # User is now logged in - set session variables and direct to dashboard.
             session['logged_in'] = True
 
             session['username'] = request.form['loginUsername']
-            session['id'] = e[0]['id']
+            session['id'] = res['id']
 
-            session['email'] = e[0]['email']
-            session['cellphone'] = e[0]['cellphone']
-            session['displayname'] = e[0]['displayname']
+            session['email'] = res['email']
+            session['cellphone'] = res['cellphone']
+            session['displayname'] = res['displayname']
 
+            session['admin'] = shared.isCuteCasaAdmin(session['id'])
             # Instead of setting household session items here, direct to household selection in order to set them.
             # Household selection menu will check if the person only has one household and will set that as the default.
             return redirect(url_for('household_select'))
@@ -157,10 +159,9 @@ def register():
                                    bytearray(SALT, 'utf-8'),
                                    100000)
 
-        c = g.db.execute(queries.CHECK_USERNAME, [request.form['registerUsername'], ])
-        e = [dict(count=row[0]) for row in c.fetchall()]
+        res = db.query_db(queries.CHECK_USERNAME, [request.form['registerUsername'], ], True)
 
-        if e[0]['count'] > 0:
+        if res['COUNT(*)'] > 0:
             flash("That username is already in use.")
             return render_template('register.html')
 
@@ -247,10 +248,34 @@ def billing_billsplit():
     shared.checkLogin()
     return billing.billsplit()
 
+# ######################################################################################################################
+# Admin actions.
+# ######################################################################################################################
+
+
+@app.route('/admin/dashboard', methods=['GET'])
+def admin_dashboard():
+    shared.checkAdmin()
+    return admin.dashboard()
+
+@app.route('/admin/logviewer', methods=['GET'])
+def admin_logviewer():
+    shared.checkAdmin()
+    return admin.logviewer()
+
+
+# ######################################################################################################################
+# Final setup and initiation
+# ######################################################################################################################
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT)
 
+
+
+# #
+# Utility methods
+# #
 
 def init_db():
     with closing(connect_db()) as db:

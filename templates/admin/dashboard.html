@@ -1,0 +1,52 @@
+{% extends "head.html" %}
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row bezel">
+        <div class="col-sm-9">
+            <h1>
+                <a href="{{ url_for("dashboard") }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
+                <i class="fa fa-cubes"></i>&nbsp;&nbsp;
+                CuteCasa Admin
+            </h1>
+        </div>
+        <div class="col-sm-3 headroom">
+            <div class="text-right">
+                <a href="{{ url_for("logout") }}" class="btn btn-sm"><i class="fa fa-sign-out"></i></a>
+            </div>
+        </div>
+    </div>
+
+    {%  with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="row" id="informationFlasher">
+                <div class="col-md-12">
+                    <div class="col-bezel">
+                        <h3>Information</h3>
+                        {% for m in messages %}
+                            <p>{{ m }}</p>
+                        {% endfor %}
+                        <a href="#" onclick="$('#informationFlasher').remove(); return false;" class="btn btn-default">
+                            Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="col-bezel">
+                <h2>Tools</h2>
+
+                <a href="{{ url_for('admin_logviewer') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-eye"></i> Logviewer</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

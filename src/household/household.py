@@ -56,6 +56,7 @@ def select():
     if request.method == 'POST':
         # The user has chosen a house. Make sure they can select this house, set it in the session and redirect to the
         # dashboard.
+        abort(400) #TODO remove this just temporary so it doesn't crash
     else:
         return render_template('household/select.html')
     # TODO: CHeck if the user is a member of multiple households.

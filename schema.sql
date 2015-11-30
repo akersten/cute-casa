@@ -10,7 +10,8 @@ CREATE TABLE users (
   email TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL,
   registration_date INTEGER DEFAULT (DATETIME('now')),
-  cellphone TEXT DEFAULT ""
+  cellphone TEXT DEFAULT "",
+  e_user_authority INTEGER NOT NULL DEFAULT 1
 );
 
 
