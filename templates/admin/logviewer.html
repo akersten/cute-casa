@@ -41,7 +41,13 @@
         <div class="col-md-12">
             <div class="col-bezel">
                 <h2>Events</h2>
+                    {% if events %}
+                        {% for e in events %}
+                            {{ e }}
+                        {% endfor %}
+                    {% endif %}
 
+                <!-- TODO: Pagination button to update the url and set after to a higher number. -->
             </div>
         </div>
     </div>

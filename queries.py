@@ -23,3 +23,4 @@ HOUSEHOLD_UPDATE_HOUSEHOLDTYPE = "UPDATE households SET e_household_type=? WHERE
 # ######################################################################################################################
 
 ADMIN_LOG_INSERT = "INSERT INTO admin_log_events (blame, message, e_admin_log_event_level) VALUES (?, ?, ?)"
+ADMIN_LOG_GET = "SELECT * FROM admin_log_events ORDER BY id DESC LIMIT ?, ?"

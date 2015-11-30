@@ -13,6 +13,8 @@ from flask import Flask, request, session, g, redirect, url_for, \
 
 from src import shared
 from src import db
+from src import logger
+from src import enums
 from src.user import user
 from src.household import household
 from src.billing import billing
@@ -118,6 +120,8 @@ def login():
             session['displayname'] = res['displayname']
 
             session['admin'] = shared.isCuteCasaAdmin(session['id'])
+            logger.logAdmin(session['id'], enums.e_admin_log_event_level.info, "User logged in.")
+
             # Instead of setting household session items here, direct to household selection in order to set them.
             # Household selection menu will check if the person only has one household and will set that as the default.
             return redirect(url_for('household_select'))
@@ -257,10 +261,10 @@ def admin_dashboard():
     shared.checkAdmin()
     return admin.dashboard()
 
-@app.route('/admin/logviewer', methods=['GET'])
-def admin_logviewer():
+@app.route('/admin/logviewer/<after>', methods=['GET'])
+def admin_logviewer(after):
     shared.checkAdmin()
-    return admin.logviewer()
+    return admin.logviewer(after)
 
 
 # ######################################################################################################################
