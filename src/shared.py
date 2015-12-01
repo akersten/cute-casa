@@ -24,3 +24,12 @@ def getHouseholdType(householdId):
 
 def isCuteCasaAdmin(userId):
     return db.getSingleValue('users', 'e_user_authority', userId) == 2
+
+def id2displayname(userId):
+    """
+    Convert a user id into their display name.
+    :param userId: The user id to look up.
+    :return: The display name for this user.
+    """
+    name = db.getSingleValue('users', 'displayname', userId)
+    return name if name else 'unknown user'

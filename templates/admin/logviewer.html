@@ -42,9 +42,21 @@
             <div class="col-bezel">
                 <h2>Events</h2>
                     {% if events %}
+                        <ul class="list-group">
                         {% for e in events %}
-                            {{ e }}
+                            <li class="list-group-item">
+                                <span class="label {{ {1: "label-default", 2: "label-warning", 3: "label-danger"}[e.e_admin_log_event_level] | default("") }}">
+                                    <i class="fa {{ {1: "fa-info", 2: "fa-bell", 3: "fa-exclamation"}[e.e_admin_log_event_level] | default("") }}"></i>
+                                </span>
+                                &nbsp;
+                                <strong>
+                                    {{ e.message }}
+                                </strong>
+                                <br />
+                                <em>Caused by <strong>{{ id2displayname(e.blame) }}</strong> at <strong>{{ e.timestamp }}</strong></em>
+                            </li>
                         {% endfor %}
+                        </ul>
                     {% endif %}
 
                 <!-- TODO: Pagination button to update the url and set after to a higher number. -->
