@@ -120,7 +120,7 @@ def login():
             session['displayname'] = res['displayname']
 
             session['admin'] = shared.isCuteCasaAdmin(session['id'])
-            logger.logAdmin(session['id'], enums.e_admin_log_event_level.info, "User logged in.")
+            logger.logAdmin("User logged in.", session['id'])
 
             # Instead of setting household session items here, direct to household selection in order to set them.
             # Household selection menu will check if the person only has one household and will set that as the default.

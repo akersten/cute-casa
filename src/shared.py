@@ -4,7 +4,7 @@
 # Global features across the entire application.
 # ######################################################################################################################
 
-from flask import abort, session, g
+from flask import abort, session
 import queries
 from src import db
 

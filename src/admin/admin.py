@@ -12,7 +12,7 @@ def dashboard():
     The admin dashboard has links to other admin pages. Render the dashboard view.
     :return: The render template.
     """
-    logger.logAdmin(session['id'], enums.e_admin_log_event_level.warning, "Admin dashboard accessed.")
+    logger.logAdmin("Admin dashboard accessed.", session['id'], enums.e_admin_log_event_level.warning)
     return render_template('admin/dashboard.html')
 
 
@@ -21,7 +21,7 @@ def logviewer(after):
     The admin log viewer shows administrative events. Render the logviewer.
     :return: The render template.
     """
-    logger.logAdmin(session['id'], enums.e_admin_log_event_level.warning, "Logviewer accessed.")
+    logger.logAdmin("Logviewer accessed.", session['id'], enums.e_admin_log_event_level.warning)
     return render_template('admin/logviewer.html', events=getEvents(after, 50), id2displayname=lambda n: shared.id2displayname(n))
 
 def getEvents(after, count):
