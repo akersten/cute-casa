@@ -29,7 +29,8 @@ CREATE TABLE household_memberships (
   household INTEGER NOT NULL,
   e_household_relation INTEGER NOT NULL,
   PRIMARY KEY (user, household),
-  FOREIGN KEY(user) REFERENCES users(id)
+  FOREIGN KEY(user) REFERENCES users(id),
+  FOREIGN KEY(household) REFERENCES households(id)
 );
 
 
@@ -40,7 +41,6 @@ CREATE TABLE household_memberships (
 -- e_admin_log_event_level: the criticality of this event
 -- message: the event message
 --
-
 DROP TABLE IF EXISTS admin_log_events;
 CREATE TABLE admin_log_events (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

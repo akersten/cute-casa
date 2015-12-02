@@ -20,9 +20,31 @@ def checkAdmin():
         abort(401, "you are not an admin")
 
 def getHouseholdType(householdId):
+    """
+    Returns the household type for a given household.
+    :param householdId: The household to check.
+    :return: The type of this household (from enums.e_household_type).
+    """
     return db.getSingleValue("households", "e_household_type", householdId)
 
+def getHouseholdsForUser(userId):
+    """
+    Returns a list of households for a given user. Keys in each dictionary within the returned list are:
+        * households.id
+        * households.household_name
+        * households.e_household_type
+        * household_memberships.e_household_relation
+    :param userId: THe user for which to get the households.
+    :return: A list of households for the user.
+    """
+    return db.query_db(queries.USER_GET_HOUSEHOLDS, [userId,])
+
 def isCuteCasaAdmin(userId):
+    """
+    Checks whether the given user is a CuteCasa administrator for this instance.
+    :param userId: THe user id to check.
+    :return: True if the specified user is a CuteCasa admin, False otherwise.
+    """
     return db.getSingleValue('users', 'e_user_authority', userId) == 2
 
 def id2displayname(userId):
