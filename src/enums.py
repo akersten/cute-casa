@@ -15,7 +15,7 @@ def contains(haystack, needle):
     :param needle: The value to find.
     :return: True if the given enum contained the given value. False otherwise.
     """
-    return needle in [e.value for e in haystack]
+    return int(needle) in [e.value for e in haystack]
 
 class e_household_type(IntEnum):
     apartment = 1
