@@ -98,7 +98,7 @@ def login():
             # normal use case of hitting the screen and being redirected to the dashboard is a GET.
             abort(409)  # You can't log in twice...
 
-        if (request.form['loginPassword'] is None) or (request.form['loginUsername'] is None):
+        if (not request.form.get('loginPassword')) or (not request.form.get('loginUsername')):
             abort(400)
 
         hash = hashlib.pbkdf2_hmac('sha512',
@@ -144,9 +144,9 @@ def register():
             abort(409)  # You can't register while logged in...
 
         if (
-                (request.form['registerPassword'] is None) or
-                (request.form['registerUsername'] is None) or
-                (request.form['registerEmail'] is None)
+                (not request.form.get('registerPassword')) or
+                (not request.form.get('registerUsername')) or
+                (not request.form.get('registerEmail'))
         ):
             abort(400)
 
