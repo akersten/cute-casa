@@ -36,8 +36,11 @@ def profile():
 
         if not session.get('householdId'):
             # Creating a new household!
-            if len(houseName) < 3 or len(houseName) > 10:
+            if len(houseName) < 3:
                 flash('The household name is too short.')
+                dead = True
+            elif len(houseName) > 50:
+                flash('The household name is too long.')
                 dead = True
 
             if not enums.contains(enums.e_household_type, houseType):
@@ -48,13 +51,16 @@ def profile():
                 return render_template('household/profile.html')
 
             # Create the household!
-            db.query_db(queries.HOUSEHOLD_CREATE, [houseName, houseType])
-            logger.logAdmin('Created household ' + houseName, session['id'])
+            db.post_db(queries.HOUSEHOLD_CREATE, [houseName, houseType])
+            houseId = db.getLastRowId()
 
-            # The session variables will not be set yet - we'll redirect back to the selection page since we don't have
-            # the householdId from here.
+            # Associate this user with the household, as an admin.
+            db.post_db(queries.HOUSEHOLD_MEMBERSHIP_ADD, [session['id'], houseId, enums.e_household_relation.admin])
+
+
+            logger.logAdmin('Created household. Id: ' + str(houseId) + ' Name: ' + houseName, session['id'])
             flash('Household created successfully!')
-            return redirect(url_for('household_select'));
+            return redirect(url_for('household_select'))
 
         # TODO: Check if we are an admin of this household and are allowed to make changes to it.
 

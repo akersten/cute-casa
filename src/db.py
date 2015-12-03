@@ -41,6 +41,13 @@ def cleanTable(table):
     return table
 
 
+def getLastRowId():
+    """
+    Gets the last autoincremented rowid from an insert.
+    :return: The last autoincremented row id from an insert.
+    """
+    return query_db("SELECT last_insert_rowid()", [], True)['last_insert_rowid()']
+
 def getRow(table, id):
     """
     Get a single row out of the database.
