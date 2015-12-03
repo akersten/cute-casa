@@ -28,6 +28,7 @@ def post_db(query, args=()):
 
 ALLOWED_DYNAMIC_TABLES = ["users", "households", "household_memberships", "admin_log_events"]
 
+
 def cleanTable(table):
     """
     It is not possible to parameterize tables in a prepared statement, but we still need to insert them dynamically.
@@ -39,7 +40,19 @@ def cleanTable(table):
         abort(500, "not an allowed table")
     return table
 
-def getSingleValue(table, column, id):
+
+def getRow(table, id):
+    """
+    Get a single row out of the database.
+    :param table: The table from which to select.
+    :param id: The id for which to select.
+    :return: The single row represented by this ID.
+    """
+    q = "SELECT * FROM " + cleanTable(table) + " WHERE id = ?"
+    return query_db(q, [id,], True)
+
+
+def getValue(table, column, id):
     """
     Get a single value out of the database.
     :param table: The table from which to select.
@@ -47,5 +60,4 @@ def getSingleValue(table, column, id):
     :param id: The id for which to select.
     :return: The single value represented.
     """
-    q = "SELECT * FROM " + cleanTable(table) + " WHERE id = ?"
-    return query_db(q, [id,], True)[column]
+    return getRow(table, id)[column]

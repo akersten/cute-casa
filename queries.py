@@ -18,6 +18,8 @@ USER_UPDATE_CELLPHONE = "UPDATE users SET cellphone=? WHERE id=?"
 HOUSEHOLD_UPDATE_HOUSEHOLDNAME = "UPDATE households SET household_name=? WHERE id=?"
 HOUSEHOLD_UPDATE_HOUSEHOLDTYPE = "UPDATE households SET e_household_type=? WHERE id=?"
 
+HOUSEHOLD_CREATE = "INSERT INTO households(household_name, e_household_type) VALUES (?, ?)"
+
 # ######################################################################################################################
 # Administrative logging queries
 # ######################################################################################################################

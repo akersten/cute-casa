@@ -7,6 +7,7 @@
 # ######################################################################################################################
 
 from enum import IntEnum
+from flask import abort
 
 def contains(haystack, needle):
     """
@@ -15,7 +16,9 @@ def contains(haystack, needle):
     :param needle: The value to find.
     :return: True if the given enum contained the given value. False otherwise.
     """
-    return int(needle) in [e.value for e in haystack]
+    if not (needle or haystack):
+        return False
+    return int(needle) in [int(e.value) for e in haystack]
 
 class e_household_type(IntEnum):
     apartment = 1

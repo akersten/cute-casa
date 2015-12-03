@@ -13,7 +13,11 @@
                 <!--
                 <i class="fa fa-user"></i>&nbsp;&nbsp;
                 -->
-                1234 Test Street
+                {% if session['householdName'] %}
+                    {{ session['householdName'] }}
+                {% else %}
+                    New Household
+                {% endif %}
             </h1>
         </div>
         <div class="col-sm-2 headroom">

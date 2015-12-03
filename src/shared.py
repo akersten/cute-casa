@@ -25,7 +25,7 @@ def getHouseholdType(householdId):
     :param householdId: The household to check.
     :return: The type of this household (from enums.e_household_type).
     """
-    return db.getSingleValue("households", "e_household_type", householdId)
+    return db.getValue("households", "e_household_type", householdId)
 
 def getHouseholdsForUser(userId):
     """
@@ -39,19 +39,34 @@ def getHouseholdsForUser(userId):
     """
     return db.query_db(queries.USER_GET_HOUSEHOLDS, [userId,])
 
+# ######################################################################################################################
+# Users
+# ######################################################################################################################
+
+def getUserRow(userId):
+    """
+    Get a user row based on their id.
+    :param userId: The user id to look up.
+    :return: The database row for this user.
+    """
+    user = db.getRow('users', userId)
+    return user
+
+
+def getUserDisplayname(userId):
+    """
+    Convert a user id into their display name.
+    :param userId: The user id to look up.
+    :return: The display name for this user.
+    """
+    name = db.getValue('users', 'displayname', userId)
+    return name if name else 'unknown user'
+
+
 def isCuteCasaAdmin(userId):
     """
     Checks whether the given user is a CuteCasa administrator for this instance.
     :param userId: THe user id to check.
     :return: True if the specified user is a CuteCasa admin, False otherwise.
     """
-    return db.getSingleValue('users', 'e_user_authority', userId) == 2
-
-def id2displayname(userId):
-    """
-    Convert a user id into their display name.
-    :param userId: The user id to look up.
-    :return: The display name for this user.
-    """
-    name = db.getSingleValue('users', 'displayname', userId)
-    return name if name else 'unknown user'
+    return db.getValue('users', 'e_user_authority', userId) == 2
