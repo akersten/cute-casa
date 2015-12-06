@@ -84,6 +84,36 @@ def teardown_request(exception):
 
 
 
+# #
+# Global template functions
+# #
+flasherstr = """
+ {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% if messages %}
+                            <!-- Realistically, category will never be blank and we'll never default in 'info'
+                                 (because the default Flask flash category is 'message'), but it's good style. -->
+                            {% for category, message in messages %}
+
+                                <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <p>{{ message }}</p>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+"""
+def flasher():
+    """
+    The flashed messages reader that should go in almost all of the templates somewhere (use {{ flasher() }}
+    :return: The Jinja2 flasher template.
+    """
+    return flasherstr
+app.jinja_env.globals.update(flasher=flasher)
+
+
+# #
+# Flask Application Routes
+# #
 
 @app.route('/')
 def splash():
@@ -126,7 +156,7 @@ def login():
             # Household selection menu will check if the person only has one household and will set that as the default.
             return redirect(url_for('household_select'))
         else:
-            flash('Invalid username or password.')
+            flash('Invalid username or password.', 'danger')
 
         return render_template('login.html')
     else:
@@ -155,7 +185,7 @@ def register():
                 (len(request.form['registerUsername']) <= 3) or
                 (len(request.form['registerEmail']) <= 3)
         ):
-            flash("Each item must each be at least 3 characters long.")
+            flash("Each item must each be at least 3 characters long.", 'danger')
             return render_template('register.html')
 
         pwHash = hashlib.pbkdf2_hmac('sha512',
@@ -166,7 +196,7 @@ def register():
         res = db.query_db(queries.CHECK_USERNAME, [request.form['registerUsername'], ], True)
 
         if res['COUNT(*)'] > 0:
-            flash("That username is already in use.")
+            flash("That username is already in use.", 'danger')
             return render_template('register.html')
 
         db.post_db(queries.REGISTER, [request.form['registerUsername'],
@@ -174,7 +204,7 @@ def register():
                                       pwHash,
                                       request.form['registerEmail']])
 
-        flash("Successfully registered!")
+        flash("Successfully registered!", 'info')
 
         return render_template('register.html')
     else:
@@ -232,10 +262,12 @@ def user_profile():
 # ######################################################################################################################
 
 
-@app.route('/household/select', methods=['GET', 'POST'])
-def household_select():
+
+@app.route('/household/select/', methods=['GET'])
+@app.route('/household/select/<householdId>', methods=['GET'])
+def household_select(householdId=None):
     shared.checkLogin()
-    return household.select()
+    return household.select(householdId)
 
 
 @app.route('/household/profile', methods=['GET', 'POST'])

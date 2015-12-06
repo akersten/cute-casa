@@ -10,9 +10,19 @@
         <div class="col-md-4 bezel">
             <h2>Sign up for CuteCasa</h2>
 
-            {% for m in get_flashed_messages() %}
-                <p>{{ m }}</p>
-            {% endfor %}
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    <!-- Realistically, category will never be blank and we'll never default in 'info'
+                         (because the default Flask flash category is 'message'), but it's good style. -->
+                    {% for category, message in messages %}
+
+                        <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <p>{{ message }}</p>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
             <form method="POST" action="{{ url_for('register') }}">
                 <div class="form-group">
@@ -34,7 +44,7 @@
                     <input type="password" id="registerPassword" name="registerPassword" class="form-control">
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="form-control">Login</button>
+                    <button type="submit" class="form-control">Register</button>
                 </div>
 
             </form>

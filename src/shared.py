@@ -39,6 +39,26 @@ def getHouseholdsForUser(userId):
     """
     return db.query_db(queries.USER_GET_HOUSEHOLDS, [userId,])
 
+def setHousehold(householdId):
+    """
+    Set the current household for this session. Checks the validity of the household as well as the membership of the
+    current user. Populates household session variables.
+    :param householdId: The household id to switch to.
+    :return: True if the household was successfully set, False otherwise.
+    """
+    # TODO: Check household validity.
+    # TODO: Check household membership.
+    checkLogin()
+
+    house = db.getRow('households', householdId)
+    if house is None:
+        return False
+
+    session['householdId'] = house['id']
+    session['householdName'] = house['household_name']
+    session['householdType'] = house['e_household_type']
+    return True
+
 # ######################################################################################################################
 # Users
 # ######################################################################################################################

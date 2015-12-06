@@ -21,35 +21,53 @@
     <div class="row">
         <div class="col-md-offset-3 col-md-6">
             <div class="col-bezel">
-                    {% for m in get_flashed_messages() %}
-                        <p>{{ m }}</p>
-                    {% endfor %}
+
+                    <!-- Message flasher - move this to a function or macro eventually XXX. -->
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% if messages %}
+                            <!-- Realistically, category will never be blank and we'll never default in 'info'
+                                 (because the default Flask flash category is 'message'), but it's good style. -->
+                            {% for category, message in messages %}
+
+                                <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <p>{{ message }}</p>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <!-- End message flasher -->
 
                     {% if households %}
                         <h2>Your Households</h2>
 
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                hi
-                            </li>
-                            <li class="list-group-item">
-                                hi
-                            </li>
-                            <li class="list-group-item">
-                                hi
-                            </li>
-                        </ul>
+                        <div class="list-group">
+                            {% for h in households %}
+                                <a href="{{ url_for('household_select', householdId=h.id) }}" class="list-group-item ">
+                                    <h3 class="list-group-item-heading">
+                                        <i class="fa {{ {1: 'fa-building', 2: 'fa-home'}[h.e_household_type] | default('') }}"></i>
+                                        {{ h.household_name }}
+                                        {% if h.e_household_relation==2 %}
+                                            &mdash; <em>Administrator</em>
+                                        {% endif %}
+                                    </h3>
+                                </a>
+                            {% endfor %}
+                        </div>
                     {% else %}
                         <h2>Uh oh!</h2>
                         <p>
                             You don't seem to belong to any households. Tell a household owner to add you to their home,
                             or create your own:
                         </p>
-                        <a href="{{ url_for('household_profile') }}" class="btn btn-default btn-lg btn-block">
+                    {% endif %}
+
+                <!-- This should always lead to the household creation workflow, since this screen should not be showing
+                     unless the current householdId is unset. -->
+                <a href="{{ url_for('household_profile') }}" class="btn btn-default btn-lg btn-block">
                             <i class="fa fa-home"></i>
                             Create a Household
-                        </a>
-                    {% endif %}
+                </a>
             </div>
         </div>
     </div>

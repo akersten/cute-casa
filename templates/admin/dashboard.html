@@ -19,21 +19,17 @@
         </div>
     </div>
 
-    {%  with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
-            <div class="row" id="informationFlasher">
-                <div class="col-md-12">
-                    <div class="col-bezel">
-                        <h3>Information</h3>
-                        {% for m in messages %}
-                            <p>{{ m }}</p>
-                        {% endfor %}
-                        <a href="#" onclick="$('#informationFlasher').remove(); return false;" class="btn btn-default">
-                            Close
-                        </a>
-                    </div>
-                </div>
+            <!-- Realistically, category will never be blank and we'll never default in 'info'
+                 (because the default Flask flash category is 'message'), but it's good style. -->
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>{{ message }}</p>
             </div>
+            {% endfor %}
         {% endif %}
     {% endwith %}
 

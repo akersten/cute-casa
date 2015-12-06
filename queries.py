@@ -21,6 +21,7 @@ HOUSEHOLD_UPDATE_HOUSEHOLDTYPE = "UPDATE households SET e_household_type=? WHERE
 HOUSEHOLD_CREATE = "INSERT INTO households(household_name, e_household_type) VALUES (?, ?)"
 
 
+
 # #
 # Household membership queries
 # #

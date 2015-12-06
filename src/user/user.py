@@ -18,14 +18,14 @@ def profile():
         if request.form['displaynameInput'] is not None:
             if request.form['displaynameInput'] != session['displayname']:
                 if len(request.form['displaynameInput']) == 0:
-                    flash("Display name must not be blank.")
+                    flash("Display name must not be blank.", 'danger')
                     return render_template('user/profile.html')
 
                 # TODO: Sanity check on length
 
                 db.post_db(queries.USER_UPDATE_DISPLAYNAME, [request.form['displaynameInput'], session['id']])
                 session['displayname'] = request.form['displaynameInput']
-                flash("Display name updated.")
+                flash("Display name updated.", 'info')
 
         # Email.
         if request.form['emailInput'] is not None:
@@ -35,7 +35,7 @@ def profile():
 
                 db.post_db(queries.USER_UPDATE_EMAIL, [request.form['emailInput'], session['id']])
                 session['email'] = request.form['emailInput']
-                flash("Email updated.")
+                flash("Email updated.", 'info')
 
         # Cellphone
         if request.form['cellInput'] is not None:
@@ -46,7 +46,7 @@ def profile():
                 db.post_db(queries.USER_UPDATE_CELLPHONE, [request.form['cellInput'], session['id']])
 
                 session['cellphone'] = request.form['cellInput']
-                flash("Cellphone updated.")
+                flash("Cellphone updated.", 'info')
 
         return redirect(url_for('dashboard'))
     else:

@@ -4,6 +4,20 @@
 
 <div class="container">
 
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <!-- Realistically, category will never be blank and we'll never default in 'info'
+                 (because the default Flask flash category is 'message'), but it's good style. -->
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>{{ message }}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
     <div class="row">
         <div class="col-md-12">
             <h1>Bill split!</h1>
@@ -14,9 +28,7 @@
             <a href="{{ url_for('dashboard') }}" class="btn btn-default">Return to Dashboard</a>
         </div>
         <div class="col-md-4">
-            {% for m in get_flashed_messages() %}
-                <p>{{ m }}</p>
-            {% endfor %}
+
         </div>
         <div class="col-md-4">
 
