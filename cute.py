@@ -129,7 +129,8 @@ def login():
             abort(409)  # You can't log in twice...
 
         if (not request.form.get('loginPassword')) or (not request.form.get('loginUsername')):
-            abort(400)
+            flash('Please fill in all fields.', 'danger')
+            return render_template('login.html')
 
         hash = hashlib.pbkdf2_hmac('sha512',
                                    bytearray(request.form['loginPassword'], 'utf-8'),
@@ -178,7 +179,8 @@ def register():
                 (not request.form.get('registerUsername')) or
                 (not request.form.get('registerEmail'))
         ):
-            abort(400)
+            flash('Please fill in all fields.', 'danger')
+            return render_template('register.html')
 
         if (
                 (len(request.form['registerPassword']) <= 3) or
