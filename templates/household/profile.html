@@ -102,7 +102,13 @@
 
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8 text-right">
-                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                            <button type="submit" class="btn btn-primary">
+                                {% if session['householdName'] %}
+                                    Update Profile
+                                {% else %}
+                                    Create Household
+                                {% endif %}
+                            </button>
                         </div>
                     </div>
                 </form>
