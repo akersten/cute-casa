@@ -80,7 +80,7 @@ def profile():
             flash("Household name updated.", 'info')
 
         # Household type.
-        if houseType != session['householdType']:
+        if int(houseType) != session['householdType']:
             if not enums.contains(enums.e_household_type, houseType):
                 flash(str(houseType) + ' is not a valid house type.', 'danger')
                 return render_template('household/profile.html')
