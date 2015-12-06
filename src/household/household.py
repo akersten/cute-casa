@@ -77,7 +77,7 @@ def profile():
             db.post_db(queries.HOUSEHOLD_UPDATE_HOUSEHOLDNAME, [houseName, session['householdId']])
 
             session['householdName'] = houseName
-            flash("Household name updated.", 'danger')
+            flash("Household name updated.", 'info')
 
         # Household type.
         if houseType != session['householdType']:
@@ -87,7 +87,7 @@ def profile():
 
             db.post_db(queries.HOUSEHOLD_UPDATE_HOUSEHOLDTYPE, [houseType, session['householdId']])
 
-            session['householdType'] = houseType
+            session['householdType'] = int(houseType)
             flash("Household type updated.", 'info')
 
         return redirect(url_for('dashboard'))
