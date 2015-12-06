@@ -59,6 +59,14 @@ def setHousehold(householdId):
     session['householdType'] = house['e_household_type']
     return True
 
+def unsetHousehold():
+    """
+    Erase the current household data from the session, like when we go back to the household select screen.
+    """
+    session.pop('householdId')
+    session.pop('householdName')
+    session.pop('householdType')
+
 # ######################################################################################################################
 # Users
 # ######################################################################################################################

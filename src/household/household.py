@@ -117,5 +117,13 @@ def select(householdId):
         households=shared.getHouseholdsForUser(session['id'])
 
         # TODO: If the person is only a member of one household, just set that household and redirect to the dashboard.
+        # TODO: Be careful though - if we came here from the dashboard, we want to not redirect so that the user has
+        # the chance to maybe create another household. We can do that when we check the incoming householdId - if it's
+        # set, we don't want to auto-redirect because we were already on the dashboard. Set it to None now, because
+        # clicking the create new house should go into the profile view with it set to None (otherwise it will edit the
+        # "current" (last selected) house).
+
+        if (session.get('householdId')):
+            shared.unsetHousehold()
 
         return render_template('household/select.html', households=households)
