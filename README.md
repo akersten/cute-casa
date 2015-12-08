@@ -20,7 +20,15 @@ IoT-enabled house, draw floorplans, manage rent, delegate tasks, and more.
 Being a self-hosted solution, you'll need to run this on your own equipment. The cute.casa website is intended for
 future paid/dedicated hosting.
 
-Install Python (3.4+) and Flask. Create a shell script to load the variables in cute.py and to launch the program:
+### Requirements
+
+* Python (3.4+)
+* Flask
+* ZODB
+
+### Running CuteCasa
+
+Create a shell script to load the variables in cute.py and to launch the program:
 
     #!/bin/sh
     export CUTE_DB="secret/cute.db"
