@@ -5,6 +5,7 @@
  ******************************************************************************/
 
 @backgroundLight: #EEEEEE;
+@backgroundLighter: lighten(@backgroundLight, 3%);
 @backgroundLightDim: #DADADA;
 @backgroundDark: #333333;
 @backgroundDarkDim: #282828;
@@ -56,6 +57,10 @@
 
 .btn-text-right {
     text-align: right;
+}
+
+li.list-group-item {
+  background-color: @backgroundLighter;
 }
 
 /******************************************************************************
@@ -112,6 +117,20 @@ div.bezel {
     margin-bottom: 1em;
 }
 
+// For divs that give context to a menu button positioned at the top of them.
+div.menuButtonContainer {
+  background-color: @backgroundLighter;
+  border-radius: 0.5em;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+
+  p {
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.5em;
+  }
+}
+
 div.col-bezel {
     background-color: @backgroundLight;
     box-shadow: 0 0.30em 0.60em @gray;
@@ -133,4 +152,23 @@ div.col-bezel h1, div.col-bezel h2, div.col-bezel h3, div.col-bezel h4, div.col-
  */
 div.headroom {
     margin-top: 1em;
+}
+
+
+// Text accents, callouts, and highlights
+@highlight: {
+  font-size: 2em;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+};
+
+span.highlight1 {
+  @highlight();
+  color: @highlight1;
+}
+
+
+span.accent1 {
+  @highlight();
+  color: @accent1;
 }

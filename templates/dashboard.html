@@ -51,10 +51,54 @@
             <div class="col-bezel">
                 <h2>Activities</h2>
 
-                <a href="{{ url_for('dashboard') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-bell-o fa-fw"></i> Alerts &amp; Reminders</a>
-                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-money fa-fw"></i> Billing</a>
-                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-tablet fa-fw"></i> Connected Devices</a>
-                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-list fa-fw"></i> Duties</a>
+                <div class="menuButtonContainer">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-bell-o fa-fw"></i> Alerts &amp; Reminders</a>
+                    <p><span class="highlight1">3</span> active alerts.</p>
+                </div>
+
+                <div class="menuButtonContainer">
+                    <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-money fa-fw"></i> Billing</a>
+                    <p><span class="highlight1">$475.00</span> owed.</p>
+                </div>
+
+                <div class="menuButtonContainer">
+                    <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-tablet fa-fw"></i> Connected Devices</a>
+                    <p><span class="accent1">14</span> devices online.</p>
+                    <p><span class="highlight1">4</span> devices offline.</p>
+                </div>
+
+                <div class="menuButtonContainer">
+                    <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-list fa-fw"></i> Duties</a>
+                    <p>Upcoming duties:</p>
+                    <table>
+
+                        <tr>
+                            <td>
+                                7:00 pm
+                            </td>
+                            <td>
+                                Take out the doot
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                8:00 am
+                            </td>
+                            <td>
+                                Bring in the doot
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                12:00am
+                            </td>
+                            <td>
+                                Party
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
             </div>
         </div>
         <div class="col-md-8">

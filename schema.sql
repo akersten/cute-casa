@@ -19,7 +19,8 @@ DROP TABLE IF EXISTS households;
 CREATE TABLE households (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   household_name TEXT NOT NULL,
-  e_household_type INTEGER NOT NULL
+  e_household_type INTEGER NOT NULL,
+  created_date INTEGER DEFAULT (DATETIME('now'))
 );
 
 
@@ -28,6 +29,7 @@ CREATE TABLE household_memberships (
   user INTEGER NOT NULL,
   household INTEGER NOT NULL,
   e_household_relation INTEGER NOT NULL,
+  membership_date INTEGER DEFAULT (DATETIME('now')),
   PRIMARY KEY (user, household),
   FOREIGN KEY(user) REFERENCES users(id),
   FOREIGN KEY(household) REFERENCES households(id)
