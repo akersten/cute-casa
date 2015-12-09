@@ -92,9 +92,7 @@ def profile():
 
         return redirect(url_for('dashboard'))
     else:
-        # Check if we've selected a household or not'
-        # The template logic should handle most of what we need to do here.
-        #TODO
+        # The template logic should handle checking if we have selected a household or not.
         return render_template('household/profile.html')
 
 

@@ -27,6 +27,16 @@ def getHouseholdType(householdId):
     """
     return db.getValue("households", "e_household_type", householdId)
 
+def getHouseholdRelation(householdId, userId):
+    """
+    Returns the relation between this household and this user -
+    # TODO: this and hide the gear if we're not an admin.
+    # TODO: add this to the set/unset household code
+    :param householdId:
+    :param userId:
+    :return:
+    """
+
 def getHouseholdsForUser(userId):
     """
     Returns a list of households for a given user. Keys in each dictionary within the returned list are:
