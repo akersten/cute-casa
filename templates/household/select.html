@@ -1,7 +1,6 @@
 {% extends "head.html" %}
 {% block body %}
 
-
 <div class="container">
 
     <div class="row bezel">
@@ -62,10 +61,18 @@
                         </p>
                     {% endif %}
 
-                <a href="#" class="btn btn-default btn-lg btn-block disabled">
+                <a href="#" class="btn btn-default btn-lg btn-block"
+                        onclick="showRequestHouseholdInvite()" >
                     <i class="fa fa-search"></i>
                     Join a Household
                 </a>
+                <noscript>
+                    <p>
+                        (Requests to join households won't work without JavaScript enabled in your browser. Other parts
+                        of CuteCasa will also be broken. Sorry.)
+                    </p>
+                </noscript>
+                <br />
                 <!-- This should always lead to the household creation workflow, since this screen should not be showing
                      unless the current householdId is unset. -->
                 <a href="{{ url_for('household_profile') }}" class="btn btn-default btn-lg btn-block">
@@ -76,5 +83,29 @@
         </div>
     </div>
 </div>
+
+<!--
+ Modal dialog for selecting a household.
+-->
+<div id="selectHouseholdModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title">Request to Join a Household</h2>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/household/requestHouseholdInvite.js') }}"></script>
+
 
 {% endblock %}
