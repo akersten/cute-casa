@@ -67,4 +67,5 @@ def getValue(table, column, id):
     :param id: The id for which to select.
     :return: The single value represented.
     """
-    return getRow(table, id)[column]
+    row = getRow(table, id)
+    return row[column] if row is not None else None

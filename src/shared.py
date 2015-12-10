@@ -29,13 +29,13 @@ def getHouseholdType(householdId):
 
 def getHouseholdRelation(householdId, userId):
     """
-    Returns the relation between this household and this user -
-    # TODO: this and hide the gear if we're not an admin.
-    # TODO: add this to the set/unset household code
-    :param householdId:
-    :param userId:
-    :return:
+    Returns the relation between this household and this user.
+    :param householdId: The household to check.
+    :param userId: The user to check.
+    :return: A relation from enums.e_household_relation.
     """
+    val = db.query_db(queries.HOUSEHOLD_MEMBERSHIP_GET_FOR_USER_AND_HOUSEHOLD, [userId, householdId], True)
+    return val['e_household_relation'] if val is not None else None
 
 def getHouseholdsForUser(userId):
     """
@@ -67,6 +67,7 @@ def setHousehold(householdId):
     session['householdId'] = house['id']
     session['householdName'] = house['household_name']
     session['householdType'] = house['e_household_type']
+    session['householdRelation'] = getHouseholdRelation(house['id'], session['id'])
     return True
 
 def unsetHousehold():
@@ -76,6 +77,7 @@ def unsetHousehold():
     session.pop('householdId')
     session.pop('householdName')
     session.pop('householdType')
+    session.pop('householdRelation')
 
 # ######################################################################################################################
 # Users

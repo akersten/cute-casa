@@ -216,7 +216,7 @@ def register():
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():  # TODO: Session tokens
     if session.get('logged_in'):
-        session.pop('logged_in')
+        session.clear()
         return redirect(url_for('splash'))
     abort(401)
 

@@ -57,11 +57,15 @@
                     {% else %}
                         <h2>Uh oh!</h2>
                         <p>
-                            You don't seem to belong to any households. Tell a household owner to add you to their home,
+                            You don't seem to belong to any households. Request to join an existing household,
                             or create your own:
                         </p>
                     {% endif %}
 
+                <a href="#" class="btn btn-default btn-lg btn-block disabled">
+                    <i class="fa fa-search"></i>
+                    Join a Household
+                </a>
                 <!-- This should always lead to the household creation workflow, since this screen should not be showing
                      unless the current householdId is unset. -->
                 <a href="{{ url_for('household_profile') }}" class="btn btn-default btn-lg btn-block">

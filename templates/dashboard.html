@@ -11,10 +11,12 @@
                 <i class="fa {{ {1: "fa-building", 2: "fa-home"}[session['householdType']] | default("") }}"></i>
                 &nbsp;&nbsp;
                 {{ session['householdName'] }}
-                    <a href="{{ url_for("household_profile") }}" class="btn btn-lg">
-                        <i class="fa fa-cog"></i>
+                    {% if session['householdRelation'] == 2 %}
+                        <a href="{{ url_for("household_profile") }}" class="btn btn-lg">
+                            <i class="fa fa-cog"></i>
 
-                    </a>
+                        </a>
+                    {% endif %}
                     <a href="{{ url_for("household_select") }}" class="btn btn-lg">
                         <i class="fa fa-home"></i>
                     </a>

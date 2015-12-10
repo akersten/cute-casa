@@ -27,6 +27,10 @@ HOUSEHOLD_CREATE = "INSERT INTO households(household_name, e_household_type) VAL
 # #
 
 HOUSEHOLD_MEMBERSHIP_ADD = "INSERT INTO household_memberships(user, household, e_household_relation) VALUES (?, ?, ?)"
+HOUSEHOLD_MEMBERSHIP_GET_FOR_USER = "SELECT * FROM household_memberships WHERE user=?"
+HOUSEHOLD_MEMBERSHIP_GET_FOR_HOUSEHOLD = "SELECT * FROM household_memberships WHERE household=?"
+HOUSEHOLD_MEMBERSHIP_GET_FOR_USER_AND_HOUSEHOLD = "SELECT * FROM household_memberships WHERE user=? AND household=?"
+
 
 # ######################################################################################################################
 # Administrative logging queries
