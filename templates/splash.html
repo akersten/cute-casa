@@ -1,20 +1,8 @@
 {% extends "head.html" %}
 {% block body %}
 
-
-
 <div class="jumbotron splashBanner">
     <div class="container">
-        <!--
-        <div class="row">
-            <div class="col-md-12">
-                <p class="text-right">
-                    <a href="/login">Login</a>
-                </p>
-            </div>
-        </div>
-        -->
-
         <div class="row">
             <h1 class="text-center">CuteCasa</h1>
             <div class="col-md-12">
@@ -22,86 +10,32 @@
                     Centralized Home Administration
                 </h2>
             </div>
-
         </div>
-
-
     </div>
 </div>
 
 <div class="container">
-    <div class="row text-center">
-        <a href="{{ url_for('register') }}" class="btn-lg btn-default">Sign Up</a>
-        <a href="{{ url_for('login') }}" class="btn-lg btn-default">Log In</a>
+    <div class="row">
+        <div class="col-md-6">
+            <br />
+            <a href="{{ url_for('register') }}" class="btn-lg btn-primary btn-block text-center">Sign Up</a>
+            <br />
+        </div>
+        <div class="col-md-6">
+            <br />
+            <a href="{{ url_for('login') }}" class="btn-lg btn-primary btn-block text-center">Log In</a>
+            <br />
+        </div>
     </div>
 </div>
 
-<div class="banner">
-    splash image
+<div class="banner bgOne">
+    <h2>
+        Alerts
+    </h2>
 </div>
-
-
 
 <div class="container">
-
-    <!-- Feature blurbs -->
-    <div class="row callout">
-        <div class="col-md-6 text-center">
-            <h2>IoT Integration</h2>
-
-            <p class="text-left">
-                Connect your devices using <a href="http://scrymg.com">Scrymg</a> and command them online.
-                Aggregate and analyze data throughout your home.
-            </p>
-        </div>
-        <div class="col-md-6 text-center">
-            <h2>Floorplans</h2>
-
-            <p class="text-left">
-                Use our innovative floorplan editor to draw your house.
-                Control devices in every room.
-            </p>
-        </div>
-    </div>
-
-</div>
-
-    <div class="banner">
-    Here is a picture
-    </div>
-
-
-    <div class="container">
-
-    <div class="row callout">
-        <div class="col-md-6 text-center">
-            <h2>Task Delegation</h2>
-
-            <p class="text-left">
-                Keep track of who needs to take out the garbage, do the dishes, sweep the floors, and clean the
-                bathroom.
-                Automatically generate fair schedules and send text reminders.
-            </p>
-        </div>
-        <div class="col-md-6 text-center">
-            <h2>Dashboards</h2>
-
-            <p class="text-left">
-                See the heartbeat of your house &mdash; view data from all modules in one place to see what needs doing.
-
-            </p>
-        </div>
-    </div>
-
-    </div>
-
-     <div class="banner">
-    Here is a picture
-    </div>
-
-
-    <div class="container">
-
     <div class="row callout">
         <div class="col-md-6 text-center">
             <h2>Maintenance Reminders</h2>
@@ -112,15 +46,72 @@
             </p>
         </div>
         <div class="col-md-6 text-center">
-            <h2>Lease Management</h2>
+            <h2>Task Delegation</h2>
 
+            <p class="text-left">
+                Create alerts for household maintenance, broadcast messages to your roommates, and make sure no one forgets
+                whose turn it is to take out the trash.
+                Automatically generate fair schedules and send text reminders.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<div class="banner bgTwo">
+    <h2>
+        Billing
+    </h2>
+</div>
+
+<div class="container">
+    <div class="row callout">
+        <div class="col-md-6 text-center">
+            <h2>Personal Billboards</h2>
+            <p class="text-left">
+                Split utility and grocery bills, automate payments, and keep track of debts.
+            </p>
+        </div>
+        <div class="col-md-6 text-center">
+            <h2>Lease Management</h2>
             <p class="text-left">
                 Set up automatic payments via Stripe integration &mdash; never miss rent again!
             </p>
         </div>
     </div>
+</div>
 
+<div class="banner bgThree">
+    <h2>
+        Connect Devices
+    </h2>
+    <p>
+        Control IoT devices from your web browser.
+    </p>
+</div>
+
+
+<div class="container">
+    <div class="row callout">
+        <div class="col-md-6 text-center">
+            <h2>Dashboards</h2>
+
+            <p class="text-left">
+                See the heartbeat of your house &mdash; view data from all modules in one place to see what needs doing
+                and statistics that devices are reporting.
+            </p>
+        </div>
+        <div class="col-md-6 text-center">
+
+            <h2>IoT Integration</h2>
+
+            <p class="text-left">
+                Connect your devices using <a href="http://scrymg.com">Scrymg</a> and command them online.
+                Aggregate and analyze data throughout your home.
+            </p>
+        </div>
     </div>
+</div>
 
 <div class="footerLight">
     <div class="container">
