@@ -1,0 +1,131 @@
+{% extends "head.html" %}
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row bezel">
+        <div class="col-sm-9">
+            <h1>
+                <a href="{{ url_for('billing_dashboard') }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
+                <i class="fa fa-money"></i>&nbsp;&nbsp;
+                Billing Admin
+            </h1>
+        </div>
+        <div class="col-sm-3 headroom">
+            <div class="text-right">
+                <a href="{{ url_for("logout") }}" class="btn btn-sm"><i class="fa fa-sign-out"></i></a>
+            </div>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <!-- Realistically, category will never be blank and we'll never default in 'info'
+                 (because the default Flask flash category is 'message'), but it's good style. -->
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>{{ message }}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="col-bezel">
+                <h2>Actions</h2>
+
+                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-paper-plane-o"></i>
+                 Generate Invoices</a>
+                <p>this will show a dialog where you can select which bills to include and what date to mark the invoice and for whom to generate the invoice</p>
+
+                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> Add Utility</a>
+                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> Add Shared Bill</a>
+            </div>
+
+            <div class="col-bezel">
+
+                <h2>Settings</h2>
+                <div class="bezelInnerContainer">
+                    <h3>Invoice Date Reminder</h3>
+                    <p>Date for due date reminders. You must still manually generate the invoice after confirming all
+                    charges are entered.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-8">
+            <div class="col-bezel">
+                <h2>People</h2>
+
+                <div class="bezelInnerContainer">
+                    <h3>Alex</h3>
+
+                    <p>
+                        <strong>Rent:</strong> $475
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-bezel">
+                <h2>Utilities</h2>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        Thing
+                    </div>
+                    <div class="col-md-4">
+                        Thing
+                    </div>
+                    <div class="col-md-4">
+                        Thing
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-bezel">
+                <h2>Shared Bills</h2>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        Thing
+                    </div>
+                    <div class="col-md-4">
+                        Thing
+                    </div>
+                    <div class="col-md-4">
+                        Thing
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

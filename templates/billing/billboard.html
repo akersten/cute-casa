@@ -1,0 +1,58 @@
+{% extends "head.html" %}
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row bezel">
+        <div class="col-sm-9">
+            <h1>
+                <a href="{{ url_for('billing_dashboard') }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
+                <i class="fa fa-thumb-tack"></i>&nbsp;&nbsp;
+                Billboard
+            </h1>
+        </div>
+        <div class="col-sm-3 headroom">
+            <div class="text-right">
+                <a href="{{ url_for("logout") }}" class="btn btn-sm"><i class="fa fa-sign-out"></i></a>
+            </div>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <!-- Realistically, category will never be blank and we'll never default in 'info'
+                 (because the default Flask flash category is 'message'), but it's good style. -->
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <p>{{ message }}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="col-bezel">
+                <h2>People</h2>
+
+                <div class="bezelInnerContainer">
+                    <h3>Alex</h3>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-7">
+<a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> </a>
+                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> Billsplit</a>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

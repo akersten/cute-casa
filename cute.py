@@ -281,6 +281,16 @@ def household_profile():
 #   Billing actions.
 # ######################################################################################################################
 
+@app.route('/billing/dashboard', methods=['GET'])
+def billing_dashboard():
+    shared.checkLogin()
+    return billing.dashboard()
+
+
+@app.route('/billing/admin', methods=['GET'])
+def billing_admin():
+    shared.checkLogin()
+    return billing.admin()
 
 @app.route('/billing/billsplit', methods=['GET', 'POST'])
 def billing_billsplit():
