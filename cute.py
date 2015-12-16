@@ -13,6 +13,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
 
 from src import shared
 from src import db
+from src import zdb
 from src import logger
 from src import enums
 from src.user import user
@@ -317,9 +318,9 @@ def admin_logviewer(after):
 # Final setup and initiation
 # ######################################################################################################################
 
+zdb.init();
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT)
-
 
 
 # #

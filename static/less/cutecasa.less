@@ -62,13 +62,17 @@ body {
     background-color: @background-lighter;
 }
 
-a {
-    outline: none !important;
+a, a:hover {
+    outline: none;
+    text-decoration: none;
 }
 
+p {
     a, a:visited {
         color: @flare;
     }
+}
+
 
     a:hover {
         color: @flare-light;

@@ -125,3 +125,25 @@ def select(householdId):
             shared.unsetHousehold()
 
         return render_template('household/select.html', households=households)
+
+
+# ######################################################################################################################
+# Household object representation
+# ######################################################################################################################
+
+import persistent
+
+class Household(persistent.Persistent):
+
+    def __init__(self, householdId, householdName, householdType):
+        # SQL properties
+        self.householdId = householdId
+        self.householdName = householdName
+        self.householdType = householdType
+
+        # Object properties
+        self.members = []
+
+    def addMember(self, member):
+        self.members
+
