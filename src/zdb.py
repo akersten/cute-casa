@@ -15,6 +15,8 @@ zdb = None
 root = None
 
 def bringup():
+    global zdb, root
+
     """
     Initialize the object database.
     :return:
@@ -35,6 +37,8 @@ def bringup():
 
 
 def teardown():
+    global zdb
+
     if not zdb is None:
         zdb.close()
 
@@ -43,6 +47,8 @@ def schemaCheckAndCreate():
     """
     Checks the root object for the presence of the expected BTrees and creates them if they do not exist.
     """
+    global zdb, root
+
     if zdb is None:
         logger.logSystem("Schema creation invoked without a database.", enums.e_system_log_event_level.crash)
     if root is None:

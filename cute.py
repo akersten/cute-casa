@@ -322,12 +322,11 @@ def admin_logviewer(after):
 def before_first_request():
     """
     When using the werkzeug reloader, main will run twice because we're being spawned in a subprocess. This causes
-    locking issues with zodb, so only initialize it when we're actually ready.
-    :return:
+    locking issues with zodb, so only initialize it when we're actually ready to process the first request.
     """
-    g.db = connect_db()
+    g.db = connect_db() # Connect to the SQL database to provide logging functionlaity.
 
-    #zdb.bringup()
+    zdb.bringup()
 
     db = getattr(g, 'db', None)
     if db is not None:
