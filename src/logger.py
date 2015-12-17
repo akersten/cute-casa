@@ -40,5 +40,4 @@ def logSystem(message, level=enums.e_system_log_event_level.info):
 
     if level is enums.e_system_log_event_level.crash:
         shared.hardstop()
-        #shared.shutdown()
 

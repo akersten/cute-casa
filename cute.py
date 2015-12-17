@@ -74,7 +74,6 @@ def connect_db():
 # Bringup and teardown
 @app.before_request
 def before_request():
-    logger.logSystem("Connecting DB for regular request.")
     g.db = connect_db()
 
 
@@ -327,14 +326,12 @@ def before_first_request():
     :return:
     """
     g.db = connect_db()
-    logger.logSystem("Connected db for first request.")
 
-    zdb.bringup()
+    #zdb.bringup()
 
-    logger.logSystem("Disconnecting first db.")
     db = getattr(g, 'db', None)
     if db is not None:
-        db.close()
+       db.close()
 
 
 if __name__ == '__main__':

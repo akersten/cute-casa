@@ -7,22 +7,22 @@
 from flask import abort, session, g, request
 import queries
 from src import db
-from src import logger
 from src import enums
+import src
 
 def softstop():
     """
     Initiate a regular shutdown through the Werkzeug shutdown hook. Existing requests will continue to completion.
     Locks and database will shut down gracefully according to the after_request handler.
     """
-    logger.logSystem('Attempting soft stop...', enums.e_system_log_event_level.warning)
+    src.logger.logSystem('--- Soft Stop Initiated ---', enums.e_system_log_event_level.warning)
 
     if request is None:
-        logger.logSystem('No request present, cannot soft stop.', enums.e_system_log_event_level.crash)
+        src.logger.logSystem('No request present, cannot soft stop.', enums.e_system_log_event_level.crash)
 
     k = request.environ.get('werkzeug.server.shutdown')
     if k is None:
-        logger.logSystem('Not running within the Werkzeug server, cannot soft stop.', enums.e_system_log_event_level.crash)
+        src.logger.logSystem('Not running within the Werkzeug server, cannot soft stop.', enums.e_system_log_event_level.crash)
 
     print('- Soft Stop -')
     k()
@@ -32,7 +32,7 @@ def hardstop():
     Try to shutdown as cleanly as possible, saving databases and things.
     :return:
     """
-    logger.logSystem('--- Hard Stop Initiated ---', enums.e_system_log_event_level.critical)
+    src.logger.logSystem('--- Hard Stop Initiated ---', enums.e_system_log_event_level.critical)
 
     if g is not None:
         db = getattr(g, 'db', None)
