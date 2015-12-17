@@ -40,6 +40,14 @@ ADMIN_LOG_INSERT = "INSERT INTO admin_log_events (blame, message, e_admin_log_ev
 ADMIN_LOG_GET = "SELECT * FROM admin_log_events ORDER BY id DESC LIMIT ?, ?"
 
 # ######################################################################################################################
+# System logging queries
+# ######################################################################################################################
+
+SYSTEM_LOG_INSERT = "INSERT INTO system_log_events (message, e_system_log_event_level) VALUES (?, ?)"
+SYSTEM_LOG_GET = "SELECT * FROM system_log_events ORDER BY id DESC LIMIT ?, ?"
+
+
+# ######################################################################################################################
 # User queries
 # ######################################################################################################################
 

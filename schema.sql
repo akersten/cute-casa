@@ -52,3 +52,16 @@ CREATE TABLE admin_log_events (
   message TEXT NOT NULL,
   FOREIGN KEY(blame) REFERENCES  users(id)
 );
+
+-- Table for the system log events.
+-- id: the event id.
+-- timestamp: when this event was raised.
+-- e_system_log_event_level: the criticality of the event.
+-- message: the event message.
+DROP TABLE IF EXISTS system_log_events;
+CREATE TABLE system_log_events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  timestamp INTEGER DEFAULT (DATETIME('now')),
+  e_system_log_event_level INTEGER NOT NULL,
+  message TEXT NOT NULL
+);

@@ -74,6 +74,7 @@ def connect_db():
 # Bringup and teardown
 @app.before_request
 def before_request():
+    logger.logSystem("Connecting DB for regular request.")
     g.db = connect_db()
 
 
@@ -318,7 +319,24 @@ def admin_logviewer(after):
 # Final setup and initiation
 # ######################################################################################################################
 
-zdb.init();
+@app.before_first_request
+def before_first_request():
+    """
+    When using the werkzeug reloader, main will run twice because we're being spawned in a subprocess. This causes
+    locking issues with zodb, so only initialize it when we're actually ready.
+    :return:
+    """
+    g.db = connect_db()
+    logger.logSystem("Connected db for first request.")
+
+    zdb.bringup()
+
+    logger.logSystem("Disconnecting first db.")
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.close()
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT)
 
