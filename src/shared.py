@@ -134,7 +134,7 @@ def getUserDisplayname(userId):
     :return: The display name for this user.
     """
     name = db.getValue('users', 'displayname', userId)
-    return name if name else 'System'
+    return name if name else 'System/Unknown User'
 
 
 def isCuteCasaAdmin(userId):
