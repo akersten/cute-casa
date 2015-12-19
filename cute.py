@@ -308,10 +308,10 @@ def admin_dashboard():
     shared.checkAdmin()
     return admin.dashboard()
 
-@app.route('/admin/logviewer/<after>', methods=['GET'])
-def admin_logviewer(after):
+@app.route('/admin/logviewer/<logname>/<after>', methods=['GET'])
+def admin_logviewer(logname, after):
     shared.checkAdmin()
-    return admin.logviewer(after)
+    return admin.logviewer(logname, after)
 
 
 # ######################################################################################################################

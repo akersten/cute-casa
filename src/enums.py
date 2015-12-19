@@ -28,12 +28,7 @@ class e_household_relation(IntEnum):
     member = 1
     admin = 2
 
-class e_admin_log_event_level(IntEnum):
-    info = 1
-    warning = 2
-    critical = 3
-
-class e_system_log_event_level(IntEnum):
+class e_log_event_level(IntEnum):
     info = 1
     warning = 2
     critical = 3

@@ -40,7 +40,7 @@ CREATE TABLE household_memberships (
 -- id: the event id.
 -- blame: the user who raised the log event.
 -- timestamp: when this event was raised.
--- e_admin_log_event_level: the criticality of this event
+-- e_log_event_level: the criticality of the event
 -- message: the event message
 --
 DROP TABLE IF EXISTS admin_log_events;
@@ -48,7 +48,7 @@ CREATE TABLE admin_log_events (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   blame INTEGER NOT NULL,
   timestamp INTEGER DEFAULT (DATETIME('now')),
-  e_admin_log_event_level INTEGER NOT NULL,
+  e_log_event_level INTEGER NOT NULL,
   message TEXT NOT NULL,
   FOREIGN KEY(blame) REFERENCES  users(id)
 );
@@ -56,12 +56,12 @@ CREATE TABLE admin_log_events (
 -- Table for the system log events.
 -- id: the event id.
 -- timestamp: when this event was raised.
--- e_system_log_event_level: the criticality of the event.
+-- e_log_event_level: the criticality of the event.
 -- message: the event message.
 DROP TABLE IF EXISTS system_log_events;
 CREATE TABLE system_log_events (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   timestamp INTEGER DEFAULT (DATETIME('now')),
-  e_system_log_event_level INTEGER NOT NULL,
+  e_log_event_level INTEGER NOT NULL,
   message TEXT NOT NULL
 );

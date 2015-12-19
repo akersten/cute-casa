@@ -41,9 +41,8 @@
                         <ul class="list-group">
                         {% for e in events %}
                             <li class="list-group-item">
-<!--                                <span class="label {{ {1: "label-default", 2: "label-warning", 3: "label-danger"}[e.e_admin_log_event_level] | default("") }}"> -->
-                                <span class="{{ {1: '', 2: 'highlight-light', 3: 'highlight-dark'}[e.e_admin_log_event_level] | default('') }}">
-                                    <i class="fa fa-fw {{ {1: 'fa-info', 2: 'fa-bell', 3: 'fa-exclamation'}[e.e_admin_log_event_level] | default('') }}"></i>
+                                <span class="{{ {1: '', 2: 'highlight-light', 3: 'highlight-dark', 4: 'highlight-dark'}[e.e_log_event_level] | default('') }}">
+                                    <i class="fa fa-fw {{ {1: 'fa-info', 2: 'fa-bell', 3: 'fa-exclamation', 4: 'fa-bug'}[e.e_log_event_level] | default('') }}"></i>
                                 </span>
                                 &nbsp;
                                 <strong>

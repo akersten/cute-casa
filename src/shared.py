@@ -15,14 +15,14 @@ def softstop():
     Initiate a regular shutdown through the Werkzeug shutdown hook. Existing requests will continue to completion.
     Locks and database will shut down gracefully according to the after_request handler.
     """
-    src.logger.logSystem('--- Soft Stop Initiated ---', enums.e_system_log_event_level.warning)
+    src.logger.logSystem('--- Soft Stop Initiated ---', enums.e_log_event_level.warning)
 
     if request is None:
-        src.logger.logSystem('No request present, cannot soft stop.', enums.e_system_log_event_level.crash)
+        src.logger.logSystem('No request present, cannot soft stop.', enums.e_log_event_level.crash)
 
     k = request.environ.get('werkzeug.server.shutdown')
     if k is None:
-        src.logger.logSystem('Not running within the Werkzeug server, cannot soft stop.', enums.e_system_log_event_level.crash)
+        src.logger.logSystem('Not running within the Werkzeug server, cannot soft stop.', enums.e_log_event_level.crash)
 
     print('- Soft Stop -')
     k()
@@ -32,7 +32,7 @@ def hardstop():
     Try to shutdown as cleanly as possible, saving databases and things.
     :return:
     """
-    src.logger.logSystem('--- Hard Stop Initiated ---', enums.e_system_log_event_level.critical)
+    src.logger.logSystem('--- Hard Stop Initiated ---', enums.e_log_event_level.critical)
 
     if g is not None:
         db = getattr(g, 'db', None)
@@ -134,7 +134,7 @@ def getUserDisplayname(userId):
     :return: The display name for this user.
     """
     name = db.getValue('users', 'displayname', userId)
-    return name if name else 'System/Unknown User'
+    return name if name else 'System'
 
 
 def isCuteCasaAdmin(userId):

@@ -50,9 +50,9 @@ def schemaCheckAndCreate():
     global zdb, root
 
     if zdb is None:
-        logger.logSystem("Schema creation invoked without a database.", enums.e_system_log_event_level.crash)
+        logger.logSystem("Schema creation invoked without a database.", enums.e_log_event_level.crash)
     if root is None:
-        logger.logSystem("Schema creation invoked without a root element.", enums.e_system_log_event_level.crash)
+        logger.logSystem("Schema creation invoked without a root element.", enums.e_log_event_level.crash)
 
 def getHousehold(householdId):
     """

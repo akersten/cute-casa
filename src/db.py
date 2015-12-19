@@ -10,6 +10,10 @@
 from flask import g, abort
 
 def query_db(query, args=(), one=False):
+    for s in args:
+        if len(str(s)) == 0:
+            return None # A blank parameter will always be "probably unsupported type" by sqlite3.
+
     cur = g.db.execute(query, args)
     rv = cur.fetchall()
     ret = [make_dicts(cur, row) for row in rv]

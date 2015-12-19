@@ -38,7 +38,8 @@
             <div class="col-bezel">
                 <h2>Tools</h2>
 
-                <a href="{{ url_for('admin_logviewer', after=0) }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> Logviewer</a>
+                <a href="{{ url_for('admin_logviewer', after=0, logname='admin') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> Admin Log</a>
+                <a href="{{ url_for('admin_logviewer', after=0, logname='system') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> System Log</a>
             </div>
         </div>
     </div>
