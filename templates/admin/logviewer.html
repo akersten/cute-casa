@@ -8,7 +8,7 @@
         <div class="col-sm-9">
             <h1>
                 <a href="{{ url_for("admin_dashboard") }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
-                <i class="fa fa-cubes"></i>&nbsp;&nbsp;
+                <i class="fa fa-eye"></i>&nbsp;&nbsp;
                 Logviewer
             </h1>
         </div>
@@ -36,7 +36,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-bezel">
-                <h2>Events</h2>
+                <h2>Events &ndash; {{ logname }}</h2>
+
                 <div class="bezelInnerContainer" style="overflow: hidden;">
                     {% if after != 0 %}
                         <a href="{{ url_for('admin_logviewer', logname=logname, after=prev) }}" class="btn btn-default">
@@ -51,23 +52,41 @@
                         </a>
                     {% endif %}
                 </div>
+
+
                 {% if events %}
                     <ul class="list-group">
                     {% for e in events %}
                         <li class="list-group-item">
-                            <span class="{{ {1: '', 2: 'highlight-light', 3: 'highlight-dark', 4: 'highlight-dark'}[e.e_log_event_level] | default('') }}">
-                                <i class="fa fa-fw {{ {1: 'fa-info', 2: 'fa-bell', 3: 'fa-exclamation', 4: 'fa-bug'}[e.e_log_event_level] | default('') }}"></i>
+                            <span class="{{ {1: '', 2: 'flare-light', 3: 'flare-dark', 4: 'flare-dark'}[e.e_log_event_level] | default('') }}">
+                                <i class="fa fa-fw {{ {1: 'fa-info', 2: 'fa-exclamation', 3: 'fa-exclamation-circle', 4: 'fa-bug'}[e.e_log_event_level] | default('') }}"></i>
                             </span>
                             &nbsp;
                             <strong>
                                 {{ e.message }}
                             </strong>
-                            <br />
-                            <em>Caused by <strong>{{ getUserDisplayname(e.blame) }}</strong> at <strong>{{ e.timestamp }}</strong></em>
+                            <span class="pull-right">
+                                <em>Caused by <strong>{{ getUserDisplayname(e.blame) }}</strong> at <strong>{{ e.timestamp }}</strong></em>
+                            </span>
                         </li>
                     {% endfor %}
                     </ul>
                 {% endif %}
+
+                <div class="bezelInnerContainer" style="overflow: hidden;">
+                    {% if after != 0 %}
+                        <a href="{{ url_for('admin_logviewer', logname=logname, after=prev) }}" class="btn btn-default">
+                            <i class="fa fa-fw fa-chevron-left"></i>
+                            Newer {{ after - prev }}
+                        </a>
+                    {% endif %}
+                    {% if events|length == 50 %}
+                        <a href="{{ url_for('admin_logviewer', logname=logname, after=next) }}" class="btn btn-default pull-right">
+                            Older {{ next - after }}
+                            <i class="fa fa-fw fa-chevron-right"></i>
+                        </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

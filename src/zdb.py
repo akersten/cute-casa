@@ -3,7 +3,7 @@
 #
 # ######################################################################################################################
 
-import ZODB, ZODB.FileStorage, BTrees
+import ZODB, ZODB.FileStorage, BTrees.OOBTree, transaction
 from src.household import household
 
 from src import logger
@@ -29,11 +29,6 @@ def bringup():
     root = connection.root
 
     schemaCheckAndCreate()
-    if not hasattr(root, 'households'):
-        logger.logSystem("")
-        root.households = "yes"
-    else:
-        print("Root households is " + root.households)
 
 
 def teardown():
@@ -53,6 +48,23 @@ def schemaCheckAndCreate():
         logger.logSystem("Schema creation invoked without a database.", enums.e_log_event_level.crash)
     if root is None:
         logger.logSystem("Schema creation invoked without a root element.", enums.e_log_event_level.crash)
+
+
+    if not hasattr(root, 'globalSettings'):
+        logger.logSystem('Creating default global settings.')
+        #TODO
+    else:
+        logger.logSystem('Using existing global settings.')
+        #TODO
+
+
+    if not hasattr(root, 'households'):
+        logger.logSystem('Creating household collection...')
+        root.households = BTrees.OOBTree.BTree()
+    else:
+        logger.logSystem('Household collection exists, it is: ' + root.households)
+
+    transaction.commit()
 
 def getHousehold(householdId):
     """

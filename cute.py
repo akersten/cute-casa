@@ -314,6 +314,12 @@ def admin_logviewer(logname, after):
     return admin.logviewer(logname, after)
 
 
+@app.route('/admin/styletest', methods=['GET'])
+def admin_styletest():
+    shared.checkAdmin()
+    return admin.styletest()
+
+
 # ######################################################################################################################
 # Final setup and initiation
 # ######################################################################################################################
@@ -324,8 +330,9 @@ def before_first_request():
     When using the werkzeug reloader, main will run twice because we're being spawned in a subprocess. This causes
     locking issues with zodb, so only initialize it when we're actually ready to process the first request.
     """
-    g.db = connect_db() # Connect to the SQL database to provide logging functionlaity.
+    g.db = connect_db() # Connect to the SQL database to provide logging functionality.
 
+    logger.logSystem("First request received, initializing.")
     zdb.bringup()
 
     db = getattr(g, 'db', None)

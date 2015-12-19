@@ -21,13 +21,20 @@ def logviewer(logname, after):
     The admin log viewer shows administrative events. Render the logviewer.
     :return: The render template.
     """
-    logger.logAdmin("Logviewer accessed.", session['id'], enums.e_log_event_level.warning)
+    logger.logAdmin('Logviewer (' + logname + ') accessed.', session['id'], enums.e_log_event_level.warning)
     return render_template('admin/logviewer.html', events=getEvents(logname, after, 50),
                                                     getUserDisplayname=lambda n: shared.getUserDisplayname(n),
                                                     logname=logname,
                                                     after=int(after),
                                                     next=int(after)+50,
                                                     prev=max(int(after)-50, 0))
+
+def styletest():
+    """
+    A page with all of our styles in one place to test how things look.
+    :return: The render template.
+    """
+    return render_template('admin/styletest.html')
 
 def getEvents(logname, after, count):
     """
@@ -42,3 +49,11 @@ def getEvents(logname, after, count):
         return db.query_db(queries.ADMIN_LOG_GET, [after, count])
     else:
         return None
+
+
+
+class globalSettings():
+
+    def __init__(self):
+        pass
+

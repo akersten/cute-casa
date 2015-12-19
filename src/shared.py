@@ -27,6 +27,9 @@ def softstop():
     print('- Soft Stop -')
     k()
 
+    abort(500, "CuteCasa - Critical Error, Soft Stop")
+
+
 def hardstop():
     """
     Try to shutdown as cleanly as possible, saving databases and things.
@@ -38,6 +41,10 @@ def hardstop():
         db = getattr(g, 'db', None)
         if db is not None:
             db.close()
+
+    if request is not None:
+        k = request.environ.get('werkzeug.server.shutdown')
+        k()
 
     print('--- Hard Stop ---')
     raise SystemExit(0)
