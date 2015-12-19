@@ -22,7 +22,12 @@ def logviewer(logname, after):
     :return: The render template.
     """
     logger.logAdmin("Logviewer accessed.", session['id'], enums.e_log_event_level.warning)
-    return render_template('admin/logviewer.html', events=getEvents(logname, after, 50), getUserDisplayname=lambda n: shared.getUserDisplayname(n))
+    return render_template('admin/logviewer.html', events=getEvents(logname, after, 50),
+                                                    getUserDisplayname=lambda n: shared.getUserDisplayname(n),
+                                                    logname=logname,
+                                                    after=int(after),
+                                                    next=int(after)+50,
+                                                    prev=max(int(after)-50, 0))
 
 def getEvents(logname, after, count):
     """
