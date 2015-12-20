@@ -265,7 +265,6 @@ def user_profile():
 # ######################################################################################################################
 
 
-
 @app.route('/household/select/', methods=['GET'])
 @app.route('/household/select/<householdId>', methods=['GET'])
 def household_select(householdId=None):
@@ -277,6 +276,11 @@ def household_select(householdId=None):
 def household_profile():
     shared.checkLogin()
     return household.profile()
+
+@app.route('/household/search/<partial>', methods=['GET'])
+def household_search(partial):
+    shared.checkLogin()
+    return "aaaaa"
 
 # ######################################################################################################################
 #   Billing actions.

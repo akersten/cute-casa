@@ -96,7 +96,16 @@
                 <h2 class="modal-title">Request to Join a Household</h2>
             </div>
             <div class="modal-body">
-                
+                <div class="input-group">
+                    <span class="input-group-addon">Household name:</span>
+                    <input class="form-control" type="text" id="inputHouseholdSearch" oninput="rhiTypeAhead()" />
+                </div>
+
+                <br />
+
+                <div class="list-group" id="selectHouseholdList">
+
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
