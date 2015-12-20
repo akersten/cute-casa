@@ -7,53 +7,53 @@
     <div class="row bezel">
         <div class="col-sm-9">
             <h1>
-                <a href="{{ url_for("dashboard") }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
                 <i class="fa fa-money"></i>&nbsp;&nbsp;
                 Billing
             </h1>
         </div>
         <div class="col-sm-3 headroom">
             <div class="text-right">
-                <a href="{{ url_for("logout") }}" class="btn btn-sm"><i class="fa fa-sign-out"></i></a>
+                <a href="{{ url_for('logout') }}" class="btn btn-sm"><i class="fa fa-sign-out"></i></a>
             </div>
         </div>
     </div>
 
     {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            <!-- Realistically, category will never be blank and we'll never default in 'info'
-                 (because the default Flask flash category is 'message'), but it's good style. -->
-            {% for category, message in messages %}
+    {% if messages %}
+    <!-- Realistically, category will never be blank and we'll never default in 'info'
+         (because the default Flask flash category is 'message'), but it's good style. -->
+    {% for category, message in messages %}
 
-                <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <p>{{ message }}</p>
-            </div>
-            {% endfor %}
-        {% endif %}
+    <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+
+        <p>{{ message }}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
     {% endwith %}
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
 
-
-            <div class="col-bezel">
+            <div class="col-bezel cwxs-match-height">
                 <h2>Tools</h2>
-                <a href="{{ url_for('billing_admin') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> Admin</a>
-                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> Utilities</a>
-                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> Shared Bills</a>
-                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> IOU</a>
+                <a href="{{ url_for('billing_admin') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i
+                        class="fa fa-fw fa-eye"></i> Admin</a>
+                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i>
+                    Utilities</a>
+                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i>
+                    Shared Bills</a>
+                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i>
+                    IOU</a>
             </div>
-
-
-
         </div>
 
-
-
-        <div class="col-md-4">
-                        <div class="col-bezel">
+        <div class="col-md-3">
+            <div class="col-bezel cwxs-match-height">
                 <h2>Rent</h2>
+
                 <div class="bezelInnerContainer">
                     <p class="text-center">
                         <span class="highlight-light">
@@ -62,22 +62,36 @@
                     </p>
                 </div>
                 <p class="text-center">due on the 3rd.</p>
+                <hr/>
+                <p class="text-center">
+                    Rent is <span class="flare-light">$475</span> per month.
+                </p>
             </div>
+        </div>
 
-            <div class="col-bezel">
+        <div class="col-md-3">
+            <div class="col-bezel cwxs-match-height">
                 <h2>Utilities</h2>
+
                 <div class="bezelInnerContainer">
                     <p class="text-center">
                         <span class="highlight-light">
-                            $126.13
+                            &mdash; &mdash; &mdash;
                         </span>
                     </p>
                 </div>
-                <p class="text-center">on average.</p>
+                <p class="text-center">Paid in full.</p>
+                <hr/>
+                <p class="text-center">
+                    <span class="flare-light">$142.10</span> yearly average.
+                </p>
             </div>
+        </div>
 
-            <div class="col-bezel">
+        <div class="col-md-3">
+            <div class="col-bezel cwxs-match-height">
                 <h2>Shared Bills</h2>
+
                 <div class="bezelInnerContainer">
                     <p class="text-center">
                         <span class="highlight-light">
@@ -87,21 +101,376 @@
                 </div>
                 <p class="text-center">so far.</p>
             </div>
-
         </div>
 
-        <div class="col-md-4">
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-bezel">
+                <h2>Billboard</h2>
 
+                <table class="table table-responsive">
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th>
+                            Alex
+                        </th>
+                        <th>
+                            David
+                        </th>
+                        <th>
+                            Wendy
+                        </th>
+                        <th>
+                            Lindsay
+                        </th>
+                        <th>
+                            Kenneth
+                        </th>
+                        <th>
+                            Sam
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Alex
+                        </th>
+                        <td>
+
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <a href="#" class="btn btn-block btn-primary">
+                                    IOU
+                                </a>
+                                <p class="text-center">
+                                    <span class="highlight-light">
+                                        $500
+                                    </span>
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <a href="#" class="btn btn-block btn-primary">
+                                    IOU
+                                </a>
+                                <p class="text-center">
+                                    <span class="highlight-light">
+                                        $500
+                                    </span>
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <a href="#" class="btn btn-block btn-primary">
+                                    IOU
+                                </a>
+                                <p class="text-center">
+                                    <span class="highlight-light">
+                                        $500
+                                    </span>
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <a href="#" class="btn btn-block btn-primary">
+                                    IOU
+                                </a>
+                                <p class="text-center">
+                                    <span class="highlight-light">
+                                        $500
+                                    </span>
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <a href="#" class="btn btn-block btn-primary">
+                                    IOU
+                                </a>
+                                <p class="text-center">
+                                    <span class="highlight-light">
+                                        $500
+                                    </span>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            David
+                        </th>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <a href="#" class="btn btn-block btn-default">YOM</a>
+                                <p class="text-center">
+                                    <span class="highlight-dark">
+                                        $60
+                                    </span>
+                                </p>
+                                <a href="#" class="btn btn-block btn-default">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $14
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $50
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Wendy
+                        </th>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <a href="#" class="btn btn-block btn-default">YOM</a>
+                                <p class="text-center">
+                                    <span class="highlight-dark">
+                                        $60
+                                    </span>
+                                </p>
+                                <a href="#" class="btn btn-block btn-default">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Lindsay
+                        </th>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <a href="#" class="btn btn-block btn-default">YOM</a>
+                                <p class="text-center">
+                                    <span class="highlight-dark">
+                                        $60
+                                    </span>
+                                </p>
+                                <a href="#" class="btn btn-block btn-default">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $14
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Kenneth
+                        </th>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <a href="#" class="btn btn-block btn-default">YOM</a>
+                                <p class="text-center">
+                                    <span class="highlight-dark">
+                                        $60
+                                    </span>
+                                </p>
+                                <a href="#" class="btn btn-block btn-default">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $14
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $0
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Sam
+                        </th>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <a href="#" class="btn btn-block btn-default">YOM</a>
+                                <p class="text-center">
+                                    <span class="highlight-dark">
+                                        $60
+                                    </span>
+                                </p>
+                                <a href="#" class="btn btn-block btn-default">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $900
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $900
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $900
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bezelInnerContainer">
+                                <p class="text-center">
+                                    $900
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="col-bezel">
                 <h2>Invoices</h2>
 
                 <div class="list-group">
                     <a href="#" class="list-group-item">
-                        <span class="badge">
-                            $500
-                        </span>
+                    <span class="badge">
+                        $500
+                    </span>
 
                         <h4 class="list-group-item-heading">Due in 3 days.</h4>
+
                         <p class="list-group-item-text">
                             July 3
                         </p>
@@ -110,24 +479,22 @@
 
 
 
-                        <span class="badge">
-                            $500
-                        </span>
+                    <span class="badge">
+                        $500
+                    </span>
                         July 3
                     </a>
                     <a href="#" class="list-group-item list-group-item-success">
-                        <span class="badge">
-                            $500
-                        </span>
+                    <span class="badge">
+                        $500
+                    </span>
                         July 3
                     </a>
 
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
 
 {% endblock %}

@@ -10,8 +10,9 @@
 
 @master-title: #554444;
 @master-copy: @black;
-@master-background: #e8dfdf;
-@master-flare: #cc2222;
+//#@master-background: #dfe8df;
+@master-background: #dfdfdf;
+@master-flare: #5e5e9e;
 
 @background-light: @master-background;
 @background-lighter: lighten(@background-light, 3%);
@@ -67,20 +68,25 @@ a, a:hover {
     text-decoration: none;
 }
 
+a, a:visited {
+  color: @flare;
+}
+
+a.btn-default, a.btn-default:visited {
+  color: @black;
+}
+
+a.btn-primary {
+        color: @white;
+    }
+
 p {
-    a, a:visited {
-        color: @flare;
+    a:hover {
+        color: @flare-light;
     }
 }
 
 
-    a:hover {
-        color: @flare-light;
-    }
-
-    a.btn-primary {
-        color: @white;
-    }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: "Lily Script One", cursive;

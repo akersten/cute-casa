@@ -39,8 +39,10 @@
             <div class="col-bezel">
                 <h2>Actions</h2>
 
-                <a href="#" class="btn btn-lg btn-primary btn-block btn-text-left"><i class="fa fa-fw fa-paper-plane-o"></i>
-                 Generate Invoices</a>
+                <a href="#" class="btn btn-lg btn-primary btn-block btn-text-left" onclick="showGenerateInvoice()">
+                    <i class="fa fa-fw fa-paper-plane-o"></i>
+                    Generate Invoices
+                </a>
                 <p>this will show a dialog where you can select which bills to include and what date to mark the invoice and for whom to generate the invoice</p>
 
                 <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i> Add Utility</a>
@@ -133,4 +135,69 @@
 
 </div>
 
-{% endblock %}
+
+
+<!--
+ Modal dialog for generating an invoice.
+-->
+<div id="generateInvoiceModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title">Generate Invoice</h2>
+            </div>
+            <div class="modal-body">
+                <p>Invocie date</p>
+
+                <h3>Bills to include</h3>
+                <table>
+                    <tr>
+                        <th>Include?</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Owner</th>
+                        <th>Issued</th>
+                        <th>Due</th>
+                    </tr>
+                    <tr>
+                        <td>[]</td>
+                        <td><i class="fa fa-fw fa-money"></i></td>
+                        <td>Rent</td>
+                        <td>$475.00</td>
+                        <td><i class="fa fa-user"></i>Alex</td>
+                        <td>4/5/15</td>
+                        <td>5/5/15</td>
+                    </tr>
+                    <tr>
+                        <td>[]</td>
+                        <td><i class="fa fa-fw fa-money"></i></td>
+                        <td>Gas</td>
+                        <td>$475.00</td>
+                        <td><i class="fa fa-user"></i>Alex</td>
+                        <td>4/5/15</td>
+                        <td>5/5/15</td>
+                    </tr>
+                    <tr>
+                        <td>[]</td>
+                        <td><i class="fa fa-fw fa-money"></i></td>
+                        <td>Rent</td>
+                        <td>$475.00</td>
+                        <td><i class="fa fa-user"></i>Alex</td>
+                        <td>4/5/15</td>
+                        <td>5/5/15</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/admin/generateInvoice.js') }}"></script>
+
+{% endblock %}*
