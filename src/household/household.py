@@ -93,7 +93,11 @@ def profile():
         return redirect(url_for('dashboard'))
     else:
         # The template logic should handle checking if we have selected a household or not.
-        return render_template('household/profile.html')
+        users = None
+        if session.get('householdId'):
+            users = shared.getUsersForHousehold(session['householdId'])
+
+        return render_template('household/profile.html', users=users)
 
 
 def select(householdId):

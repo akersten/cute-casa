@@ -90,6 +90,18 @@ def getHouseholdsForUser(userId):
     """
     return db.query_db(queries.USER_GET_HOUSEHOLDS, [userId,])
 
+def getUsersForHousehold(householdId):
+    """
+    Returns a list of users for a given household. Keys in each dictionary within the returned list are:
+        * id
+        * displayname
+        * membership_date
+        * e_household_relation
+    :param householdId:
+    :return: A list of users for the household.
+    """
+    return db.query_db(queries.HOUSEHOLD_GET_USERS, [householdId,])
+
 def setHousehold(householdId):
     """
     Set the current household for this session. Checks the validity of the household as well as the membership of the
@@ -142,7 +154,6 @@ def getUserDisplayname(userId):
     """
     name = db.getValue('users', 'displayname', userId)
     return name if name else 'System'
-
 
 def isCuteCasaAdmin(userId):
     """

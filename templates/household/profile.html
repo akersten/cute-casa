@@ -99,40 +99,27 @@
                 </form>
 
                     {% if session['householdName'] %}
-                        <h3>Members</h3>
+                        {% if users %}
+                            <h3>Members</h3>
 
-                        <table class="table table-hover">
-                            <tr>
-                                <th>User</th>
-                                <th>Relationship</th>
-                                <th>Since</th>
-                                <th class="text-right">Actions</th>
-                            </tr>
-                            <tr>
-                                <td>Name</td>
-                                <td>Member</td>
-                                <td>January</td>
-                                <td class="text-right">
-                                    <a href="#" class="btn btn-xs btn-default">Profile</a>
-                                    <a href="#" class="btn btn-xs btn-default">Remove</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Name</td>
-                                <td>Member</td>
-                                <td>January</td>
-                            </tr>
-                            <tr>
-                                <td>Name</td>
-                                <td>Member</td>
-                                <td>January</td>
-                            </tr>
-                            <tr>
-                                <td>Name</td>
-                                <td>Member</td>
-                                <td>January</td>
-                            </tr>
-                        </table>
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>User</th>
+                                    <th>Relationship</th>
+                                    <th>Since</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+
+                                {% for u in users %}
+                                <tr>
+                                    <td>{{ u.displayname }}</td>
+                                    <td>{{ {1: 'Member', 2: 'Admin'}[u.e_household_relation] | default('Unknown') }}</td>
+                                    <td>{{ u.membership_date }}</td>
+                                    <td>Actions</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
                     {% endif %}
 
 
