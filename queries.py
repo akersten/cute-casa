@@ -38,6 +38,8 @@ HOUSEHOLD_GET_USERS = "SELECT users.id as id," \
                       " FROM users INNER JOIN household_memberships ON users.id=household_memberships.user" \
                       " WHERE household_memberships.household=?"
 
+HOUSEHOLD_SEARCH = "SELECT id, household_name, e_household_type FROM households WHERE household_name LIKE ?"
+
 
 # ######################################################################################################################
 # Administrative logging queries

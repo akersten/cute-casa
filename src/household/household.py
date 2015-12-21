@@ -1,4 +1,4 @@
-from flask import flash, render_template, request, session, abort, redirect, url_for
+from flask import flash, render_template, request, session, abort, redirect, url_for, jsonify
 
 from src import db
 from src import enums
@@ -130,6 +130,25 @@ def select(householdId):
 
         return render_template('household/select.html', households=households)
 
+
+def search(partial):
+    """
+    Search for households containing the partial search.
+    :param partial:  The string to search for.
+    :return: The households JSON.
+    """
+    return jsonify(result=db.query_db(queries.HOUSEHOLD_SEARCH, ['%' + partial + '%', ]))
+
+def request(id):
+    """
+    Request to join this household.
+    :param id: The household to join.
+    :return: The parameter UR
+    """
+    # TODO: Validate id and check if we haven't already requested this house, or belong to it, etc.
+
+    flash('Requested to join household!', 'info')
+    return redirect(url_for('household_select'))
 
 # ######################################################################################################################
 # Household object representation

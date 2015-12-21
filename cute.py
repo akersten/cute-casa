@@ -277,10 +277,17 @@ def household_profile():
     shared.checkLogin()
     return household.profile()
 
+
 @app.route('/household/search/<partial>', methods=['GET'])
 def household_search(partial):
     shared.checkLogin()
-    return "aaaaa"
+    return household.search(partial)
+
+
+@app.route('/household/request/<id>')
+def household_request(id):
+    shared.checkLogin()
+    return household.request(id)
 
 # ######################################################################################################################
 #   Billing actions.
