@@ -139,16 +139,54 @@ def search(partial):
     """
     return jsonify(result=db.query_db(queries.HOUSEHOLD_SEARCH, ['%' + partial + '%', ]))
 
-def request(id):
+# NB: Don't name this just 'request' because it will alias the Flask request variable
+def household_request(householdId):
     """
     Request to join this household.
     :param id: The household to join.
     :return: The parameter UR
     """
-    # TODO: Validate id and check if we haven't already requested this house, or belong to it, etc.
+    # TODO: Validate ids.
+    currentRelation = shared.getHouseholdRelation(householdId, session['id'])
+
+    if not currentRelation is None:
+        flash('You have already requested to join that household, or you already belong to it.', 'warning')
+        return redirect(url_for('household_select'))
+
 
     flash('Requested to join household!', 'info')
+    db.post_db(queries.HOUSEHOLD_MEMBERSHIP_ADD, [session['id'], householdId, enums.e_household_relation.request])
+
     return redirect(url_for('household_select'))
+
+
+def household_approve(householdId, id):
+    """
+    Approve a user's request to join a certain household.
+    :param householdId: The household id to approve.
+    :param id: The user id to approve.
+    :return: The household profile view after allowing the request.
+    """
+    #TODO: Check that the logged in user is an admin of this household and that the target user actually requested this.
+
+    db.post_db(queries.HOUSEHOLD_MEMBERSHIP_UPDATE, [enums.e_household_relation.member, householdId, id])
+
+    flash('Approved user to join household.', 'info')
+    return redirect(url_for('household_profile'))
+
+def household_deny(householdId, id):
+    """
+    Deny a user's request to join a certain household.
+    :param householdId: The household id to deny.
+    :param id: The user id to deny.
+    :return: The household profile view after denying the request.
+    """
+    #TODO: Check that the logged in user is an admin of this household and that the target user actually requested this.
+
+    db.post_db(queries.HOUSEHOLD_MEMBERSHIP_REMOVE, [householdId, id])
+
+    flash('Denied user from joining household.', 'info')
+    return redirect(url_for('household_profile'))
 
 # ######################################################################################################################
 # Household object representation
@@ -168,5 +206,5 @@ class Household(persistent.Persistent):
         self.members = []
 
     def addMember(self, member):
-        self.members
+        pass
 

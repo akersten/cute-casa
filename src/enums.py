@@ -27,6 +27,7 @@ class e_household_type(IntEnum):
 class e_household_relation(IntEnum):
     member = 1
     admin = 2
+    request = 3
 
 class e_log_event_level(IntEnum):
     info = 1

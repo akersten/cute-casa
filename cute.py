@@ -202,6 +202,8 @@ def register():
             flash("That username is already in use.", 'danger')
             return render_template('register.html')
 
+        # TODO: Check unique email
+
         db.post_db(queries.REGISTER, [request.form['registerUsername'],
                                       request.form['registerUsername'],
                                       pwHash,
@@ -287,7 +289,19 @@ def household_search(partial):
 @app.route('/household/request/<id>')
 def household_request(id):
     shared.checkLogin()
-    return household.request(id)
+    return household.household_request(id)
+
+
+@app.route('/household/approve/<householdId>/<id>')
+def household_approve(householdId, id):
+    shared.checkLogin()
+    return household.household_approve(householdId, id)
+
+
+@app.route('/household/deny/<householdId>/<id>')
+def household_deny(householdId, id):
+    shared.checkLogin()
+    return household.household_deny(householdId, id)
 
 # ######################################################################################################################
 #   Billing actions.

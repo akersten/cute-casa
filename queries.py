@@ -19,7 +19,7 @@ HOUSEHOLD_UPDATE_HOUSEHOLDNAME = "UPDATE households SET household_name=? WHERE i
 HOUSEHOLD_UPDATE_HOUSEHOLDTYPE = "UPDATE households SET e_household_type=? WHERE id=?"
 
 HOUSEHOLD_CREATE = "INSERT INTO households(household_name, e_household_type) VALUES (?, ?)"
-
+HOUSEHOLD_SEARCH = "SELECT id, household_name, e_household_type FROM households WHERE household_name LIKE ?"
 
 
 # #
@@ -27,6 +27,9 @@ HOUSEHOLD_CREATE = "INSERT INTO households(household_name, e_household_type) VAL
 # #
 
 HOUSEHOLD_MEMBERSHIP_ADD = "INSERT INTO household_memberships(user, household, e_household_relation) VALUES (?, ?, ?)"
+HOUSEHOLD_MEMBERSHIP_UPDATE = "UPDATE household_memberships SET e_household_relation=? WHERE household=? AND user=?"
+HOUSEHOLD_MEMBERSHIP_REMOVE = "DELETE FROM household_memberships WHERE household=? AND user=?"
+
 HOUSEHOLD_MEMBERSHIP_GET_FOR_USER = "SELECT * FROM household_memberships WHERE user=?"
 HOUSEHOLD_MEMBERSHIP_GET_FOR_HOUSEHOLD = "SELECT * FROM household_memberships WHERE household=?"
 HOUSEHOLD_MEMBERSHIP_GET_FOR_USER_AND_HOUSEHOLD = "SELECT * FROM household_memberships WHERE user=? AND household=?"
@@ -38,7 +41,6 @@ HOUSEHOLD_GET_USERS = "SELECT users.id as id," \
                       " FROM users INNER JOIN household_memberships ON users.id=household_memberships.user" \
                       " WHERE household_memberships.household=?"
 
-HOUSEHOLD_SEARCH = "SELECT id, household_name, e_household_type FROM households WHERE household_name LIKE ?"
 
 
 # ######################################################################################################################
@@ -60,7 +62,7 @@ SYSTEM_LOG_GET = "SELECT * FROM system_log_events ORDER BY id DESC LIMIT ?, ?"
 # User queries
 # ######################################################################################################################
 
-USER_GET_HOUSEHOLDS = "SELECT households.id, households.household_name, households.e_household_type," \
+USER_GET_HOUSEHOLDS_NO_REQUESTS = "SELECT households.id, households.household_name, households.e_household_type," \
                       " household_memberships.e_household_relation" \
                       " FROM households INNER JOIN household_memberships ON households.id=household_memberships.household" \
-                      " WHERE household_memberships.user=?"
+                      " WHERE household_memberships.user=? AND household_memberships.e_household_relation<>3"

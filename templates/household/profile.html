@@ -110,12 +110,25 @@
                                     <th class="text-right">Actions</th>
                                 </tr>
 
+                                <!-- TODO: Can only the admin see this page? -->
                                 {% for u in users %}
                                 <tr>
                                     <td>{{ u.displayname }}</td>
-                                    <td>{{ {1: 'Member', 2: 'Admin'}[u.e_household_relation] | default('Unknown') }}</td>
+                                    <td>{{ {1: 'Member', 2: 'Admin', 3: 'Request'}[u.e_household_relation] | default('Unknown') }}</td>
                                     <td>{{ u.membership_date }}</td>
-                                    <td>Actions</td>
+                                    <td>
+                                        <!-- TODO: Style this better -->
+                                        {% if u.e_household_relation==3 %}
+                                            <a href="{{ url_for('household_approve', householdId=session['householdId'], id=u.id) }}"
+                                               class="btn btn-default">
+                                                Approve User
+                                            </a>
+                                            <a href="{{ url_for('household_deny', householdId=session['householdId'], id=u.id) }}"
+                                               class="btn btn-default">
+                                                Deny User
+                                            </a>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </table>
