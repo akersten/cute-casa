@@ -167,7 +167,8 @@ def household_approve(householdId, id):
     :param id: The user id to approve.
     :return: The household profile view after allowing the request.
     """
-    #TODO: Check that the logged in user is an admin of this household and that the target user actually requested this.
+    #TODO: Check that the logged in user is an admin of this household and that the target user actually requested this,
+    #TODO: That is, the target user must be in the memberships db with the correct relation (3)
 
     db.post_db(queries.HOUSEHOLD_MEMBERSHIP_UPDATE, [enums.e_household_relation.member, householdId, id])
 
@@ -176,16 +177,17 @@ def household_approve(householdId, id):
 
 def household_deny(householdId, id):
     """
-    Deny a user's request to join a certain household.
-    :param householdId: The household id to deny.
-    :param id: The user id to deny.
-    :return: The household profile view after denying the request.
+    Deny a user's request to join a certain household. Also used as a way to remove a user from a household.
+    :param householdId: The household id to deny or remove.
+    :param id: The user id to deny or remove.
+    :return: The household profile view after denying the request or removing the user.
     """
-    #TODO: Check that the logged in user is an admin of this household and that the target user actually requested this.
+    #TODO: Check that the logged in user is an admin of this household
+    #TODO: Check that we're not removing ourselves
 
     db.post_db(queries.HOUSEHOLD_MEMBERSHIP_REMOVE, [householdId, id])
 
-    flash('Denied user from joining household.', 'info')
+    flash('Removed user from household.', 'info')
     return redirect(url_for('household_profile'))
 
 # ######################################################################################################################

@@ -116,16 +116,20 @@
                                     <td>{{ u.displayname }}</td>
                                     <td>{{ {1: 'Member', 2: 'Admin', 3: 'Request'}[u.e_household_relation] | default('Unknown') }}</td>
                                     <td>{{ u.membership_date }}</td>
-                                    <td>
+                                    <td class="text-right">
                                         <!-- TODO: Style this better -->
                                         {% if u.e_household_relation==3 %}
                                             <a href="{{ url_for('household_approve', householdId=session['householdId'], id=u.id) }}"
                                                class="btn btn-default">
-                                                Approve User
+                                                Approve Request
                                             </a>
                                             <a href="{{ url_for('household_deny', householdId=session['householdId'], id=u.id) }}"
-                                               class="btn btn-default">
-                                                Deny User
+                                               class="btn btn-danger">
+                                                Deny Request
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ url_for('household_deny', householdId=session['householdId'], id=u.id) }}">
+                                               Remove
                                             </a>
                                         {% endif %}
                                     </td>
