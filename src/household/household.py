@@ -139,7 +139,7 @@ def search(partial):
     """
     return jsonify(result=db.query_db(queries.HOUSEHOLD_SEARCH, ['%' + partial + '%', ]))
 
-# NB: Don't name this just 'request' because it will alias the Flask request variable
+# Don't name this just 'request' because it will alias the Flask request variable
 def household_request(householdId):
     """
     Request to join this household.
