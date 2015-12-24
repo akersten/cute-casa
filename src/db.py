@@ -30,7 +30,7 @@ def post_db(query, args=()):
     cur.close()
 
 
-ALLOWED_DYNAMIC_TABLES = ["users", "households", "household_memberships", "admin_log_events"]
+ALLOWED_DYNAMIC_TABLES = ["users", "households", "household_memberships", "admin_log_events", "system_log_events"]
 
 
 def cleanTable(table):
