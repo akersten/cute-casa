@@ -66,19 +66,18 @@ def schemaCheckAndCreate():
 
     transaction.commit()
 
+
+
 def getHousehold(householdId):
     """
     Get a household from the database.
-    :param householdId:
-    :return:
+    :param householdId: The household id to retrieve.
+    :return: A household object corresponding to this id.
     """
 
-
-def createHousehold(householdId, householdName, householdType):
+def createHousehold(householdId):
     """
     Create a household and add it to the database.
-    :param householdId:
-    :param householdName:
-    :param householdType:
-    :return:
+    :param householdId: The household to create.
+    :return: A handle to the household.
     """

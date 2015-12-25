@@ -51,3 +51,14 @@ def profile():
         return redirect(url_for('dashboard'))
     else:
         return render_template('user/profile.html')
+
+# ######################################################################################################################
+# User object representation
+# ######################################################################################################################
+
+import persistent
+
+class User(persistent.Persistent):
+
+    def __init__():
+        pass
