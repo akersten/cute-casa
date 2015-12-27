@@ -6,7 +6,7 @@ See the splash page at [http://cute.casa](http://cute.casa).
 ## Overview
 
 CuteCasa is a self-hosted house administration system. Through online dashboards, you can control every aspect of your
-IoT-enabled house, draw floorplans, manage rent, delegate tasks, and more.
+IoT-enabled house, manage rent, delegate tasks, and more.
 
 ## Technologies
 
