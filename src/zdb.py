@@ -29,10 +29,12 @@ class Zdb():
 
         storage = ZODB.FileStorage.FileStorage(dbPath) # usually 'secret/cute.zdb'
         self.zdb = ZODB.DB(storage)
-        connection = zdb.open()
+        connection = self.zdb.open()
         self.root = connection.root
 
         self.schemaCheckAndCreate()
+
+        logger.logSystem("... ZODB bringup finished.")
 
 
     def teardown(self):
@@ -52,17 +54,15 @@ class Zdb():
 
         if not hasattr(self.root, 'globalSettings'):
             logger.logSystem('Creating default global settings.')
-            #TODO
+            #TODO: Create default global settings
         else:
-            logger.logSystem('Using existing global settings.')
-            #TODO
+            #TODO: Use existing global settings
+            pass
 
 
         if not hasattr(self.root, 'households'):
             logger.logSystem('Creating household collection...')
             self.root.households = BTrees.OOBTree.BTree()
-        else:
-            logger.logSystem('Household collection exists, it is: ' + self.root.households)
 
         transaction.commit()
 
@@ -74,6 +74,10 @@ class Zdb():
         :param householdId: The household id to retrieve.
         :return: A household object corresponding to this id.
         """
+        try:
+            return self.root.households['householdId']
+        except KeyError:
+            return None
 
     def createHousehold(self, householdId):
         """

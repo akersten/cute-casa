@@ -7,11 +7,15 @@
 from flask import abort, request
 
 import queries
+from os import environ
 from src import enums
 from src import db
 from src import shared
 
 def logAdmin(message, user, level=enums.e_log_event_level.info):
+    if environ.get('CUTECASA_TEST'):
+        return
+    
     if not enums.contains(enums.e_log_event_level, level):
         abort(500, "error level not allowed: " + str(level))
 
@@ -25,6 +29,9 @@ def logSystem(message, level=enums.e_log_event_level.info):
     :param level:
     :return:
     """
+    if environ.get('CUTECASA_TEST'):
+        return
+
     if not enums.contains(enums.e_log_event_level, level):
         abort(500, "event level not allowed: " + str(level))
 
