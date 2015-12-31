@@ -18,6 +18,10 @@ class zdbHouseholdTests(unittest.TestCase):
     def test_addDuplicateHousehold(self):
         pass
 
+    def test_getHouseholdBasic(self):
+        """Just creates a household and gets it back, a basic test."""
+        pass
+    
     def test_HouseholdCreatedIsHouseholdRetrieved(self):
         """A household created in the database must be able to be looked up with the returned object handle."""
 
