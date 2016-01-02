@@ -2,7 +2,8 @@ import unittest
 
 from src import zdb
 
-class zdbHouseholdTests(unittest.TestCase):
+
+class Tests_zdb_household(unittest.TestCase):
 
     def setUp(self):
         self.z = zdb.Zdb('secret/tests.zdb')
@@ -10,22 +11,48 @@ class zdbHouseholdTests(unittest.TestCase):
     def tearDown(self):
         self.z.teardown()
 
-    def test_getInvalidHouseholdIsNone(self):
-        """Test getHousehold."""
-        self.assertTrue(self.z.getHousehold(None) is None, "An invalid value passed to getHousehold returns None.")
-        self.assertTrue(self.z.getHousehold('invalid val') is None, "An invalid value passed to getHousehold returns None.")
+    def test_createHousehold_invalidId(self):
+        """Households with a blank ID should not be allowed to be created."""
 
-    def test_addDuplicateHousehold(self):
-        pass
+        with self.assertRaises(ValueError, 'A household cannot have an id of length zero.'):
+            self.z.createHousehold('')
+        with self.assertRaises(ValueError, 'A household cannot have an id of None.'):
+            self.z.createHousehold(None)
 
-    def test_getHouseholdBasic(self):
-        """Just creates a household and gets it back, a basic test."""
+
+    def test_createHousehold_single(self):
+        """A household created in the database should have a reference returned from the creation method."""
+
         h = self.z.createHousehold("testHousehold")
         self.assertTrue(self.z.getHousehold("testHousehold") is not None, "No household came back from the database.")
         self.assertTrue(self.z.getHousehold("testHousehold") is h, "Household comparison failed.")
-        pass
 
-    def test_getHouseholdAdvanced(self):
+
+    def test_createHousehold_multiple(self):
+        """A household created in the database must be able to be looked up with the returned object handle."""
+
+        house1 = self.z.createHousehold(42)
+        house2 = self.z.createHousehold(41)
+        self.assertTrue(house1 is not None, "Household returned from createHousehold was None.")
+        self.assertTrue(house2 is not None, "Household returned from createHousehold was None.")
+        self.assertTrue(house1 is self.z.getHousehold(42))
+        self.assertTrue(house2 is self.z.getHousehold(41))
+
+    def test_createHousehold_duplicateHousehold(self):
+        self.z.createHousehold('dupe')
+
+        with self.assertRaises(zdb.DuplicateRecordException, "A DuplicateRecordException should be raised when adding a"
+                                                             " household with a duplicate ID."):
+            self.z.createHousehold('dupe')
+
+
+    def test_getHousehold_invalidId(self):
+        """Test getting households with invalid Ids."""
+        self.assertTrue(self.z.getHousehold(None) is None, "An invalid value passed to getHousehold returns None.")
+        self.assertTrue(self.z.getHousehold('') is None, "An invalid value passed to getHousehold returns None.")
+        self.assertTrue(self.z.getHousehold('invalid') is None, "An invalid value passed to getHousehold returns None.")
+
+    def test_getHousehold_multiple(self):
         """No househould should be returned for an invalid index, households should not be transposed."""
         h1 = self.z.createHousehold("h1")
         h2 = self.z.createHousehold("h2")
@@ -44,18 +71,6 @@ class zdbHouseholdTests(unittest.TestCase):
         self.assertTrue(self.z.getHousehold('h3') is h3)
 
         self.assertTrue(self.z.getHousehold('bogus') is None)
-
-
-    def test_HouseholdCreatedIsHouseholdRetrieved(self):
-        """A household created in the database must be able to be looked up with the returned object handle."""
-
-        # householdID not important, pick whatever constants you like.
-        house1 = self.z.createHousehold(42)
-        house2 = self.z.createHousehold(41)
-        self.assertTrue(house1 is not None, "Household returned from createHousehold was None.")
-        self.assertTrue(house2 is not None, "Household returned from createHousehold was None.")
-        self.assertTrue(house1 is self.z.getHousehold(42))
-        self.assertTrue(house2 is self.z.getHousehold(41))
 
 
 if __name__ == '__main__':
