@@ -13,8 +13,6 @@ from src import enums
 # The zdb database reference and root element..
 class Zdb():
 
-
-
     def __init__(self, dbPath):
         self.zdb = None
         self.root = None
