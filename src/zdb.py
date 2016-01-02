@@ -76,6 +76,9 @@ class Zdb():
         :param householdId: The household id to retrieve.
         :return: A household object corresponding to this id.
         """
+        if householdId is None:
+            return None
+
         try:
             return self.root.households[householdId]
         except KeyError:
@@ -84,9 +87,15 @@ class Zdb():
     def createHousehold(self, householdId):
         """
         Create a household and add it to the database.
-        :param householdId: The household to create.
+        :param householdId: The household to create. A string id for the household.
         :return: A handle to the household.
         """
+        if not type(householdId) is str:
+            raise ValueError('A household id must be of str type.')
+
+        if len(householdId) == 0:
+            raise ValueError('A household id must be non-zero length.')
+
         if householdId in self.root.households:
             raise DuplicateRecordException("A household with this id already exists.")
 
