@@ -198,11 +198,9 @@ import persistent
 
 class Household(persistent.Persistent):
 
-    def __init__(self, householdId, householdName, householdType):
+    def __init__(self, householdId):
         # SQL properties
         self.householdId = householdId
-        self.householdName = householdName
-        self.householdType = householdType
 
         # Object properties
         self.members = []

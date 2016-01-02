@@ -12,17 +12,17 @@ class Tests_zdb_household(unittest.TestCase):
         self.z.teardown()
 
     def test_createHousehold_invalidId(self):
-        """Households with a blank ID should not be allowed to be created."""
-
-        with self.assertRaises(ValueError, 'A household cannot have an id of length zero.'):
+        """Households with a blank id or non-string id should not be allowed to be created."""
+        with self.assertRaises(ValueError):
             self.z.createHousehold('')
-        with self.assertRaises(ValueError, 'A household cannot have an id of None.'):
+        with self.assertRaises(ValueError):
             self.z.createHousehold(None)
+        with self.assertRaises(ValueError):
+            self.z.createHousehold(1738)
 
 
     def test_createHousehold_single(self):
         """A household created in the database should have a reference returned from the creation method."""
-
         h = self.z.createHousehold("testHousehold")
         self.assertTrue(self.z.getHousehold("testHousehold") is not None, "No household came back from the database.")
         self.assertTrue(self.z.getHousehold("testHousehold") is h, "Household comparison failed.")
@@ -30,24 +30,23 @@ class Tests_zdb_household(unittest.TestCase):
 
     def test_createHousehold_multiple(self):
         """A household created in the database must be able to be looked up with the returned object handle."""
-
-        house1 = self.z.createHousehold(42)
-        house2 = self.z.createHousehold(41)
+        house1 = self.z.createHousehold('42')
+        house2 = self.z.createHousehold('41')
         self.assertTrue(house1 is not None, "Household returned from createHousehold was None.")
         self.assertTrue(house2 is not None, "Household returned from createHousehold was None.")
-        self.assertTrue(house1 is self.z.getHousehold(42))
-        self.assertTrue(house2 is self.z.getHousehold(41))
+        self.assertTrue(house1 is self.z.getHousehold('42'))
+        self.assertTrue(house2 is self.z.getHousehold('41'))
 
     def test_createHousehold_duplicateHousehold(self):
+        """Households should not be allowed to have the same id."""
         self.z.createHousehold('dupe')
 
-        with self.assertRaises(zdb.DuplicateRecordException, "A DuplicateRecordException should be raised when adding a"
-                                                             " household with a duplicate ID."):
+        with self.assertRaises(zdb.DuplicateRecordException):
             self.z.createHousehold('dupe')
 
 
     def test_getHousehold_invalidId(self):
-        """Test getting households with invalid Ids."""
+        """None should be returned when getting households with invalid ids."""
         self.assertTrue(self.z.getHousehold(None) is None, "An invalid value passed to getHousehold returns None.")
         self.assertTrue(self.z.getHousehold('') is None, "An invalid value passed to getHousehold returns None.")
         self.assertTrue(self.z.getHousehold('invalid') is None, "An invalid value passed to getHousehold returns None.")
