@@ -356,9 +356,8 @@ def before_first_request():
     locking issues with zodb, so only initialize it when we're actually ready to process the first request.
     """
     g.db = connect_db() # Connect to the SQL database to provide logging functionality.
-
     logger.logSystem("First request received, initializing.")
-    zdb.bringup()
+    g.zdb = zdb.Zdb('secret/cute.zdb')
 
     db = getattr(g, 'db', None)
     if db is not None:
