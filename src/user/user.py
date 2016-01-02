@@ -60,5 +60,5 @@ import persistent
 
 class User(persistent.Persistent):
 
-    def __init__():
+    def __init__(self):
         pass
