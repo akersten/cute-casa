@@ -73,7 +73,7 @@ class Zdb():
         :return: A household object corresponding to this id.
         """
         try:
-            return self.root.households['householdId']
+            return self.root.households[householdId]
         except KeyError:
             return None
 
