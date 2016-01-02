@@ -10,6 +10,10 @@ from src import logger
 from src import enums
 
 
+class DuplicateRecordException(Exception):
+    """Exception raised when attempting to create a duplicate record inside one of the ZDB b-trees."""
+    pass
+
 # The zdb database reference and root element..
 class Zdb():
 
@@ -83,3 +87,10 @@ class Zdb():
         :param householdId: The household to create.
         :return: A handle to the household.
         """
+        if householdId in self.root.households:
+            raise DuplicateRecordException("A household with this id already exists.")
+
+        house = household.Household(householdId)
+        self.root.households[householdId] = house
+        return house
+
