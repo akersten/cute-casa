@@ -60,5 +60,9 @@ import persistent
 
 class User(persistent.Persistent):
 
-    def __init__(self):
+    def __init__(self, id):
+        if id is None or id == '':
+            raise ValueError('Users must have an id.')
+
+        self.id = id
         pass

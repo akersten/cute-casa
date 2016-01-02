@@ -1,9 +1,11 @@
 import unittest
 
 from src import zdb
+from src.user import user
 
 
 class Tests_zdb_household(unittest.TestCase):
+    """Tests the zdb functions for Household objects."""
 
     def setUp(self):
         self.z = zdb.Zdb('secret/tests.zdb')
@@ -70,6 +72,21 @@ class Tests_zdb_household(unittest.TestCase):
         self.assertTrue(self.z.getHousehold('h3') is h3)
 
         self.assertTrue(self.z.getHousehold('bogus') is None)
+
+class Tests_User(unittest.TestCase):
+    """Tests the User object."""
+
+    def test_init_invalidId(self):
+        """A user cannot have an id that is None or blank."""
+        with self.assertRaises(ValueError):
+            user.User('')
+        with self.assertRaises(ValueError):
+            user.User(None)
+
+    def test_init_basic(self):
+        """Basic user creation tests."""
+        user.User(41)
+        #TODO
 
 
 if __name__ == '__main__':
