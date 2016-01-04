@@ -65,4 +65,3 @@ class User(persistent.Persistent):
             raise ValueError('Users must have an id.')
 
         self.id = id
-        pass

@@ -88,6 +88,18 @@ class Tests_User(unittest.TestCase):
         user.User(41)
         #TODO
 
+class Tests_zdb_user(unittest.TestCase):
+    """Tests saving User objects to the object database."""
+
+    def setUp(self):
+        self.z = zdb.Zdb('secret/tests.zdb')
+
+    def tearDown(self):
+        self.z.teardown()
+
+    def test_createUser_single(self):
+        """Tests creating a User and getting it back from the database."""
+        #TODO: this and other tests
 
 if __name__ == '__main__':
     unittest.main()
