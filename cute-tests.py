@@ -2,7 +2,11 @@ import unittest
 
 from src import zdb
 from src.user import user
+from src.household import household
 
+class Tests_Household(unittest.TestCase):
+    """Tests the Household object."""
+    pass
 
 class Tests_zdb_household(unittest.TestCase):
     """Tests the zdb functions for Household objects."""
