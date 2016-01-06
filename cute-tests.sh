@@ -18,4 +18,3 @@ else
     echo "Cutecasa tests failed!" >&2
     echo "----------------------" >&2
 fi
-
