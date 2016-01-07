@@ -10,19 +10,7 @@
         <div class="col-md-4 bezel">
             <h2>Sign up for CuteCasa</h2>
 
-            {% with messages = get_flashed_messages(with_categories=True) %}
-                {% if messages %}
-                    <!-- Realistically, category will never be blank and we'll never default in 'info'
-                         (because the default Flask flash category is 'message'), but it's good style. -->
-                    {% for category, message in messages %}
-
-                        <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
-                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <p>{{ message }}</p>
-                    </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+            {{ shared.flasher }}
 
             <form method="POST" action="{{ url_for('register') }}">
                 <div class="form-group">

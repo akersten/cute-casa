@@ -21,21 +21,7 @@
         <div class="col-md-offset-3 col-md-6">
             <div class="col-bezel">
 
-                    <!-- Message flasher - move this to a function or macro eventually XXX. -->
-                    {% with messages = get_flashed_messages(with_categories=True) %}
-                        {% if messages %}
-                            <!-- Realistically, category will never be blank and we'll never default in 'info'
-                                 (because the default Flask flash category is 'message'), but it's good style. -->
-                            {% for category, message in messages %}
-
-                                <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                <p>{{ message }}</p>
-                            </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-                    <!-- End message flasher -->
+                    {{ shared.flasher }}
 
                     {% if households %}
                         <h2>Your Households</h2>

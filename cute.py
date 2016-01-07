@@ -84,34 +84,6 @@ def teardown_request(exception):
         db.close()
 
 
-
-# #
-# Global template functions
-# #
-flasherstr = """
- {% with messages = get_flashed_messages(with_categories=True) %}
-                        {% if messages %}
-                            <!-- Realistically, category will never be blank and we'll never default in 'info'
-                                 (because the default Flask flash category is 'message'), but it's good style. -->
-                            {% for category, message in messages %}
-
-                                <div class="alert alert-{{ category | default('info') }}" style="margin-top: 1em;">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                <p>{{ message }}</p>
-                            </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-"""
-def flasher():
-    """
-    The flashed messages reader that should go in almost all of the templates somewhere (use {{ flasher() }}
-    :return: The Jinja2 flasher template.
-    """
-    return flasherstr
-app.jinja_env.globals.update(flasher=flasher)
-
-
 # #
 # Flask Application Routes
 # #
