@@ -56,7 +56,7 @@ def profile():
 # User object representation
 # ######################################################################################################################
 
-import persistent
+import persistent, transaction
 
 class User(persistent.Persistent):
 
@@ -65,3 +65,14 @@ class User(persistent.Persistent):
             raise ValueError('Users must have an id.')
 
         self.id = id
+
+
+
+    @property
+    def yoUsername(self):
+        return self._yoUsername
+    @yoUsername.setter
+    def yoUsername(self, yoUsername):
+        self._yoUsername = yoUsername
+        transaction.commit()
+
