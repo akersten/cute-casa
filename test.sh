@@ -7,7 +7,8 @@ echo -e "\n"
 
 export CUTECASA_TEST=1
 
-python3 cute-tests.py
+# Name your tests following the convention test_xyz.py and the test discovery module will find them.
+python3 -m unittest discover
 
 if [ $? -eq 0 ]
 then

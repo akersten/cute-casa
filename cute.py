@@ -21,6 +21,8 @@ from src.household import household
 from src.billing import billing
 from src.admin import admin
 
+from src._notification.yo.yoer import Yoer
+
 import queries
 
 VERSION = "0.0.0"
@@ -329,7 +331,12 @@ def before_first_request():
     """
     g.db = connect_db() # Connect to the SQL database to provide logging functionality.
     logger.logSystem("First request received, initializing.")
-    g.zdb = zdb.Zdb('secret/cute.zdb')
+
+    g.dog.zdb = zdb.Zdb('secret/cute.zdb')
+
+    # Set up any singleton objects.
+    if (g.dog.zdb.root.globalSettings.yoApiKey is not None):
+        g.dog.yoer = Yoer(g.dog.zdb.root.globalSettings.yoApiKey)
 
     db = getattr(g, 'db', None)
     if db is not None:

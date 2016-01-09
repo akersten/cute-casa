@@ -51,9 +51,3 @@ def getEvents(logname, after, count):
         return None
 
 
-
-class globalSettings():
-
-    def __init__(self):
-        pass
-

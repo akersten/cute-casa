@@ -4,10 +4,14 @@
 # ######################################################################################################################
 
 import ZODB, ZODB.FileStorage, BTrees.OOBTree, transaction
-from src.household import household
+
+
 
 from src import logger
 from src import enums
+
+from src.household.household import Household
+from src._shared.globalSettings import GlobalSettings
 
 
 class DuplicateRecordException(Exception):
@@ -55,12 +59,8 @@ class Zdb():
 
 
         if not hasattr(self.root, 'globalSettings'):
-            logger.logSystem('Creating default global settings.')
-            #TODO: Create default global settings
-        else:
-            #TODO: Use existing global settings
-            pass
-
+            logger.logSystem('Creating default global settings...')
+            self.root.globalSettings = GlobalSettings()
 
         if not hasattr(self.root, 'households'):
             logger.logSystem('Creating household collection...')
@@ -99,7 +99,7 @@ class Zdb():
         if householdId in self.root.households:
             raise DuplicateRecordException("A household with this id already exists.")
 
-        house = household.Household(householdId)
+        house = Household(householdId)
         self.root.households[householdId] = house
         return house
 
