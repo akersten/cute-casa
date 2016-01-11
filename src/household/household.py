@@ -1,4 +1,4 @@
-from flask import flash, render_template, request, session, abort, redirect, url_for, jsonify
+from flask import flash, render_template, request, session, abort, redirect, url_for, jsonify, g
 
 from src import db
 from src import enums
@@ -60,6 +60,10 @@ def profile():
 
 
             logger.logAdmin('Created household. Id: ' + str(houseId) + ' Name: ' + houseName, session['id'])
+
+            g.dog.zdb.createHousehold(str(houseId))
+
+
             flash('Household created successfully!', 'info')
             return redirect(url_for('household_select'))
 

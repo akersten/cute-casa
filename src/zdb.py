@@ -11,6 +11,7 @@ from src import logger
 from src import enums
 
 from src.household.household import Household
+from src.user.user import User
 from src._shared.globalSettings import GlobalSettings
 
 
@@ -66,6 +67,10 @@ class Zdb():
             logger.logSystem('Creating household collection...')
             self.root.households = BTrees.OOBTree.BTree()
 
+        if not hasattr(self.root, 'users'):
+            logger.logSystem('Creating user collection...')
+            self.root.users = BTrees.OOBTree.BTree()
+
         transaction.commit()
 
 
@@ -80,7 +85,7 @@ class Zdb():
             return None
 
         try:
-            return self.root.households[householdId]
+            return self.root.households[str(householdId)]
         except KeyError:
             return None
 
@@ -103,3 +108,36 @@ class Zdb():
         self.root.households[householdId] = house
         return house
 
+
+    def getUser(self, userId):
+        """
+        Get a user from the database.
+        :param userId: The user id to retrieve.
+        :return: A user object corresponding to this id.
+        """
+        if userId is None:
+            return None
+
+        try:
+            return self.root.users[str(userId)]
+        except KeyError:
+            return None
+
+    def createUser(self, userId):
+        """
+        Create a user and add it to the database.
+        :param userId: The user to create. A string id for the user.
+        :return: A handle to the user.
+        """
+        if not type(userId) is str:
+            raise ValueError('A user id must be of str type.')
+
+        if len(userId) == 0:
+            raise ValueError('A user id must be non-zero length.')
+
+        if userId in self.root.users:
+            raise DuplicateRecordException('A user with this id already exists.')
+
+        user = User(userId)
+        self.root.users[userId] = user
+        return user

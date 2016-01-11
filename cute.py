@@ -37,6 +37,11 @@ PORT = os.environ.get('CUTE_PORT')
 SALT = os.environ.get('CUTE_SALT')
 
 
+# Singletons
+
+S_Zdb = None
+S_Yoer = None
+
 def notSet(problem):
     """
     Abort initialization if any of the configuration environment variables isn't set.
@@ -78,6 +83,14 @@ def connect_db():
 def before_request():
     g.db = connect_db()
 
+    # Add singleton references to dog object.
+    g.dog = lambda: None
+    g.dog.zdb = S_Zdb
+    g.dog.yoer = S_Yoer
+
+    # Populate useful items
+    if 'id' in session:
+        g.dog.me = g.dog.zdb.getUser(session['id'])
 
 @app.teardown_request
 def teardown_request(exception):
@@ -176,12 +189,15 @@ def register():
             flash("That username is already in use.", 'danger')
             return render_template('register.html')
 
-        # TODO: Check unique email
+        # TODO: Check unique email?
 
+        # Registration checks out, create ZDB object and DB entry.
         db.post_db(queries.REGISTER, [request.form['registerUsername'],
                                       request.form['registerUsername'],
                                       pwHash,
                                       request.form['registerEmail']])
+
+        g.dog.zdb.createUser(str(db.getLastRowId()))
 
         flash("Successfully registered!", 'info')
 
@@ -329,14 +345,16 @@ def before_first_request():
     When using the werkzeug reloader, main will run twice because we're being spawned in a subprocess. This causes
     locking issues with zodb, so only initialize it when we're actually ready to process the first request.
     """
+    global S_Zdb, S_Yoer
+
     g.db = connect_db() # Connect to the SQL database to provide logging functionality.
     logger.logSystem("First request received, initializing.")
 
-    g.dog.zdb = zdb.Zdb('secret/cute.zdb')
+    # Set up dog object's singletons.
+    S_Zdb = zdb.Zdb('secret/cute.zdb')
 
-    # Set up any singleton objects.
-    if (g.dog.zdb.root.globalSettings.yoApiKey is not None):
-        g.dog.yoer = Yoer(g.dog.zdb.root.globalSettings.yoApiKey)
+    if (S_Zdb.root.globalSettings.yoApiKey is not None):
+        S_Yoer = Yoer(S_Zdb.root.globalSettings.yoApiKey)
 
     db = getattr(g, 'db', None)
     if db is not None:

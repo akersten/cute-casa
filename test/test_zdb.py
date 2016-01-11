@@ -2,11 +2,7 @@ import unittest
 
 from src import zdb
 from src.user import user
-from src.household import household
 
-class Tests_Household(unittest.TestCase):
-    """Tests the Household object."""
-    pass
 
 class Tests_zdb_household(unittest.TestCase):
     """Tests the zdb functions for Household objects."""
@@ -77,20 +73,7 @@ class Tests_zdb_household(unittest.TestCase):
 
         self.assertTrue(self.z.getHousehold('bogus') is None)
 
-class Tests_User(unittest.TestCase):
-    """Tests the User object."""
 
-    def test_init_invalidId(self):
-        """A user cannot have an id that is None or blank."""
-        with self.assertRaises(ValueError):
-            user.User('')
-        with self.assertRaises(ValueError):
-            user.User(None)
-
-    def test_init_basic(self):
-        """Basic user creation tests."""
-        user.User(41)
-        #TODO
 
 class Tests_zdb_user(unittest.TestCase):
     """Tests saving User objects to the object database."""
