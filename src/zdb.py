@@ -140,4 +140,5 @@ class Zdb():
 
         user = User(userId)
         self.root.users[userId] = user
+
         return user

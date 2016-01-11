@@ -92,8 +92,8 @@ class User(persistent.Persistent):
 
         self.id = id
         #self.yoUsername = None
-        self._yoUsername = "a test username"
-        self._favoriteColor = None
+        self._yoUsername = ""
+        self._favoriteColor = "#EEE"
 
 
 

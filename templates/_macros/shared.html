@@ -19,7 +19,7 @@
     <!-- A small badge for a user, with their picture and display name. -->
     <div class="userbadge">
         <img class="userbadge-image" src="http://i.imgur.com/wQ3W10D.jpg" alt="User profile image"
-                style="border-color: blue;" />
+                style="border-color: {{ g.dog.zdb.getUser(user).favoriteColor }};" />
         <h3 class="userbadge-title">Alex Kersten</h3>
         <p class="userbadge-actions">
             <a href="#" class="btn btn-xs btn-default">Text</a>
