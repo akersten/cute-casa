@@ -62,6 +62,18 @@ def profile():
                 #TODO: Sanity check on length
                 g.dog.me.yoUsername = request.form['yoInput']
 
+                flash("Yo username updated.", 'info')
+
+        # Favorite color
+        if request.form['colorInput'] is not None:
+            if request.form['colorInput'] != g.dog.me.favoriteColor:
+
+                # TODO: Sanity check?
+               g.dog.me.favoriteColor = request.form['colorInput']
+
+               flash('Favorite color updated.', 'info')
+
+
         return redirect(url_for('dashboard'))
     else:
         return render_template('user/profile.html')
@@ -81,6 +93,7 @@ class User(persistent.Persistent):
         self.id = id
         #self.yoUsername = None
         self._yoUsername = "a test username"
+        self._favoriteColor = None
 
 
 
@@ -92,3 +105,11 @@ class User(persistent.Persistent):
         self._yoUsername = yoUsername
         transaction.commit()
 
+
+    @property
+    def favoriteColor(self):
+        return self._favoriteColor
+    @favoriteColor.setter
+    def favoriteColor(self, favoriteColor):
+        self._favoriteColor = favoriteColor
+        transaction.commit()
