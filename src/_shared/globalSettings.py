@@ -5,7 +5,7 @@ class GlobalSettings(persistent.Persistent):
     """These are settings that are accessed through the CuteCasa admin screen."""
 
     def __init__(self):
-        self._yoApiKey = None
+        self._yoApiKey = ""
 
     @property
     def yoApiKey(self):

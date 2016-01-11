@@ -334,6 +334,10 @@ def admin_styletest():
     shared.checkAdmin()
     return admin.styletest()
 
+@app.route('/admin/globalSettings', methods=['GET'])
+def admin_globalSettings():
+    shared.checkAdmin()
+    return admin.globalSettings()
 
 # ######################################################################################################################
 # Final setup and initiation
@@ -353,7 +357,7 @@ def before_first_request():
     # Set up dog object's singletons.
     S_Zdb = zdb.Zdb('secret/cute.zdb')
 
-    if (S_Zdb.root.globalSettings.yoApiKey is not None):
+    if (S_Zdb.root.globalSettings.yoApiKey is not None and S_Zdb.root.globalSettings.yoApiKey != ""):
         S_Yoer = Yoer(S_Zdb.root.globalSettings.yoApiKey)
 
     db = getattr(g, 'db', None)

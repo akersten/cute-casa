@@ -36,6 +36,15 @@ def styletest():
     """
     return render_template('admin/styletest.html')
 
+def globalSettings():
+    """
+    The page for global settings.
+    :return: The render template.
+    """
+    return render_template('admin/globalSettings.html')
+
+
+
 def getEvents(logname, after, count):
     """
     Return the events after a certain index.

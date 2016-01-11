@@ -1,0 +1,54 @@
+{% extends "head.html" %}
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row bezel">
+        <div class="col-sm-10">
+
+            <h1>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
+
+                <i class="fa fa-user"></i>&nbsp;&nbsp;
+                Global Settings
+            </h1>
+        </div>
+        <div class="col-sm-2 headroom">
+            <div class="text-right">
+                <a href="{{ url_for('logout') }}" class="btn btn-sm"><i class="fa fa-sign-out"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6">
+            <div class="col-bezel">
+                <form method="POST" action="{{ url_for('admin_globalSettings') }}" class="form-horizontal">
+                    <h2>CuteCasa Global Instance Settings</h2>
+
+                    {{ shared.flasher() }}
+
+                    <h3>API Keys</h3>
+
+                    <div class="form-group">
+                        <label for="yoApiKeyInput" class="control-label col-sm-4">Yo</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control"
+                                   id="yoApiKeyInput" name="yoApiKeyInput" value="{{ g.dog.zdb.root.globalSettings.yoApiKey }}" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8 text-right">
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
