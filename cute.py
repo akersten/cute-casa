@@ -135,7 +135,6 @@ def login():
             session['id'] = res['id']
 
             session['email'] = res['email']
-            session['cellphone'] = res['cellphone']
             session['displayname'] = res['displayname']
 
             session['admin'] = shared.isCuteCasaAdmin(session['id'])

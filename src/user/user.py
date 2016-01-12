@@ -46,13 +46,12 @@ def profile():
 
         # Cellphone
         if request.form['cellInput'] is not None:
-            if request.form['cellInput'] != session['cellphone']:
+            if request.form['cellInput'] != g.dog.me.cellphone:
 
                 # TODO: Sanity check on length
 
-                db.post_db(queries.USER_UPDATE_CELLPHONE, [request.form['cellInput'], session['id']])
+                g.dog.me.cellphone = request.form['cellInput']
 
-                session['cellphone'] = request.form['cellInput']
                 flash("Cellphone updated.", 'info')
 
         # Yo username
@@ -94,6 +93,7 @@ class User(persistent.Persistent):
         #self.yoUsername = None
         self._yoUsername = ""
         self._favoriteColor = "#EEE"
+        self._cellphone =""
 
 
 
@@ -112,4 +112,12 @@ class User(persistent.Persistent):
     @favoriteColor.setter
     def favoriteColor(self, favoriteColor):
         self._favoriteColor = favoriteColor
+        transaction.commit()
+
+    @property
+    def cellphone(self):
+        return self._cellphone
+    @cellphone.setter
+    def cellphone(self, cellphone):
+        self._cellphone = cellphone
         transaction.commit()
