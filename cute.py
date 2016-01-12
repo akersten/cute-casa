@@ -189,7 +189,7 @@ def register():
             flash("That username is already in use.", 'danger')
             return render_template('register.html')
 
-        # TODO: Check unique email?
+        # Unique email is not a requirement.
 
         # Registration checks out, create ZDB object and DB entry.
         db.post_db(queries.REGISTER, [request.form['registerUsername'],
