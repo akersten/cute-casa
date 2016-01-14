@@ -23,15 +23,15 @@ def profile():
 
         # Display name.
         if request.form['displaynameInput'] is not None:
-            if request.form['displaynameInput'] != session['displayname']:
+            if request.form['displaynameInput'] != g.dog.me.displayname:
                 if len(request.form['displaynameInput']) == 0:
                     flash("Display name must not be blank.", 'danger')
                     return render_template('user/profile.html')
 
                 # TODO: Sanity check on length
 
-                db.post_db(queries.USER_UPDATE_DISPLAYNAME, [request.form['displaynameInput'], session['id']])
-                session['displayname'] = request.form['displaynameInput']
+                g.dog.me.displayname = request.form['displaynameInput']
+
                 flash("Display name updated.", 'info')
 
         # Email.
@@ -90,12 +90,20 @@ class User(persistent.Persistent):
             raise ValueError('Users must have an id.')
 
         self.id = id
-        #self.yoUsername = None
+        
+        self._displayname = ""
         self._yoUsername = ""
         self._favoriteColor = "#EEE"
         self._cellphone =""
 
 
+    @property
+    def displayname(self):
+        return self._displayname;
+    @displayname.setter
+    def displayname(self, displayname):
+        self._displayname = displayname
+        transaction.commit()
 
     @property
     def yoUsername(self):
