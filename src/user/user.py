@@ -99,7 +99,7 @@ class User(persistent.Persistent):
 
     @property
     def displayname(self):
-        return self._displayname;
+        return self._displayname
     @displayname.setter
     def displayname(self, displayname):
         self._displayname = displayname
