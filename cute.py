@@ -330,6 +330,12 @@ def admin_logviewer(logname, after):
     return admin.logviewer(logname, after)
 
 
+@app.route('/admin/nodeviewer/<node>', methods=['GET'], defaults={'index': None})
+@app.route('/admin/nodeviewer/<node>/<index>', methods=['GET'])
+def admin_nodeviewer(node, index):
+    shared.checkAdmin()
+    return admin.nodeviewer(node, index)
+
 @app.route('/admin/styletest', methods=['GET'])
 def admin_styletest():
     shared.checkAdmin()

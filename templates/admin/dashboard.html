@@ -32,7 +32,13 @@
         <div class="col-md-4">
             <div class="col-bezel">
                 <h2>CuteCasa Settings</h2>
-                <a href="{{ url_for('admin_globalSettings', after=0, logname='admin') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-cogs"></i> Global Settings</a>
+                <a href="{{ url_for('admin_globalSettings') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-cogs"></i> Global Settings</a>
+            </div>
+            <div class="col-bezel">
+                <h2>ZDB Management</h2>
+                <a href="{{ url_for('admin_nodeviewer', node='globalSettings') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-code-fork fa-rotate-180"></i> View Global Settings Nodes</a>
+                <a href="{{ url_for('admin_nodeviewer', node='households') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-code-fork fa-rotate-180"></i> View Household Nodes</a>
+                <a href="{{ url_for('admin_nodeviewer', node='users') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-code-fork fa-rotate-180"></i> View User Nodes</a>
             </div>
         </div>
         <div class="col-md-4">

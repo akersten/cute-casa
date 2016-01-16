@@ -29,6 +29,32 @@ def logviewer(logname, after):
                                                     next=int(after)+50,
                                                     prev=max(int(after)-50, 0))
 
+def nodeviewer(node, index):
+    """
+    The node viewer shows a node in z.dog.zdb.root . Right now, only first-level objects, first-level iterables,
+    and objects stored in first-level iterables are supported (e.g. a btree inside a btree won't look right when
+    viewed with this).
+    :param node: The name of the node to display, e.g. 'households', 'globalSettings'.
+    :param index: The subscript of the node to display, e.g. '1', '2'
+    :return: The render template.
+    """
+    logger.logAdmin('View ZDB node ' + str(node), session['id'], enums.e_log_event_level.info)
+
+    #children = [c for c in dir(getattr(g.dog.zdb, node)) if not c.startswith('_')]
+    if index is None:
+        # First level iterable or object.
+        try:
+            # Iteratable
+            children = [(c, None) for c in getattr(g.dog.zdb.root, node)]
+        except TypeError:
+            # Object
+            children = [(c, getattr(getattr(g.dog.zdb.root, node),c) or ' ') for c in dir(getattr(g.dog.zdb.root, node)) if not c.startswith('_')]
+    else:
+        # Second level object
+        children = [(c, getattr(getattr(g.dog.zdb.root, node)[index],c) or ' ') for c in dir(getattr(g.dog.zdb.root, node)[index]) if not c.startswith('_')]
+
+    return render_template('admin/nodeviewer.html', node=node, children=children, index=index)
+
 def styletest():
     """
     A page with all of our styles in one place to test how things look.
