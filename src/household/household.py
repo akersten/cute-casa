@@ -101,7 +101,8 @@ def profile():
         if session.get('householdId'):
             users = shared.getUsersForHousehold(session['householdId'])
 
-        return render_template('household/profile.html', users=users)
+        return render_template('household/profile.html', users=users,
+                               getUserDisplayname=lambda id: shared.getUserDisplayname(id))
 
 
 def select(householdId):
@@ -203,6 +204,12 @@ import persistent
 class Household(persistent.Persistent):
 
     def __init__(self, householdId):
+        if not type(householdId) is str:
+            raise TypeError('A household id must be of str type.')
+
+        if len(householdId) == 0:
+            raise ValueError('A household id must be non-zero length.')
+
         # SQL properties
         self.householdId = householdId
 

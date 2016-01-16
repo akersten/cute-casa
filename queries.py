@@ -1,13 +1,12 @@
 CHECK_USERNAME = "SELECT COUNT(*) FROM users WHERE username=?"
-CHECK_LOGIN = "SELECT COUNT(*),id,email,displayname FROM users WHERE username=? AND password=? LIMIT 1"
+CHECK_LOGIN = "SELECT COUNT(*),id,email FROM users WHERE username=? AND password=? LIMIT 1"
 
-REGISTER = "INSERT INTO users (username, displayname, password, email) VALUES (?, ?, ?, ?)"
+REGISTER = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)"
 
 # ######################################################################################################################
 # User profile queries
 # ######################################################################################################################
 
-USER_UPDATE_DISPLAYNAME = "UPDATE users SET displayname=? WHERE id=?"
 USER_UPDATE_EMAIL = "UPDATE users SET email=? WHERE id=?"
 
 # ######################################################################################################################
@@ -34,7 +33,6 @@ HOUSEHOLD_MEMBERSHIP_GET_FOR_HOUSEHOLD = "SELECT * FROM household_memberships WH
 HOUSEHOLD_MEMBERSHIP_GET_FOR_USER_AND_HOUSEHOLD = "SELECT * FROM household_memberships WHERE user=? AND household=?"
 
 HOUSEHOLD_GET_USERS = "SELECT users.id as id," \
-                      " users.displayname as displayname," \
                       " household_memberships.e_household_relation as e_household_relation," \
                       " household_memberships.membership_date as membership_date" \
                       " FROM users INNER JOIN household_memberships ON users.id=household_memberships.user" \

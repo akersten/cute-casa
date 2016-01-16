@@ -95,17 +95,16 @@ class Zdb():
         :param householdId: The household to create. A string id for the household.
         :return: A handle to the household.
         """
-        if not type(householdId) is str:
-            raise ValueError('A household id must be of str type.')
-
-        if len(householdId) == 0:
-            raise ValueError('A household id must be non-zero length.')
+        if householdId is None:
+            raise ValueError('A user id must not be none.')
 
         if householdId in self.root.households:
             raise DuplicateRecordException("A household with this id already exists.")
 
         house = Household(householdId)
-        self.root.households[householdId] = house
+        self.root.households[str(householdId)] = house
+        transaction.commit()
+
         return house
 
 
@@ -123,22 +122,18 @@ class Zdb():
         except KeyError:
             return None
 
-    def createUser(self, userId):
+    def createUser(self, userId, displayName):
         """
         Create a user and add it to the database.
         :param userId: The user to create. A string id for the user.
         :return: A handle to the user.
         """
-        if not type(userId) is str:
-            raise ValueError('A user id must be of str type.')
-
-        if len(userId) == 0:
-            raise ValueError('A user id must be non-zero length.')
 
         if userId in self.root.users:
             raise DuplicateRecordException('A user with this id already exists.')
 
-        user = User(userId)
-        self.root.users[userId] = user
+        user = User(userId, displayName)
+        self.root.users[str(userId)] = user
+        transaction.commit()
 
         return user

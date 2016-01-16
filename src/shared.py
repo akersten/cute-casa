@@ -94,7 +94,6 @@ def getUsersForHousehold(householdId):
     """
     Returns a list of users for a given household. Keys in each dictionary within the returned list are:
         * id
-        * displayname
         * membership_date
         * e_household_relation
     :param householdId:
@@ -152,8 +151,10 @@ def getUserDisplayname(userId):
     :param userId: The user id to look up.
     :return: The display name for this user.
     """
-    name = db.getValue('users', 'displayname', userId)
-    return name if name else 'System'
+    u = g.dog.zdb.getUser(userId)
+    if u is None:
+        return None
+    return u.displayname
 
 def isCuteCasaAdmin(userId):
     """

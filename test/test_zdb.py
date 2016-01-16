@@ -13,16 +13,6 @@ class Tests_zdb_household(unittest.TestCase):
     def tearDown(self):
         self.z.teardown()
 
-    def test_createHousehold_invalidId(self):
-        """Households with a blank id or non-string id should not be allowed to be created."""
-        with self.assertRaises(ValueError):
-            self.z.createHousehold('')
-        with self.assertRaises(ValueError):
-            self.z.createHousehold(None)
-        with self.assertRaises(ValueError):
-            self.z.createHousehold(1738)
-
-
     def test_createHousehold_single(self):
         """A household created in the database should have a reference returned from the creation method."""
         h = self.z.createHousehold("testHousehold")
@@ -42,6 +32,7 @@ class Tests_zdb_household(unittest.TestCase):
     def test_createHousehold_duplicateHousehold(self):
         """Households should not be allowed to have the same id."""
         self.z.createHousehold('dupe')
+        self.z.createHousehold('not a dupe')
 
         with self.assertRaises(zdb.DuplicateRecordException):
             self.z.createHousehold('dupe')

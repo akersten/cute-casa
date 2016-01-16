@@ -85,16 +85,25 @@ import persistent, transaction
 
 class User(persistent.Persistent):
 
-    def __init__(self, id):
-        if id is None or id == '':
-            raise ValueError('Users must have an id.')
+    def __init__(self, id, displayname):
+        if not type(id) is str:
+            raise TypeError('A user id must be of str type.')
+
+        if not type(displayname) is str:
+            raise TypeError('A displayname must be of str type.')
+
+        if len(id) == 0:
+            raise ValueError('A user id must be non-zero length.')
+
+        if len(displayname) == 0:
+            raise ValueError('A displayname must be non-zero length.')
 
         self.id = id
-        
-        self._displayname = ""
-        self._yoUsername = ""
-        self._favoriteColor = "#EEE"
-        self._cellphone =""
+        self.displayname = displayname
+
+        self.yoUsername = ""
+        self.favoriteColor = "#E0E0FF"
+        self.cellphone =""
 
 
     @property

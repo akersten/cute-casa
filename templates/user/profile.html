@@ -11,7 +11,7 @@
                 <a href="{{ url_for("dashboard") }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
 
                 <i class="fa fa-user"></i>&nbsp;&nbsp;
-                {{ session['displayname'] }}
+                {{ g.dog.me.displayname }}
             </h1>
         </div>
         <div class="col-sm-2 headroom">
@@ -42,7 +42,7 @@
                         <label for="displaynameInput" class="control-label col-sm-4">Display Name</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control"
-                                   id="displaynameInput" name="displaynameInput" value="{{ session['displayname'] }}" />
+                                   id="displaynameInput" name="displaynameInput" value="{{ g.dog.me.displayname }}" />
                         </div>
                     </div>
 

@@ -92,6 +92,10 @@ def before_request():
     if 'id' in session:
         g.dog.me = g.dog.zdb.getUser(session['id'])
 
+        if g.dog.me is None:
+            abort(500, "Integrity error - user object lookup failed for user id " + str(session['id']))
+
+
 @app.teardown_request
 def teardown_request(exception):
     db = getattr(g, 'db', None)
@@ -135,7 +139,6 @@ def login():
             session['id'] = res['id']
 
             session['email'] = res['email']
-            session['displayname'] = res['displayname']
 
             session['admin'] = shared.isCuteCasaAdmin(session['id'])
             logger.logAdmin("User logged in.", session['id'])
@@ -192,11 +195,10 @@ def register():
 
         # Registration checks out, create ZDB object and DB entry.
         db.post_db(queries.REGISTER, [request.form['registerUsername'],
-                                      request.form['registerUsername'],
                                       pwHash,
                                       request.form['registerEmail']])
 
-        g.dog.zdb.createUser(str(db.getLastRowId()))
+        g.dog.zdb.createUser(str(db.getLastRowId()), str(request.form['registerUsername']))
 
         flash("Successfully registered!", 'info')
 
