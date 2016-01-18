@@ -101,7 +101,7 @@
                                 <!-- TODO: Can only the admin see this page? -->
                                 {% for u in users %}
                                 <tr>
-                                    <td>{{ getUserDisplayname(u.id) }}</td>
+                                    <td>{{ shared.userbadge(u.id) }}</td>
                                     <td>{{ {1: 'Member', 2: 'Admin', 3: 'Request'}[u.e_household_relation] | default('Unknown') }}</td>
                                     <td>{{ u.membership_date }}</td>
                                     <td class="text-right">

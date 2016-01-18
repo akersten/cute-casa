@@ -101,8 +101,7 @@ def profile():
         if session.get('householdId'):
             users = shared.getUsersForHousehold(session['householdId'])
 
-        return render_template('household/profile.html', users=users,
-                               getUserDisplayname=lambda id: shared.getUserDisplayname(id))
+        return render_template('household/profile.html', users=users)
 
 
 def select(householdId):

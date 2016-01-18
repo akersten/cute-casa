@@ -197,7 +197,10 @@ div.userbadge {
 
   position: relative;
 
-  padding-left: 3.5em;
+  div.userbadge-clear {
+    padding-left: 3.5em;
+  }
+
 
   h3.userbadge-title {
     margin-bottom: 0;
@@ -225,5 +228,18 @@ div.userbadge {
     border: 2px solid @white;
 
     box-shadow: 0.1em 0.1em 0.05em @gray;
+  }
+
+  /* Buttons are across the bottom. */
+  div.userbadge-btn-row {
+    background-color: red;
+    width: 100%;
+
+    a.btn {
+      display: inline-block;
+      margin: 0;
+      border: none;
+      border-radius: 0;
+    }
   }
 }
