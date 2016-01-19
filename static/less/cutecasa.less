@@ -232,14 +232,43 @@ div.userbadge {
 
   /* Buttons are across the bottom. */
   div.userbadge-btn-row {
-    background-color: red;
     width: 100%;
 
-    a.btn {
-      display: inline-block;
+    display: table;
+    table-layout: fixed;
+
+    border-top: 2px solid @gray;
+
+    a.btn, a.btn:visited {
+      display: table-cell;
       margin: 0;
-      border: none;
+      border-left: 1px solid @background-darker;
       border-radius: 0;
+
+      background: linear-gradient(@background-darker, @black);
+
+      color: @white;
+      font-weight: bold;
+
+      font-size: 1.25em;
+      line-height: 1em;
+
+      span.userbadge-btn-explain {
+        display: none;
+        font-size: 0.75em;
+      }
+    }
+
+    a.btn:hover {
+      background: linear-gradient(@flare-dark, @flare-light);
+
+      span.userbadge-btn-explain {
+        display: inline;
+      }
+    }
+
+    a.btn:first-child {
+      border-left: none;
     }
   }
 }
