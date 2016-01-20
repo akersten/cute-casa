@@ -23,7 +23,9 @@
             <img class="userbadge-image" src="http://i.imgur.com/wQ3W10D.jpg" alt="User profile image"
                 style="border-color: {{ g.dog.zdb.getUser(user).favoriteColor }};" />
             <h3 class="userbadge-title">{{ g.dog.zdb.getUser(user).displayname }}</h3>
-            <p class="small">Seen 24 minutes ago</p>
+            <br />
+            <!--<p class="small">Seen 24 minutes ago</p>-->
+            <!-- TODO: Activity tracking? -->
         </div>
         {% if full %}
         <p>My status update</p>
