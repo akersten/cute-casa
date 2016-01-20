@@ -101,10 +101,10 @@
                                 <!-- TODO: Can only the admin see this page? -->
                                 {% for u in users %}
                                 <tr>
-                                    <td>{{ shared.userbadge(u.id) }}</td>
-                                    <td>{{ {1: 'Member', 2: 'Admin', 3: 'Request'}[u.e_household_relation] | default('Unknown') }}</td>
-                                    <td>{{ u.membership_date }}</td>
-                                    <td class="text-right">
+                                    <td class="col-md-4">{{ shared.userbadge(u.id) }}</td>
+                                    <td class="col-md-1">{{ {1: 'Member', 2: 'Admin', 3: 'Request'}[u.e_household_relation] | default('Unknown') }}</td>
+                                    <td class="col-md-2">{{ u.membership_date }}</td>
+                                    <td class="text-right col-md-5">
                                         <!-- TODO: Style this better -->
                                         {% if u.e_household_relation==3 %}
                                             <a href="{{ url_for('household_approve', householdId=session['householdId'], id=u.id) }}"

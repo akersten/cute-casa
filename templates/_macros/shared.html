@@ -15,8 +15,9 @@
 
 {% endmacro %}
 
-{% macro userbadge(user) %}
+{% macro userbadge(user, full) %}
     <!-- A small badge for a user, with their picture and display name. -->
+    <!-- Full parameter for whether to show the status update or not. -->
     <div class="userbadge">
         <div class="userbadge-clear">
             <img class="userbadge-image" src="http://i.imgur.com/wQ3W10D.jpg" alt="User profile image"
@@ -24,10 +25,11 @@
             <h3 class="userbadge-title">{{ g.dog.zdb.getUser(user).displayname }}</h3>
             <p class="small">Seen 24 minutes ago</p>
         </div>
-
+        {% if full %}
         <p>My status update</p>
+        {% endif %}
         <div class="userbadge-btn-row">
-            <a href="#" class="btn btn-sm"><i class="fa fa-fw fa-yc"></i><span class="userbadge-btn-explain"> Yo</span></a><a href="#" class="btn btn-sm"><i class="fa fa-fw fa-mobile"></i><span class="userbadge-btn-explain"> Text</span></a><a href="#" class="btn btn-sm"></a>
+            <a href="#" class="btn btn-sm"><i class="fa fa-fw fa-yc"></i></a><a href="#" class="btn btn-sm"><i class="fa fa-fw fa-mobile"></i></a><a href="#" class="btn btn-sm"></a>
 
 
         </div>
