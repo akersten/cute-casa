@@ -32,11 +32,3 @@ def admin():
         abort(403, 'not authorized as an admin for this household')
 
     return render_template('billing/admin.html')
-
-def billboard():
-    """
-    Return the billboard, the view of all the bills that contribute to a household invoice.
-    :return:
-    """
-
-    return render_template('billing/billboard.html')
