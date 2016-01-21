@@ -4,22 +4,7 @@
 
 <div class="container">
 
-    <div class="row bezel">
-        <div class="col-sm-10">
-
-            <h1>
-                <a href="{{ url_for("dashboard") }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
-
-                <i class="fa fa-user"></i>&nbsp;&nbsp;
-                {{ g.dog.me.displayname }}
-            </h1>
-        </div>
-        <div class="col-sm-2 headroom">
-            <div class="text-right">
-                <a href="{{ url_for("logout") }}" class="btn btn-sm"><i class="fa fa-sign-out"></i></a>
-            </div>
-        </div>
-    </div>
+    {{ shared.pageHeader(g.dog.me.displayname, 'fa-user', url_for('dashboard')) }}
 
     <div class="row">
         <div class="col-md-offset-3 col-md-6">

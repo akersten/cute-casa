@@ -4,21 +4,7 @@
 
 <div class="container">
 
-    <div class="row bezel">
-        <div class="col-sm-9">
-            <h1>
-                <a href="{{ url_for('billing_dashboard') }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
-                <i class="fa fa-fw fa-wrench"></i>&nbsp;&nbsp;
-                Billing Admin
-            </h1>
-        </div>
-        <div class="col-sm-3 headroom">
-            <div class="text-right">
-                <a href="{{ url_for("logout") }}" class="btn btn-sm"><i class="fa fa-sign-out"></i></a>
-            </div>
-        </div>
-    </div>
-
+    {{ shared.pageHeader('Billing Admin', 'fa-wrench', url_for('billing_dashboard')) }}
     {{ shared.flasher() }}
 
     <div class="row">

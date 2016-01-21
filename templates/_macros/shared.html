@@ -15,6 +15,35 @@
 
 {% endmacro %}
 
+
+{% macro pageHeader(title, icon, backToUrl) %}
+    <!--
+        The header for the entire page.
+        icon is the fa icon to display. If None, no icon is displayed.
+        backToUrl is where the user should go if they press the back button. If None, no back button is displayed.
+    -->
+
+<div class="row bezel">
+        <div class="col-sm-9">
+            <h1>
+                {% if backToUrl %}
+                    <a href="{{ backToUrl }}" class="btn btn-lg"><i class="fa fa-fw fa-arrow-left"></i></a>
+                {% endif %}
+                {% if icon %}
+                    <i class="fa fa-fw {{ icon }}"></i>&nbsp;&nbsp;
+                {% endif %}
+                {{ title }}
+            </h1>
+        </div>
+        <div class="col-sm-3 headroom">
+            <div class="text-right">
+                <a href="{{ url_for('logout') }}" class="btn btn-sm"><i class="fa fa-fw fa-sign-out"></i></a>
+            </div>
+        </div>
+    </div>
+
+{% endmacro %}
+
 {% macro userbadge(user, full) %}
     <!-- A small badge for a user, with their picture and display name. -->
     <!-- Full parameter for whether to show the status update or not. -->
