@@ -1,16 +1,15 @@
 {% extends "head.html" %}
 {% block body %}
 
-
 <div class="container">
 
-    {{ shared.pageHeader('Billsplit', 'fa-shopping-cart', url_for('billing_dashboard')) }}
+    {{ shared.pageHeader('Utilities', 'fa-tint', url_for('billing_dashboard')) }}
     {{ shared.flasher() }}
 
     {% if session['householdRelation'] == 2 %}
         <div class="row">
             <div class="col-md-12">
-                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-plus"></i> Add Shared Bill</a>
+                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-plus"></i> Add Utility</a>
             </div>
         </div>
         <br />
@@ -20,7 +19,7 @@
         <div class="col-md-12">
 
             <div class="col-bezel">
-                <h2>Shared Bills</h2>
+                <h2>Utilities</h2>
 
                 <div class="row">
                     <div class="col-md-4">

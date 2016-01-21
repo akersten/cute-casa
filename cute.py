@@ -314,6 +314,11 @@ def billing_billsplit():
     shared.checkLogin()
     return billing.billsplit()
 
+@app.route('/billing/utilities', methods=['GET'])
+def billing_utilities():
+    shared.checkLogin()
+    return billing.utilities()
+
 # ######################################################################################################################
 # Admin actions.
 # ######################################################################################################################

@@ -13,12 +13,19 @@ def billsplit():
     """
     return render_template('billing/billsplit.html')
 
+def utilities():
+    """
+    Utilities are shared between household members at certain percentage responsibilities per member.
+    :return: The render template.
+    """
+    return render_template('billing/utilities.html')
+
 def dashboard():
     """
     Render the billing dashboard.
     :return: The render template.
     """
-    return render_template('billing/dashboard.html');
+    return render_template('billing/dashboard.html')
 
 def admin():
     """
