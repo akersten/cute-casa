@@ -8,7 +8,7 @@
         <div class="col-sm-9">
             <h1>
                 <a href="{{ url_for('dashboard') }}" class="btn btn-lg"><i class="fa fa-arrow-left"></i></a>
-                <i class="fa fa-money"></i>&nbsp;&nbsp;
+                <i class="fa fa-fw fa-money"></i>&nbsp;&nbsp;
                 Billing
             </h1>
         </div>
@@ -28,11 +28,11 @@
                 <h2>Tools</h2>
                 {% if session['householdRelation'] == 2 %}
                     <a href="{{ url_for('billing_admin') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i
-                        class="fa fa-fw fa-eye"></i> Admin</a>
+                        class="fa fa-fw fa-wrench"></i> Admin</a>
                 {% endif %}
-                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i>
+                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-fw fa-tint"></i>
                     Utilities</a>
-                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-eye"></i>
+                <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-shopping-cart"></i>
                     Shared Bills</a>
             </div>
         </div>
