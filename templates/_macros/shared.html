@@ -44,6 +44,24 @@
 
 {% endmacro %}
 
+{% macro modal(modalId, filename) %}
+    <!-- A modal dialog that pops up over the content. -->
+    <!-- modalId: The id for this modal. -->
+    <!-- filename: The name of the html and js file to include. Since modals usually come with async requests, just
+                    assume that we'll be needing js.-->
+
+    <div id="{{ modalId }}" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {% include filename + '.html' %}
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/' + filename + '.js') }}"></script>
+
+{% endmacro %}
+
 {% macro userbadge(user, full) %}
     <!-- A small badge for a user, with their picture and display name. -->
     <!-- Full parameter for whether to show the status update or not. -->
