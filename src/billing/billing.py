@@ -1,4 +1,4 @@
-from flask import flash, render_template, session, abort
+from flask import flash, render_template, session, abort, redirect, url_for, request
 
 from src import logger
 from src import enums
@@ -39,3 +39,11 @@ def admin():
         abort(403, 'not authorized as an admin for this household')
 
     return render_template('billing/admin.html')
+
+
+def billsplit_create():
+    """
+    The async call when creating a new split bill.
+    """
+    flash('Shared bill created.', 'info')
+    return redirect(url_for('billing_billsplit'))

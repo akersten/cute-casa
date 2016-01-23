@@ -10,7 +10,9 @@
     {% if session['householdRelation'] == 2 %}
         <div class="row">
             <div class="col-md-12">
-                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-fw fa-plus"></i> Add Shared Bill</a>
+                <a href="#" class="btn btn-lg btn-default btn-block btn-text-left" onclick="showCreateSharedBill()">
+                    <i class="fa fa-fw fa-plus"></i> Add Shared Bill
+                </a>
             </div>
         </div>
         <br />
@@ -22,20 +24,38 @@
             <div class="col-bezel">
                 <h2>Shared Bills</h2>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        Thing
-                    </div>
-                    <div class="col-md-4">
-                        Thing
-                    </div>
-                    <div class="col-md-4">
-                        Thing
-                    </div>
+                <div class="bezelInnerContainer">
+                    <h3>Groceries &amp; House Supplies <a href="#" class="btn btn-danger">Delete</a></h3>
+
+                    <table class="table table-striped" style="table-layout: fixed;">
+                        <tr>
+                            <th>
+                                Bills
+                            </th>
+                            <th>
+                                Split
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="#" class="btn btn-block btn-default">Add new Bill</a>
+                                {{ shared.billbadge(1) }}
+                                {{ shared.billbadge(1) }}
+                                {{ shared.billbadge(1) }}
+                            </td>
+                            <td>
+                                {{ shared.userbadge(1) }}
+                                {{ shared.userbadge(1) }}
+                                {{ shared.userbadge(1) }}
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+{{ shared.modal('createSharedBill', 'billing/_modals/createSharedBill') }}
 
 {% endblock %}

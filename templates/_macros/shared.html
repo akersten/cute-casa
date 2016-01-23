@@ -86,3 +86,17 @@
     </div>
 
 {% endmacro %}
+
+{% macro billbadge(bill) %}
+    <!-- Generate a badge for a bill. -->
+    <div class="userbadge">
+        <div class="userbadge-clear">
+            <img class="userbadge-image" src="http://i.imgur.com/wQ3W10D.jpg" alt="User profile image"
+                style="border-color: {{ g.dog.zdb.getUser(user).favoriteColor }};" />
+            <h3 class="userbadge-title">Copps</h3>
+            <br />
+            <p class="small">01/13/16 &mdash; Alex paid</p>
+        </div>
+        <p>$395.0</p>
+    </div>
+{% endmacro %}

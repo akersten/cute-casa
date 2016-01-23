@@ -314,6 +314,11 @@ def billing_billsplit():
     shared.checkLogin()
     return billing.billsplit()
 
+@app.route('/billing/billsplit/create', methods=['POST'])
+def billing_billsplit_create():
+    shared.checkLogin()
+    return billing.billsplit_create();
+
 @app.route('/billing/utilities', methods=['GET'])
 def billing_utilities():
     shared.checkLogin()
