@@ -235,7 +235,7 @@ def dashboard():
     shared.checkLogin()
     if not session.get('householdId'):
         return redirect(url_for('household_select'))
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', members=shared.getUsersForHousehold(session['householdId']))
 
 
 # ######################################################################################################################
@@ -346,7 +346,7 @@ def admin_styletest():
     shared.checkAdmin()
     return admin.styletest()
 
-@app.route('/admin/globalSettings', methods=['GET'])
+@app.route('/admin/globalSettings', methods=['GET', 'POST'])
 def admin_globalSettings():
     shared.checkAdmin()
     return admin.globalSettings()

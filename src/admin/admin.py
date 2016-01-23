@@ -67,6 +67,23 @@ def globalSettings():
     The page for global settings.
     :return: The render template.
     """
+
+    if request.method == 'POST':
+        # Check for updates to the global settings.
+
+        # Display name.
+        if request.form['yoApiKeyInput'] is not None:
+            if request.form['yoApiKeyInput'] != g.dog.zdb.root.globalSettings.yoApiKey:
+
+
+                # TODO: Sanity check on length
+
+                g.dog.zdb.root.globalSettings.yoApiKey = request.form['yoApiKeyInput']
+
+                flash("Yo API key updated.", 'info')
+
+            return redirect(url_for('admin_dashboard'))
+
     return render_template('admin/globalSettings.html')
 
 

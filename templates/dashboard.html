@@ -102,15 +102,11 @@
             <div class="col-bezel">
                 <h2><i class="fa fa-users"></i> Members</h2>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        {{ shared.userbadge(1, True) }}
-                        {{ shared.userbadge(1, True) }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ shared.userbadge(1, True) }}
-                    </div>
-                </div>
+                {% if members %}
+                    {% for m in members %}
+                        {{ shared.userbadge(m.id, True) }}
+                    {% endfor %}
+                {% endif %}
 
 
             </div>
