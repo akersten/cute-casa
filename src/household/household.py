@@ -218,3 +218,5 @@ class Household(persistent.Persistent):
     def addMember(self, member):
         pass
 
+
+    
