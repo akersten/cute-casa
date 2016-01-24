@@ -85,7 +85,7 @@ def getHouseholdsForUser(userId):
         * households.household_name
         * households.e_household_type
         * household_memberships.e_household_relation
-    :param userId: THe user for which to get the households.
+    :param userId: The user for which to get the households.
     :return: A list of households for the user.
     """
     return db.query_db(queries.USER_GET_HOUSEHOLDS_NO_REQUESTS, [userId,])
