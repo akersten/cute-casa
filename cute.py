@@ -95,6 +95,12 @@ def before_request():
         if g.dog.me is None:
             abort(500, "Integrity error - user object lookup failed for user id " + str(session['id']))
 
+    if 'householdId' in session:
+        g.dog.hh = g.dog.zdb.getHousehold(session['householdId'])
+
+        if g.dog.hh is None:
+            abort(500, "Integrity error - household object lookup failed for household id " + str(session['householdId']))
+
 
 @app.teardown_request
 def teardown_request(exception):
