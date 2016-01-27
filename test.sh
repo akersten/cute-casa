@@ -1,5 +1,7 @@
 #!/bin/sh
 
+rm secret/test*
+
 echo "-------------------------"
 echo "Running CuteCasa tests..."
 echo "-------------------------"

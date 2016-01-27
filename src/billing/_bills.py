@@ -22,6 +22,14 @@ class Bill(persistent.Persistent):
 
         self._adjustments.append((amount, why))
 
+    def getAdjustments(self):
+        """
+        Return the adjustments on this bill.
+        :return: The adjustments applied to this bill as an array of tuples: (amount, why).
+        """
+        return self._adjustments
+
+
     def getTotal(self):
         """
         Recalculate the total for this bill.
