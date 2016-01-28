@@ -57,7 +57,21 @@ class BillGroup(persistent.Persistent):
     """
 
     def __init__(self):
-        pass
+        self._bills = []
+        self._payors = []
+
+    def addOrUpdatePayor(self, payor, weight):
+        """
+        Adds or updates a payor on this bill.
+        :param payor: The id of the payor.
+        :param weight: The weight relative to other payor weights that this payor is responsible for.
+        """
+
+        transaction.commit()
+
+    def removePayor(self, payor):
+
+        transaction.commit()
 
     def addBill(self, payor):
         """
@@ -66,7 +80,7 @@ class BillGroup(persistent.Persistent):
         """
         pass
 
-    def calculateLiabilityFor(self, who, splitMap):
+    def calculateLiabilityFor(self, who):
         """
         Calculates the liability for this bill
         :param who:

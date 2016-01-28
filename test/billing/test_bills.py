@@ -69,3 +69,52 @@ class Tests_BillGroup(unittest.TestCase):
         Billgroup constructor.
         """
         pass
+
+
+    def test_addOrUpdatePayor(self):
+        """
+        Payors should be added to the payor tuple array with their associated weight. A payor that already exists should
+        be updated, not duplicated. When a payor is added or updated, the liability for all payors should continue to
+        calculate properly.
+        """
+        g = BillGroup()
+
+
+
+        pass
+
+    def test_removePayor(self):
+        """
+        Payors should be removable from the payor list and liability for everyone else should continue to calculate
+        properly. A payor may not be removed if they have contributed to any bills, as this would prevent calculate
+        liability from zeroing out.
+        """
+
+        pass
+
+    def test_addBill(self):
+        """
+        Adding a bill should adjust the liability of the payors.
+        """
+        pass
+
+    def test_calculateLiabilityFor(self):
+        """
+        Liability for everyone should zero out.
+        """
+        pass
+
+    def getContributionFor(self, who):
+        """
+        Contributions for everyone should add up to the total contribution.
+        :param who:
+        :return:
+        """
+        pass
+
+    def getContributionTotal(self):
+        """
+        Calculates the total amount of the bills in this bill group.
+        :return: The total dollar amount of bills in the bill group.
+        """
+        pass
