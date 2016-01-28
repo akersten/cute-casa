@@ -14,8 +14,11 @@ class Bill(persistent.Persistent):
     """
 
     def __init__(self):
-        self.charge = 0
+        self._charge = 0    # Initialize private member first before running the property setter, since the setter looks
+                            # to this parameter for a value check.
+
         self._adjustments = []
+        self.charge = 0
 
     def addAdjustment(self, amount, why):
         if amount is None or type(amount) is not int:

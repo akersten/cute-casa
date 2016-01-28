@@ -64,9 +64,9 @@ class Tests_Bill(unittest.TestCase):
 
         self.assertTrue(b.getTotal() == 400, 'Adjustments and charges should be reflected by the bill total.')
 
-        b.charge = -200
+        b.charge = 50
 
-        self.assertTrue(b.getTotal() == 100, 'Adjustments and charges should be reflected by the bill total.')
+        self.assertTrue(b.getTotal() == 350, 'Adjustments and charges should be reflected by the bill total.')
 
 
     def test_charge(self):
