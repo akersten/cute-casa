@@ -9,7 +9,8 @@ class Bill(persistent.Persistent):
                         line items for personal purchases in the context of a larger grocery bill). A landlord might be
                         generous and offer a discount on a utility bill for a holiday. Or they might be mean and add a
                         positive adjustment.
-        * Total - dollar amount of charges less the sum of deductions.
+        * Total - dollar amount of charges less the sum of deductions, always positive. A bill can never be adjusted to
+                  have a negative total.
     """
 
     def __init__(self):
@@ -19,6 +20,9 @@ class Bill(persistent.Persistent):
     def addAdjustment(self, amount, why):
         if amount is None or type(amount) is not int:
             raise TypeError('Amount must be an integer.')
+        if self.getTotal() + amount < 0:
+            raise ValueError('An adjustment may not cause the bill amount to become negative.')
+
 
         self._adjustments.append((amount, why))
 
@@ -43,6 +47,14 @@ class Bill(persistent.Persistent):
 
     @charge.setter
     def charge(self, value):
+        if value is None or type(value) is not int:
+            raise TypeError('Charge must be an integer.')
+        if value < 0:
+            raise ValueError('Charge must be non-negative.')
+
+        if (self.getTotal() - self.charge) + value < 0:
+            raise ValueError('New charge may not cause the bill amount to become negative.')
+
         self._charge = value
         transaction.commit()
 
