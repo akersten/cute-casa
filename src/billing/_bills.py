@@ -72,32 +72,80 @@ class BillGroup(persistent.Persistent):
     """
 
     def __init__(self):
-        self._bills = []
-        self._payors = []
+        self._bills = []    # Tuple of (bill, payor)
+        self._payors = []   # Tuple of (payor, weight)
 
     def addOrUpdatePayor(self, payor, weight):
         """
         Adds or updates a payor on this bill.
         :param payor: The id of the payor.
-        :param weight: The weight relative to other payor weights that this payor is responsible for.
+        :param weight: The weight relative to other payor weights that this payor is responsible for. Must be positive.
         """
+        if payor is None:
+            raise TypeError('Payor must not be None.')
+
+        if weight is None or not type(weight) is int:
+            raise TypeError('Weight must be an integer.')
+        if weight <= 0:
+            raise ValueError('Weight must be positive.')
+
+
+        existing = [item for item in self._payors if item[0] == payor]
+        if len(existing) > 0:
+            # Replace the existing tuple.
+            self._payors = [(p,w) if (p != payor) else (payor, weight) for (p, w) in self._payors]
+        else:
+            self._payors.append((payor, weight))
 
         transaction.commit()
 
     def removePayor(self, payor):
+        """
+        Removes a payor from the shared bill. Cannot remove a payor if they have bill contributions on this shared bill.
+        :param payor: The payor to remove from this shared bill.
+        :raises ValueError: The payor does not exist on this bill, or cannot be removed due to having payments.
+        :raises TypeError: If an invalid type is passed as the payor.
+        """
+        if payor is None:
+            raise TypeError('A payor must be specified.')
+
+        count = len([bill for bill in self._bills if bill[1] == payor])
+        if (count > 0):
+            raise ValueError('A payor cannot be removed if they have bills associated with them.')
+
+        self._payors.remove([item for item in self._payors if item[0] == payor])
 
         transaction.commit()
 
-    def addBill(self, payor):
+    def getPayors(self):
+        """
+        Returns a list of payors on this shared bill.
+        :return: A list of payors on this shared bill.
+        """
+        return [x for x, __ in self._payors]
+
+    def addBill(self, bill, payor):
         """
         Adds a bill to this bill group with the associated payor.
+        :param bill: The bill to add.
         :param payor: The user id of who paid this bill.
+        :raise TypeError: If a Bill type wasn't passed as the bill, or None was passed as a parameter.
+        :raise ValueError: If the bill has already been added.
         """
-        pass
+        if type(bill) is not Bill:
+            raise TypeError('Can only add bills.')
+        if payor is None:
+            raise TypeError('A bill must have a payor.')
+
+        if bill in [b for b, __ in self._bills]:
+            raise ValueError('This bill is already part of this shared bill.')
+
+
 
     def calculateLiabilityFor(self, who):
         """
-        Calculates the liability for this bill
+        Calculates the liability for this bill. If positive, this payor needs to pay that much more into the pot.
+        If negative, this person needs to be paid out from the pot.
         :param who:
         :param splitMap:
         :return:
@@ -107,14 +155,14 @@ class BillGroup(persistent.Persistent):
     def getContributionFor(self, who):
         """
         Calculates how much someone in particular has contributed to the bills.
-        :param who:
-        :return:
+        :param who: The payor.
+        :return: A sum of how much this payor has paid towards this shared bill.
         """
-        pass
+        return sum([b.getTotal() for b, p in self._bills if p == who])
 
     def getContributionTotal(self):
         """
         Calculates the total amount of the bills in this bill group.
         :return: The total dollar amount of bills in the bill group.
         """
-        pass
+        return sum([b.getTotal() for b, __ in self._bills])

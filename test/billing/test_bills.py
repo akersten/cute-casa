@@ -123,12 +123,10 @@ class Tests_BillGroup(unittest.TestCase):
 
         with self.assertRaises(TypeError):
             g.addOrUpdatePayor(None, 1)
-        with self.assertRaises(ValueError):
-            g.addOrUpdatePayor('', 1)
 
         with self.assertRaises(TypeError):
             g.addOrUpdatePayor(1, None)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             g.addOrUpdatePayor(1, '')
         with self.assertRaises(ValueError):
             g.addOrUpdatePayor(1, -1)
@@ -208,6 +206,22 @@ class Tests_BillGroup(unittest.TestCase):
         self.assertTrue(g.calculateLiabilityFor(2) == -375, 'Payor liability incorrect.')
         self.assertTrue(g.calculateLiabilityFor(3) == 975, 'Payor liability incorrect.')
 
+
+    def test_getPayors(self):
+        """
+        Payors added to a bill are returned by getPayors.
+        """
+        g = BillGroup()
+
+        self.assertTrue(len(g.getPayors()) == 0, 'No payors should be on a new bill group.')
+
+        g.addOrUpdatePayor(1,1)
+        g.addOrUpdatePayor(1,1)
+        g.addOrUpdatePayor(2,1)
+        g.addOrUpdatePayor(3,1)
+
+        self.assertTrue(len(g.getPayors()) == 3, 'Payors were not added to the bill group.')
+        self.assertTrue(set([1,2,3]) == set(g.getPayors()), 'Payors were not the same.')
 
     def test_removePayor(self):
         """
