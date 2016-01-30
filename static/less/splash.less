@@ -19,14 +19,19 @@ div.splashBanner {
 
     h1 {
       color: @white;
-      text-shadow: 0.05em 0.05em 0.05em @black,
-                   0.05em 0.05em 1em @black;
+    }
+
+    svg {
+        fill: @flare-light;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 10em;
+        height: 50%;
     }
 
     .subtitle {
       color: @white;
-      text-shadow: 0.05em 0.05em 0.05em @black,
-                   0.05em 0.05em 1em @black;
     }
 }
 
@@ -62,6 +67,11 @@ div.banner {
                    0.05em 0.05em 1em @black,
                    0.05em 0.05em 0.05em @black;
     }
+}
+
+div.shades {
+    background-color: rgba(0, 0, 0, 0.35);
+    padding: 2em;
 }
 
 div.bgOne {
