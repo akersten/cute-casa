@@ -3,9 +3,20 @@
 
 import unittest
 from src.billing._bills import Bill, BillGroup
+from src.zdb import Zdb
 
 class Tests_Bill(unittest.TestCase):
     """Tests the Bill object."""
+
+    def setUp(self):
+        self.z = Zdb('secret/tests.zdb')
+
+    def tearDown(self):
+        self.z.teardown()
+
+    def cycleDb(self, obj):
+        obj.tearDown()
+        obj.setUp()
 
     def test_init(self):
         """
@@ -21,6 +32,7 @@ class Tests_Bill(unittest.TestCase):
         Adjustments with correct parameters should be able to be added to the bill.
         """
         b = Bill()
+        self.z.root.b = b
 
         with self.assertRaises(TypeError):
             b.addAdjustment(None, '')
@@ -48,15 +60,19 @@ class Tests_Bill(unittest.TestCase):
             b.addAdjustment(-300, 'Try to make the bill negative.')
 
         self.assertTrue(b.getTotal() == 250, 'Failed adjustments should not be saved.')
-        b.addAdjustment(-250, 'Zero out the bill.')
 
-        self.assertTrue(b.getTotal() == 0, 'Adjustments should be allowed to zero-out the bill.')
+        self.cycleDb(self.z)
+        self.assertTrue(len(self.z.root.b.getAdjustments()) == 4, 'Adjustments did not persist, we have ' +
+                        str(len(self.z.root.b.getAdjustments())) + ' but expected 4.')
+        self.assertTrue(self.z.root.b.getTotal() == 250, 'Bill did not persist (total was ' +
+            str(self.z.root.b.getTotal()) + ', expected 250).')
 
     def test_getTotal(self):
         """
         Adjustments and charges should all affect the total.
         """
         b = Bill()
+        self.z.root.b = b
 
         b.charge = 100
         b.addAdjustment(350, 'Adjustment of 350')
@@ -68,12 +84,17 @@ class Tests_Bill(unittest.TestCase):
 
         self.assertTrue(b.getTotal() == 350, 'Adjustments and charges should be reflected by the bill total.')
 
+        self.cycleDb(self.z)
+        self.assertTrue(len(self.z.root.b.getAdjustments()) == 2, 'Adjustments did not persist.')
+        self.assertTrue(self.z.root.b.getTotal() == 350, 'Adjustments and charges did not persist.')
+
 
     def test_charge(self):
         """
         A bill charge must be a positive integer.
         """
         b = Bill()
+        self.z.root.b = b
 
         b.charge = 20
 
@@ -97,12 +118,40 @@ class Tests_Bill(unittest.TestCase):
             b.charge = 10
         self.assertTrue(b.getTotal() == 5, 'Failed charge modification should not be saved.')
 
-        b.charge = 15
-        self.assertTrue(b.getTotal() == 0, 'Bill must be allowed to be zeroed-out via charge modification.')
+        self.cycleDb(self.z)
+        self.assertTrue(self.z.root.b.getTotal() == 5, 'Charge did not persist.')
+
+        self.z.root.b.charge = 15
+        self.assertTrue(self.z.root.b.getTotal() == 0, 'Bill must be allowed to be zeroed-out via charge modification.')
+
+    def test_setOwner(self):
+        b = Bill()
+        self.z.root.b = b
+
+        self.assertTrue(b.owner == None, 'A bill should start with no owner.')
+
+        b.owner = 1
+        self.assertTrue(b.owner == 1, 'A bill should be able to have an integer-valued owner.')
+
+        b.owner = '5'
+        self.assertTrue(b.owner == '5', 'A bill should be able to have a string-valued owner.')
+
+        self.cycleDb(self.z)
+        self.assertTrue(self.z.root.b.owner == '5', 'Owner did not persist.')
 
 
 class Tests_BillGroup(unittest.TestCase):
     """Tests the BillGroup object."""
+
+    def setUp(self):
+        self.z = Zdb('secret/tests.zdb')
+
+    def tearDown(self):
+        self.z.teardown()
+
+    def cycleDb(self):
+        self.tearDown()
+        self.setUp()
 
     def test_init(self):
         """
@@ -120,6 +169,7 @@ class Tests_BillGroup(unittest.TestCase):
         calculate properly.
         """
         g = BillGroup()
+        self.z.root.g = g
 
         with self.assertRaises(TypeError):
             g.addOrUpdatePayor(None, 1)
@@ -206,12 +256,19 @@ class Tests_BillGroup(unittest.TestCase):
         self.assertTrue(g.calculateLiabilityFor(2) == -375, 'Payor liability incorrect.')
         self.assertTrue(g.calculateLiabilityFor(3) == 975, 'Payor liability incorrect.')
 
+        self.cycleDb()
+
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(1) == -600, 'Payor liability did not persist.')
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(2) == -375, 'Payor liability did not persist.')
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(3) == 975, 'Payor liability did not persist.')
+
 
     def test_getPayors(self):
         """
         Payors added to a bill are returned by getPayors.
         """
         g = BillGroup()
+        self.z.root.g = g
 
         self.assertTrue(len(g.getPayors()) == 0, 'No payors should be on a new bill group.')
 
@@ -223,6 +280,11 @@ class Tests_BillGroup(unittest.TestCase):
         self.assertTrue(len(g.getPayors()) == 3, 'Payors were not added to the bill group.')
         self.assertTrue(set([1,2,3]) == set(g.getPayors()), 'Payors were not the same.')
 
+        self.cycleDb()
+
+        self.assertTrue(len(self.z.root.g.getPayors()) == 3, 'Payors did not persist.')
+        self.assertTrue(set([1,2,3]) == set(self.z.root.g.getPayors()), 'Payors did not persist.')
+
     def test_removePayor(self):
         """
         Payors should be removable from the payor list and liability for everyone else should continue to calculate
@@ -230,6 +292,8 @@ class Tests_BillGroup(unittest.TestCase):
         liability from zeroing out.
         """
         g = BillGroup()
+        self.z.root.g = g
+
         g.addOrUpdatePayor(1, 40)
         g.addOrUpdatePayor(2, 60)
 
@@ -258,12 +322,21 @@ class Tests_BillGroup(unittest.TestCase):
 
         g.removePayor(2)
 
+        with self.assertRaises(ValueError):
+            g.addBill(Bill(), 2)
+
         self.assertTrue(g.calculateLiabilityFor(1) == 0, 'Payor liability incorrect.')
 
         g.addOrUpdatePayor(2, 40)
 
         self.assertTrue(g.calculateLiabilityFor(1) == -100, 'Payor liability incorrect.')
         self.assertTrue(g.calculateLiabilityFor(2) == 100, 'Payor liability incorrect.')
+
+        self.cycleDb()
+
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(1) == -100, 'Payor liability did not persist.')
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(2) == 100, 'Payor liability did not persist.')
+
 
     def test_addBill(self):
         """
@@ -272,6 +345,7 @@ class Tests_BillGroup(unittest.TestCase):
         twice.
         """
         g = BillGroup()
+        self.z.root.g = g
 
         b0 = Bill()
         b0.charge = 999
@@ -304,12 +378,21 @@ class Tests_BillGroup(unittest.TestCase):
         g.addBill(b2, 2)
 
         with self.assertRaises(ValueError):
-            g.addBill(b1)
+            g.addBill(b1, '')
 
         # Total charge is 650.
-        self.assertTrue(g.calculateLiabilityFor(1) == -335, 'Payor liability incorrect.')
+        self.assertTrue(g.calculateLiabilityFor(1) == -335, 'Payor liability incorrect (' +
+                        str(g.calculateLiabilityFor(1)) + ').')
         self.assertTrue(g.calculateLiabilityFor(2) == -87.5, 'Payor liability incorrect.')
         self.assertTrue(g.calculateLiabilityFor(3) == 422.5, 'Payor liability incorrect.')
+
+        self.cycleDb()
+
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(1) == -335, 'Payor liability did not persist.')
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(2) == -87.5, 'Payor liability did not persist.')
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(3) == 422.5, 'Payor liability did not persist.')
+
+
 
 
     def test_calculateLiabilityFor(self):
@@ -317,6 +400,7 @@ class Tests_BillGroup(unittest.TestCase):
         Liability for everyone should zero out. Liability should not calculate for non-existant payors.
         """
         g = BillGroup()
+        self.z.root.g = g
 
         with self.assertRaises(TypeError):
             g.calculateLiabilityFor(None)
@@ -339,12 +423,20 @@ class Tests_BillGroup(unittest.TestCase):
         self.assertTrue(g.calculateLiabilityFor(1) == -187.5, 'Payor liability incorrect.')
         self.assertTrue(g.calculateLiabilityFor(1) + g.calculateLiabilityFor(2) == 0, 'Liability sum did not zero out.')
 
+        self.cycleDb()
+
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(1) == -187.5, 'Payor liability did not persist.')
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(1) + self.z.root.g.calculateLiabilityFor(2) == 0,
+                        'Liability sum did not persist.')
+
+
     def test_getContributionFor(self):
         """
         Contributions for everyone should add up to the total contribution.
         :return:
         """
         g = BillGroup()
+        self.z.root.g = g
 
         with self.assertRaises(TypeError):
             g.getContributionFor(None)
@@ -361,22 +453,33 @@ class Tests_BillGroup(unittest.TestCase):
         self.assertTrue(g.getContributionFor(3) == 0, 'Contribution is wrong.')
 
         b1 = Bill()
-        b1.charges = 20
+        b1.charge = 20
+        b1.addAdjustment(10, '')
         g.addBill(b1, 1)
 
         b2 = Bill()
-        b2.charges = 15
+        b2.charge = 15
+        b2.addAdjustment(-5, '')
+        b2.addAdjustment(-8, '')
         g.addBill(b2, 2)
 
         b3 = Bill()
-        b3.charges = 10
+        b3.charge = 10
         g.addBill(b3, 3)
 
-        self.assertTrue(g.getContributionFor(1) == 20, 'Contribution is wrong.')
-        self.assertTrue(g.getContributionFor(2) == 15, 'Contribution is wrong.')
+        self.assertTrue(g.getContributionFor(1) == 30, 'Contribution is wrong (' + str(g.getContributionFor(1)) + ').')
+        self.assertTrue(g.getContributionFor(2) == 2, 'Contribution is wrong.')
         self.assertTrue(g.getContributionFor(3) == 10, 'Contribution is wrong.')
 
-        self.assertTrue(g.getContributionTotal() == 45, 'Total contribution is wrong.')
+        self.assertTrue(g.getContributionTotal() == 42, 'Total contribution is wrong.')
+
+        self.cycleDb()
+
+        self.assertTrue(self.z.root.g.getContributionFor(1) == 30, 'Contribution did not persist (' +
+            str(self.z.root.g.getContributionFor(1)) + ').')
+        self.assertTrue(self.z.root.g.getContributionFor(2) == 2, 'Contribution did not persist.')
+        self.assertTrue(self.z.root.g.getContributionFor(3) == 10, 'Contribution did not persist.')
+        self.assertTrue(self.z.root.g.getContributionTotal() == 42, 'Total contribution did not persist.')
 
 
     def test_getContributionTotal(self):
@@ -384,28 +487,37 @@ class Tests_BillGroup(unittest.TestCase):
         Calculates the total amount of the bills in this bill group.
         """
         g = BillGroup()
+        self.z.root.g = g
 
         self.assertTrue(g.getContributionTotal() == 0, 'Total contribution is wrong.')
 
         g.addOrUpdatePayor(1, 25)
         g.addOrUpdatePayor(2, 500)
+        g.addOrUpdatePayor(3, 10)
 
         b1 = Bill()
-        b1.charges = 20
+        b1.charge = 20
         g.addBill(b1, 1)
 
         b2 = Bill()
-        b2.charges = 5
+        b2.charge = 5
         b2.addAdjustment(20, 'High')
         b2.addAdjustment(-10, 'Low')
         g.addBill(b2, 2)
 
         b3 = Bill()
-        b3.charges = 10
+        b3.charge = 10
         g.addBill(b3, 3)
 
-        g.addBill(b1, 1)
-        g.addBill(b2, 1)
-        g.addBill(b3, 2)
+        with self.assertRaises(ValueError):
+            g.addBill(b1, 1)
+        with self.assertRaises(ValueError):
+            g.addBill(b2, 1)
+        with self.assertRaises(ValueError):
+            g.addBill(b3, 2)
 
         self.assertTrue(g.getContributionTotal() == 45, 'Total contribution is wrong.')
+
+        self.cycleDb()
+
+        self.assertTrue(self.z.root.g.getContributionTotal() == 45, 'Total contribution did not persist.')
