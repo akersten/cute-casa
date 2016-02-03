@@ -30,6 +30,7 @@ class Bill(persistent.Persistent):
 
 
         self._adjustments.append((amount, why))
+        self._p_changed = True
         transaction.commit()
 
     def getAdjustments(self):
@@ -102,6 +103,7 @@ class BillGroup(persistent.Persistent):
             raise ValueError('Weight must be positive.')
 
         self._payors[payor] = weight
+        self._p_changed = True
         transaction.commit()
 
     def removePayor(self, payor):
@@ -122,6 +124,7 @@ class BillGroup(persistent.Persistent):
             raise ValueError('A payor cannot be removed if they have bills associated with them.')
 
         self._payors.pop(payor)
+        self._p_changed = True
         transaction.commit()
 
     def getPayors(self):
@@ -151,6 +154,7 @@ class BillGroup(persistent.Persistent):
 
         bill.owner = payor
         self._bills.append(bill)
+        self._p_changed = True
         transaction.commit()
 
     def calculateLiabilityFor(self, who):
