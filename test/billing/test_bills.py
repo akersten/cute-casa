@@ -14,9 +14,9 @@ class Tests_Bill(unittest.TestCase):
     def tearDown(self):
         self.z.teardown()
 
-    def cycleDb(self, obj):
-        obj.tearDown()
-        obj.setUp()
+    def cycleDb(self):
+        self.tearDown()
+        self.setUp()
 
     def test_init(self):
         """
@@ -61,7 +61,7 @@ class Tests_Bill(unittest.TestCase):
 
         self.assertTrue(b.getTotal() == 250, 'Failed adjustments should not be saved.')
 
-        self.cycleDb(self.z)
+        self.cycleDb()
         self.assertTrue(len(self.z.root.b.getAdjustments()) == 4, 'Adjustments did not persist, we have ' +
                         str(len(self.z.root.b.getAdjustments())) + ' but expected 4.')
         self.assertTrue(self.z.root.b.getTotal() == 250, 'Bill did not persist (total was ' +
@@ -84,7 +84,7 @@ class Tests_Bill(unittest.TestCase):
 
         self.assertTrue(b.getTotal() == 350, 'Adjustments and charges should be reflected by the bill total.')
 
-        self.cycleDb(self.z)
+        self.cycleDb()
         self.assertTrue(len(self.z.root.b.getAdjustments()) == 2, 'Adjustments did not persist.')
         self.assertTrue(self.z.root.b.getTotal() == 350, 'Adjustments and charges did not persist.')
 
@@ -118,7 +118,7 @@ class Tests_Bill(unittest.TestCase):
             b.charge = 10
         self.assertTrue(b.getTotal() == 5, 'Failed charge modification should not be saved.')
 
-        self.cycleDb(self.z)
+        self.cycleDb()
         self.assertTrue(self.z.root.b.getTotal() == 5, 'Charge did not persist.')
 
         self.z.root.b.charge = 15
@@ -136,7 +136,7 @@ class Tests_Bill(unittest.TestCase):
         b.owner = '5'
         self.assertTrue(b.owner == '5', 'A bill should be able to have a string-valued owner.')
 
-        self.cycleDb(self.z)
+        self.cycleDb()
         self.assertTrue(self.z.root.b.owner == '5', 'Owner did not persist.')
 
 
