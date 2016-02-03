@@ -1,6 +1,3 @@
-# Be sure that the values from individual contributions add up to the total calculated liability.
-
-
 import unittest
 from src.billing._bills import Bill, BillGroup
 from src.zdb import Zdb
