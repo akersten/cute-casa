@@ -126,22 +126,22 @@ def login():
             # normal use case of hitting the screen and being redirected to the dashboard is a GET.
             abort(409)  # You can't log in twice...
 
-        if (not request.form.get('loginPassword')) or (not request.form.get('loginUsername')):
+        if (not request.form.get('inputPassword')) or (not request.form.get('inputUsername')):
             flash('Please fill in all fields.', 'danger')
             return render_template('login.html')
 
         hash = hashlib.pbkdf2_hmac('sha512',
-                                   bytearray(request.form['loginPassword'], 'utf-8'),
+                                   bytearray(request.form['inputPassword'], 'utf-8'),
                                    bytearray(SALT, 'utf-8'),
                                    100000)
 
-        res = db.query_db(queries.CHECK_LOGIN, [request.form['loginUsername'], hash], True)
+        res = db.query_db(queries.CHECK_LOGIN, [request.form['inputUsername'], hash], True)
 
         if res['COUNT(*)'] > 0:
             # User is now logged in - set session variables and direct to dashboard.
             session['logged_in'] = True
 
-            session['username'] = request.form['loginUsername']
+            session['username'] = request.form['inputUsername']
             session['id'] = res['id']
 
             session['email'] = res['email']
@@ -171,27 +171,27 @@ def register():
             abort(409)  # You can't register while logged in...
 
         if (
-                (not request.form.get('registerPassword')) or
-                (not request.form.get('registerUsername')) or
+                (not request.form.get('inputPassword')) or
+                (not request.form.get('inputUsername')) or
                 (not request.form.get('registerEmail'))
         ):
             flash('Please fill in all fields.', 'danger')
             return render_template('register.html')
 
         if (
-                (len(request.form['registerPassword']) <= 3) or
-                (len(request.form['registerUsername']) <= 3) or
+                (len(request.form['inputPassword']) <= 3) or
+                (len(request.form['inputUsername']) <= 3) or
                 (len(request.form['registerEmail']) <= 3)
         ):
             flash("Each item must each be at least 3 characters long.", 'danger')
             return render_template('register.html')
 
         pwHash = hashlib.pbkdf2_hmac('sha512',
-                                   bytearray(request.form['registerPassword'], 'utf-8'),
+                                   bytearray(request.form['inputPassword'], 'utf-8'),
                                    bytearray(SALT, 'utf-8'),
                                    100000)
 
-        res = db.query_db(queries.CHECK_USERNAME, [request.form['registerUsername'], ], True)
+        res = db.query_db(queries.CHECK_USERNAME, [request.form['inputUsername'], ], True)
 
         if res['COUNT(*)'] > 0:
             flash("That username is already in use.", 'danger')
@@ -200,15 +200,15 @@ def register():
         # Unique email is not a requirement.
 
         # Registration checks out, create ZDB object and DB entry.
-        db.post_db(queries.REGISTER, [request.form['registerUsername'],
+        db.post_db(queries.REGISTER, [request.form['inputUsername'],
                                       pwHash,
                                       request.form['registerEmail']])
 
-        g.dog.zdb.createUser(str(db.getLastRowId()), str(request.form['registerUsername']))
+        g.dog.zdb.createUser(str(db.getLastRowId()), str(request.form['inputUsername']))
 
         flash("Successfully registered!", 'info')
 
-        return render_template('register.html')
+        return redirect(url_for('login'), code=307) # Redirect while preserving POST
     else:
         return render_template('register.html')
 
