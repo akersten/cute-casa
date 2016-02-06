@@ -20,6 +20,7 @@ class Bill(persistent.Persistent):
         self._adjustments = []
         self._charge = 0
         self._owner = None
+        self._name = None
         transaction.commit()
 
     def addAdjustment(self, amount, why):
@@ -66,6 +67,16 @@ class Bill(persistent.Persistent):
         transaction.commit()
 
     @property
+    def name(self):
+        """The title of this bill."""
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        self._name = value
+        transaction.commit()
+
+    @property
     def owner(self):
         """A bill can have an associated owner."""
         return self._owner
@@ -86,6 +97,7 @@ class BillGroup(persistent.Persistent):
     def __init__(self):
         self._bills = []    # List of bills with owners.
         self._payors = {}   # Tuple of payor => weight
+        self._name = None
 
     def addOrUpdatePayor(self, payor, weight):
         """
@@ -203,3 +215,12 @@ class BillGroup(persistent.Persistent):
         :return: The total dollar amount of bills in the bill group.
         """
         return sum([b.getTotal() for b in self._bills])
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        self._name = value
+        transaction.commit()

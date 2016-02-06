@@ -136,6 +136,19 @@ class Tests_Bill(unittest.TestCase):
         self.cycleDb()
         self.assertTrue(self.z.root.b.owner == '5', 'Owner did not persist.')
 
+    def test_setName(self):
+        b = Bill()
+
+        self.z.root.b = b
+        self.assertTrue(b.name == None, 'A bill should start with no name.')
+
+        b.name = 'A bill through the desert'
+
+        self.assertTrue(b.name == 'A bill through the desert', 'Name set did not work.')
+        self.cycleDb()
+        self.assertTrue(self.z.root.b.name == 'A bill through the desert', 'Name did not persist.')
+
+
 
 class Tests_BillGroup(unittest.TestCase):
     """Tests the BillGroup object."""
@@ -518,3 +531,15 @@ class Tests_BillGroup(unittest.TestCase):
         self.cycleDb()
 
         self.assertTrue(self.z.root.g.getContributionTotal() == 45, 'Total contribution did not persist.')
+
+    def test_setName(self):
+        g = BillGroup()
+
+        self.z.root.g = g
+        self.assertTrue(g.name == None, 'A bill group should start with no name.')
+
+        g.name = 'A bill group through the desert'
+
+        self.assertTrue(g.name == 'A bill group through the desert', 'Name set did not work.')
+        self.cycleDb()
+        self.assertTrue(self.z.root.g.name == 'A bill group through the desert', 'Name did not persist.')
