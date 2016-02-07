@@ -1,4 +1,4 @@
-import unittest
+import unittest, datetime
 from src.billing._bills import Bill, BillGroup
 from src.zdb import Zdb
 
@@ -138,8 +138,8 @@ class Tests_Bill(unittest.TestCase):
 
     def test_setName(self):
         b = Bill()
-
         self.z.root.b = b
+
         self.assertTrue(b.name == None, 'A bill should start with no name.')
 
         b.name = 'A bill through the desert'
@@ -147,6 +147,50 @@ class Tests_Bill(unittest.TestCase):
         self.assertTrue(b.name == 'A bill through the desert', 'Name set did not work.')
         self.cycleDb()
         self.assertTrue(self.z.root.b.name == 'A bill through the desert', 'Name did not persist.')
+
+    def test_setDate(self):
+        b = Bill()
+        self.z.root.b = b
+
+        self.assertTrue(b.date == None, 'A bill should start with no date.')
+
+        dt = datetime.datetime.now()
+        b.date = dt
+        self.assertTrue(b.date == dt, 'Bill did not save date.')
+
+        with self.assertRaises(TypeError):
+            b.date = 'today'
+        with self.assertRaises(TypeError):
+            b.date = 1234
+
+        self.assertTrue(b.date == dt, 'Failed assignments should not change date.')
+
+        self.cycleDb()
+
+        self.assertTrue(self.z.root.b.date == dt, 'Date should persist.')
+
+    def test_setActive(self):
+        b = Bill()
+        self.z.root.b = b
+
+        self.assertTrue(b.active == True, 'A bill should start as active.')
+
+        with self.assertRaises(TypeError):
+            b.active = None
+        with self.assertRaises(TypeError):
+            b.active = 'True'
+        with self.assertRaises(TypeError):
+            b.active = 1
+
+        self.assertTrue(b.active == True, 'Active status should not change from failed tests.')
+
+        b.active = False
+
+        self.assertTrue(b.active == False, 'Active status did not change.')
+
+        self.cycleDb()
+
+        self.assertTrue(self.z.root.b.active == False, 'Active status did not persist.')
 
 
 

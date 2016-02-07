@@ -213,7 +213,8 @@ class Household(persistent.Persistent):
         self.householdId = householdId
 
         # Object properties
-        self.members = []
+        self._members = []
+        self._sharedBills = []
 
     def addMember(self, member):
         pass

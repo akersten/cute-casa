@@ -1,4 +1,4 @@
-import persistent, transaction
+import persistent, transaction, datetime
 
 class Bill(persistent.Persistent):
     """
@@ -21,6 +21,8 @@ class Bill(persistent.Persistent):
         self._charge = 0
         self._owner = None
         self._name = None
+        self._date = None
+        self._active = True
         transaction.commit()
 
     def addAdjustment(self, amount, why):
@@ -86,12 +88,43 @@ class Bill(persistent.Persistent):
         self._owner = value
         transaction.commit()
 
+    @property
+    def date(self):
+        return self._date
+
+    @date.setter
+    def date(self, value):
+        if type(value) is not datetime.datetime:
+            raise TypeError('A date must be of type datetime.')
+
+        self._date = value
+        transaction.commit()
+
+    @property
+    def active(self):
+        """
+        Whether this bill is active or not. The interpretation of active depends on what type of bill this is.
+            * If this bill is part of a shared bill, active indicates that this bill is part of a cycle that has not
+            been finalized yet.
+        """
+        return self._active
+
+    @active.setter
+    def active(self, value):
+        if type(value) is not bool:
+            raise TypeError('Active must be either true or false.')
+
+        self._active = value
+        transaction.commit()
+
 
 class BillGroup(persistent.Persistent):
     """
     A bill group is a group of Bills whose liability is split between multiple payors. Whenever a new bill is added, the
     assumption is that a payor has already paid the bill, and that the amount of the bill is their "contribution" to the
     shared pot of money, which will be redistributed according to the split of everyone in the shared bill group.
+
+    Bill groups are tracked in cycles, which are buckets of bills split by e.g. month.
     """
 
     def __init__(self):
