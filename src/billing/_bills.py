@@ -240,14 +240,21 @@ class BillGroup(persistent.Persistent):
         if who not in self.getPayors():
             raise ValueError('This payor is not associated with this bill group.')
 
-        return sum([b.getTotal() for b in self._bills if b.owner == who])
+        return sum([b.getTotal() for b in self._bills if b.owner == who and b.active])
 
     def getContributionTotal(self):
         """
         Calculates the total amount of the bills in this bill group.
         :return: The total dollar amount of bills in the bill group.
         """
-        return sum([b.getTotal() for b in self._bills])
+        return sum([b.getTotal() for b in self._bills if b.active])
+
+    def endCycle(self):
+        """
+        Deactivate all of the bills in the current cycle. They will no longer affect billing calculations.
+        """
+        for bill in self._bills:
+            bill.active = False
 
     @property
     def name(self):

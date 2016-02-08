@@ -576,7 +576,86 @@ class Tests_BillGroup(unittest.TestCase):
 
         self.assertTrue(self.z.root.g.getContributionTotal() == 45, 'Total contribution did not persist.')
 
+    def test_endCycle(self):
+        """
+        Test ending the current billing cycle. Deactivating bills has consequences in most of the calculations for a
+        bill group, so test all of them.
+        """
+        g = BillGroup()
+        self.z.root.g = g
+
+        g.addOrUpdatePayor(1, 25)
+        g.addOrUpdatePayor(2, 500)
+        g.addOrUpdatePayor(3, 10)
+
+        b1 = Bill()
+        b1.charge = 20
+        g.addBill(b1, 1)
+
+        b2 = Bill()
+        b2.charge = 5
+        b2.addAdjustment(20, 'High')
+        b2.addAdjustment(-10, 'Low')
+        g.addBill(b2, 2)
+
+        b3 = Bill()
+        b3.charge = 10
+        g.addBill(b3, 3)
+
+        self.assertTrue(g.getContributionTotal() == 45, 'Total contribution is wrong.')
+        g.endCycle()
+
+        self.assertTrue(g.getContributionTotal() == 0, 'Total contribution is wrong after ending cycle.')
+        self.assertTrue(g.getContributionFor(1) == 0, 'Contribution is wrong after ending cycle.')
+        self.assertTrue(g.getContributionFor(2) == 0, 'Contribution is wrong after ending cycle.')
+        self.assertTrue(g.getContributionFor(3) == 0, 'Contribution is wrong after ending cycle.')
+        self.assertTrue(g.calculateLiabilityFor(1) == 0, 'Liability is wrong after ending cycle.')
+        self.assertTrue(g.calculateLiabilityFor(2) == 0, 'Liability is wrong after ending cycle.')
+        self.assertTrue(g.calculateLiabilityFor(3) == 0, 'Liability is wrong after ending cycle.')
+
+
+        g.addOrUpdatePayor(2, 35)
+        g.addOrUpdatePayor(4, 30)
+
+        b4 = Bill()
+        b4.charge = 20
+        b4.addAdjustment(200, 'Adj')
+        g.addBill(b4, 2)
+
+        b5 = Bill()
+        b5.charge = 90
+        b5.addAdjustment(-10, 'Adj')
+        g.addBill(b5, 4)
+
+        # Liability percentages: 25, 35, 10, 30
+
+        self.assertTrue(g.getContributionTotal() == 300, 'Total contribution is wrong after new cycle.')
+        self.assertTrue(g.getContributionFor(1) == 0, 'Contribution is wrong after new cycle.')
+        self.assertTrue(g.getContributionFor(2) == 220, 'Contribution is wrong after new cycle.')
+        self.assertTrue(g.getContributionFor(3) == 0, 'Contribution is wrong after new cycle.')
+        self.assertTrue(g.getContributionFor(4) == 80, 'Contribution is wrong after new cycle.')
+        self.assertTrue(g.calculateLiabilityFor(1) == 75, 'Liability is wrong after new cycle.')
+        self.assertTrue(g.calculateLiabilityFor(2) == -115, 'Liability is wrong after new cycle.')
+        self.assertTrue(g.calculateLiabilityFor(3) == 30, 'Liability is wrong after new cycle.')
+        self.assertTrue(g.calculateLiabilityFor(4) == 10, 'Liability is wrong after new cycle.')
+
+        self.cycleDb()
+
+        self.assertTrue(self.z.root.g.getContributionTotal() == 300, 'Total contribution did not persist after new cycle.')
+        self.assertTrue(self.z.root.g.getContributionFor(1) == 0, 'Contribution did not persist after new cycle.')
+        self.assertTrue(self.z.root.g.getContributionFor(2) == 220, 'Contribution did not persist after new cycle.')
+        self.assertTrue(self.z.root.g.getContributionFor(3) == 0, 'Contribution did not persist after new cycle.')
+        self.assertTrue(self.z.root.g.getContributionFor(4) == 80, 'Contribution did not persist after new cycle.')
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(1) == 75, 'Liability did not persist after new cycle.')
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(2) == -115, 'Liability did not persist after new cycle.')
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(3) == 30, 'Liability did not persist after new cycle.')
+        self.assertTrue(self.z.root.g.calculateLiabilityFor(4) == 10, 'Liability did not persist after new cycle.')
+
+
     def test_setName(self):
+        """
+        Test setting the name of a bill.
+        """
         g = BillGroup()
 
         self.z.root.g = g
