@@ -202,6 +202,13 @@ class BillGroup(persistent.Persistent):
         self._p_changed = True
         transaction.commit()
 
+    def getBills(self):
+        """
+        Return the list of bills associated with this bill group.
+        :return: The list of bills associated with this bill group.
+        """
+        return self._bills
+
     def calculateLiabilityFor(self, who):
         """
         Calculates the liability for this bill. If positive, this payor needs to pay that much more into the pot.
