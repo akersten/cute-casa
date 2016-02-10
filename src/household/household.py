@@ -220,4 +220,9 @@ class Household(persistent.Persistent):
         pass
 
 
-    
+    def getSharedBills(self):
+        """
+        Gets the shared bills for this household, along with each's index in the shared bills list.
+        :return: Tuple (idx, SharedBill) for each shared bill in the household.
+        """
+        return enumerate(self._sharedBills)
