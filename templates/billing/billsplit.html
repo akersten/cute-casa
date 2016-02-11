@@ -24,6 +24,29 @@
             <div class="col-bezel">
                 <h2>Shared Bills</h2>
 
+                {% for (idx, billgroup) in g.dog.hh.getSharedBills() %}
+                    <div class="bezelInnerContainer">
+                        <h3>{{ billgroup.name }}</h3>
+
+                        <table class="table table-striped" style="table-layout: fixed;">
+                            <tr>
+                                <th>
+                                    Bills
+                                </th>
+                                <th>
+                                    Split
+                                </th>
+                            </tr>
+
+                            {% for bill in billgroup.getBills() %}
+
+                            {% endfor %}
+                        </table>
+
+
+                    </div>
+                {% endfor %}
+                <!--
                 <div class="bezelInnerContainer">
                     <h3>Groceries &amp; House Supplies <a href="#" class="btn btn-primary">Cycle Bill</a><a href="#" class="btn btn-danger">Delete</a></h3>
 
@@ -51,6 +74,7 @@
                         </tr>
                     </table>
                 </div>
+                -->
             </div>
         </div>
     </div>
