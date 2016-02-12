@@ -62,14 +62,14 @@
 
 {% endmacro %}
 
-{% macro userbadge(user, full) %}
+{% macro userbadge(userId, full) %}
     <!-- A small badge for a user, with their picture and display name. -->
     <!-- Full parameter for whether to show the status update or not. -->
     <div class="userbadge">
         <div class="userbadge-clear">
             <img class="userbadge-image" src="http://i.imgur.com/wQ3W10D.jpg" alt="User profile image"
-                style="border-color: {{ g.dog.zdb.getUser(user).favoriteColor }};" />
-            <h3 class="userbadge-title">{{ g.dog.zdb.getUser(user).displayname }}</h3>
+                style="border-color: {{ g.dog.zdb.getUser(userId).favoriteColor }};" />
+            <h3 class="userbadge-title">{{ g.dog.zdb.getUser(userId).displayname }}</h3>
             <br />
             <!--<p class="small">Seen 24 minutes ago</p>-->
             <!-- TODO: Activity tracking? -->
