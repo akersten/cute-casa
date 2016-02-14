@@ -6,6 +6,7 @@ class GlobalSettings(persistent.Persistent):
 
     def __init__(self):
         self._yoApiKey = ""
+        self._registrationEnabled = False
 
     @property
     def yoApiKey(self):
@@ -16,3 +17,14 @@ class GlobalSettings(persistent.Persistent):
         self._yoApiKey = yoApiKey
         transaction.commit()
 
+    @property
+    def registrationEnabled(self):
+        return self._registrationEnabled
+
+    @registrationEnabled.setter
+    def registrationEnabled(self, value):
+        if type(value) is not bool:
+            raise TypeError('registrationEnabled is a boolean property.')
+
+        self._registrationEnabled = value
+        transaction.commit()

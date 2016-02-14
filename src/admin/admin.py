@@ -82,7 +82,14 @@ def globalSettings():
 
                 flash("Yo API key updated.", 'info')
 
-            return redirect(url_for('admin_dashboard'))
+        # Registration enabled - checkboxes come in as either 'on' or None >.>
+        regEnabled = True if request.form.get('registrationEnabledInput') else False
+
+        if regEnabled != g.dog.zdb.root.globalSettings.registrationEnabled:
+            g.dog.zdb.root.globalSettings.registrationEnabled = regEnabled
+            flash('Registration ' + ('enabled' if regEnabled else 'disabled') + '.', 'info')
+
+        return redirect(url_for('admin_dashboard'))
 
     return render_template('admin/globalSettings.html')
 
