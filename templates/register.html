@@ -8,34 +8,39 @@
 
         </div>
         <div class="col-md-4 bezel">
-            <h2>Sign up for CuteCasa</h2>
+            {% if g.dog.zdb.root.globalSettings.registrationEnabled %}
+                <h2>Sign up for CuteCasa</h2>
 
-            {{ shared.flasher() }}
+                {{ shared.flasher() }}
 
-            <form method="POST" action="{{ url_for('register') }}">
-                <div class="form-group">
-                    <label for="inputUsername">
-                        <h3>Username</h3>
-                    </label>
-                    <input type="text" id="inputUsername" name="inputUsername" class="form-control" autofocus>
-                </div>
-                <div class="form-group">
-                    <label for="registerEmail">
-                        <h3>Email</h3>
-                    </label>
-                    <input type="email" id="registerEmail" name="registerEmail" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword">
-                        <h3>Password</h3>
-                    </label>
-                    <input type="password" id="inputPassword" name="inputPassword" class="form-control">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="form-control">Register</button>
-                </div>
+                <form method="POST" action="{{ url_for('register') }}">
+                    <div class="form-group">
+                        <label for="inputUsername">
+                            <h3>Username</h3>
+                        </label>
+                        <input type="text" id="inputUsername" name="inputUsername" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">
+                            <h3>Email</h3>
+                        </label>
+                        <input type="email" id="registerEmail" name="registerEmail" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">
+                            <h3>Password</h3>
+                        </label>
+                        <input type="password" id="inputPassword" name="inputPassword" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="form-control">Register</button>
+                    </div>
 
-            </form>
+                </form>
+            {% else %}
+                <h2>Registration is Disabled</h2>
+                <p>Sorry, registration is currently disabled. Try again later!</p>
+            {% endif %}
         </div>
         <div class="col-md-4">
 
