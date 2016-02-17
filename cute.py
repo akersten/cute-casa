@@ -170,6 +170,9 @@ def register():
         if session.get('logged_in'):
             abort(409)  # You can't register while logged in...
 
+        if not g.dog.zdb.root.globalSettings.registrationEnabled:
+            abort(400, 'registration is currently disabled')
+
         if (
                 (not request.form.get('inputPassword')) or
                 (not request.form.get('inputUsername')) or
