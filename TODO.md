@@ -6,3 +6,5 @@ Longterm TODO
 [] Add proper pydoc :raises: documentation and other method header items
 [] Indentaiton spacing (e.g. be consistent about 2 vs 4 spaces in css files)
 [] Rename jinja2 macros imported as "shared" to "macros"
+[] Have bootstrap3 less files compile to .css
+[] 
