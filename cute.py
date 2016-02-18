@@ -115,6 +115,9 @@ def teardown_request(exception):
 
 @app.route('/')
 def splash():
+    if session.get('logged_in'):
+        return redirect(url_for('dashboard'))
+
     return render_template('splash.html')
 
 
