@@ -4,8 +4,8 @@
 
 <div class="container">
 
-    {{ shared.pageHeader('Billing Admin', 'fa-wrench', url_for('billing_dashboard')) }}
-    {{ shared.flasher() }}
+    {{ macros.pageHeader('Billing Admin', 'fa-wrench', url_for('billing_dashboard')) }}
+    {{ macros.flasher() }}
 
     <div class="row">
 
@@ -92,7 +92,7 @@
 
 </div>
 
-{{ shared.modal('generateInvoiceModal', 'billing/admin/_modals/generateInvoice') }}
+{{ macros.modal('generateInvoiceModal', 'billing/admin/_modals/generateInvoice') }}
 
 
 {% endblock %}*

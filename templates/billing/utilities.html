@@ -3,8 +3,8 @@
 
 <div class="container">
 
-    {{ shared.pageHeader('Utilities', 'fa-tint', url_for('billing_dashboard')) }}
-    {{ shared.flasher() }}
+    {{ macros.pageHeader('Utilities', 'fa-tint', url_for('billing_dashboard')) }}
+    {{ macros.flasher() }}
 
     {% if session['householdRelation'] == 2 %}
         <div class="row">

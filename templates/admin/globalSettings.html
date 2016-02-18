@@ -4,7 +4,7 @@
 
 <div class="container">
 
-    {{ shared.pageHeader('Global Settings', 'fa-cog', url_for('admin_dashboard')) }}
+    {{ macros.pageHeader('Global Settings', 'fa-cog', url_for('admin_dashboard')) }}
 
     <div class="row">
         <div class="col-md-offset-3 col-md-6">
@@ -12,7 +12,7 @@
                 <form method="POST" action="{{ url_for('admin_globalSettings') }}" class="form-horizontal">
                     <h2>CuteCasa Global Instance Settings</h2>
 
-                    {{ shared.flasher() }}
+                    {{ macros.flasher() }}
 
                     <h3>API Keys</h3>
 

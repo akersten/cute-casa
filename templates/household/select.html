@@ -3,13 +3,13 @@
 
 <div class="container">
 
-    {{ shared.pageHeader('Select a Household', None, None) }}
+    {{ macros.pageHeader('Select a Household', None, None) }}
 
     <div class="row">
         <div class="col-md-offset-3 col-md-6">
             <div class="col-bezel">
 
-                    {{ shared.flasher() }}
+                    {{ macros.flasher() }}
 
                     {% if households %}
                         <h2>Your Households</h2>
@@ -58,6 +58,6 @@
     </div>
 </div>
 
-{{ shared.modal('selectHouseholdModal','household/_modals/selectHousehold') }}
+{{ macros.modal('selectHouseholdModal','household/_modals/selectHousehold') }}
 
 {% endblock %}

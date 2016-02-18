@@ -11,7 +11,7 @@
             {% if g.dog.zdb.root.globalSettings.registrationEnabled %}
                 <h2>Sign up for CuteCasa</h2>
 
-                {{ shared.flasher() }}
+                {{ macros.flasher() }}
 
                 <form method="POST" action="{{ url_for('register') }}">
                     <div class="form-group">

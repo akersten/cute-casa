@@ -5,9 +5,9 @@
 <div class="container">
 
     {% if session['householdName'] %}
-        {{ shared.pageHeader(session['householdName'], None, url_for('dashboard')) }}
+        {{ macros.pageHeader(session['householdName'], None, url_for('dashboard')) }}
     {% else %}
-        {{ shared.pageHeader('New Household', None, url_for('dashboard')) }}
+        {{ macros.pageHeader('New Household', None, url_for('dashboard')) }}
     {% endif %}
 
 
@@ -17,7 +17,7 @@
                 <form method="POST" action="{{ url_for('household_profile') }}" class="form-horizontal">
                     <h2>Household Profile</h2>
 
-                    {{ shared.flasher() }}
+                    {{ macros.flasher() }}
 
                     <h3>General Information</h3>
 
@@ -85,7 +85,7 @@
                                 <!-- TODO: Can only the admin see this page? -->
                                 {% for u in users %}
                                 <tr>
-                                    <td class="col-md-4">{{ shared.userbadge(u.id) }}</td>
+                                    <td class="col-md-4">{{ macros.userbadge(u.id) }}</td>
                                     <td class="col-md-1">{{ {1: 'Member', 2: 'Admin', 3: 'Request'}[u.e_household_relation] | default('Unknown') }}</td>
                                     <td class="col-md-2">{{ u.membership_date }}</td>
                                     <td class="text-right col-md-5">
