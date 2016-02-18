@@ -40,6 +40,9 @@
             {% else %}
                 <h2>Registration is Disabled</h2>
                 <p>Sorry, registration is currently disabled. Try again later!</p>
+                <p>
+                    <a href="{{ url_for('splash') }}" class="btn btn-default btn-block">Back</a>
+                </p>
             {% endif %}
         </div>
         <div class="col-md-4">
