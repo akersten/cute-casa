@@ -6,7 +6,7 @@ class GlobalSettings(persistent.Persistent):
 
     def __init__(self):
         self._yoApiKey = ""
-        self._registrationEnabled = False
+        self._registrationEnabled = True
 
     @property
     def yoApiKey(self):
