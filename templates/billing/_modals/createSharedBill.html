@@ -4,11 +4,17 @@
     <h2 class="modal-title">Add Shared Bill</h2>
 </div>
 <div class="modal-body">
-    <form method="POST" action="{{ url_for('billing_billsplit_create') }}" class="form-horizontal">
+    <form method="POST" action="{{ url_for('billing_billsplit_create') }}">
         <div class="form-group">
             <div class="input-group">
                 <span class="input-group-addon">Bill name:</span>
                 <input class="form-control" type="text" id="sharedBillNameInput"/>
+            </div>
+
+
+            <h3>Who to add to this bill?</h3>
+            <div class="list-group">
+                    <a class="list-group-item">You and you and you and you</a>
             </div>
 
             <button class="btn btn-primary">Submitto</button>
