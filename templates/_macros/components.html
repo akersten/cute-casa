@@ -1,0 +1,57 @@
+{% macro input(title, name, datatype, max=2000000000, min=-2000000000) %}
+
+    <div class="form-group">
+        <div class="input-group">
+            <label for="{{ name }}">{{ title }}</label>
+            <input type="text" id="{{ name }}" class="form-control" />
+
+        </div>
+    </div>
+
+    <p class="validationError" id="{{ name }}_errorContainer">
+        <i class="fa fa-exclamation-triangle"></i><span id="{{ name }}_errorText"></span>
+    </p>
+
+    <script type="text/javascript">
+        var el = $('#{{ name }}');
+        el.on('input', function() {
+            var e = $('#' + this.id);
+            var msgc = $('#' + this.id + '_errorContainer');
+            var msg = $('#' + this.id + '_errorText');
+            var val = e.val();
+
+            if (val.length == 0) {
+                msgc.hide();
+                return;
+            }
+
+            {% if datatype=='int' %}
+                if (val != ~~val) {
+                    msg.text('Enter an integer value.');
+                    msgc.show();
+                } else if (val > {{ max }}) {
+                    msg.text('Value too large. Enter a number less than {{ max }}.');
+                    msgc.show();
+                } else if (val < {{ min }}) {
+                    msg.text('Value too small. Enter a number more than {{ min }}.');
+                    msgc.show();
+                }
+            {% elif datatype=='string' %}
+                if (val.length > {{ max }}) {
+                    msg.text('Input too long. Max length {{ max }}.');
+                    msgc.show();
+                }
+            {% else %}
+                if (true) {
+                    msg.text('Invalid validator type: {{ datatype }}');
+                    msgc.show();
+                }
+            {% endif %}
+
+            else {
+                msgc.hide();
+            }
+        });
+
+    </script>
+{% endmacro %}

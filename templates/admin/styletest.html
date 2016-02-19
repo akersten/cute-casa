@@ -28,6 +28,20 @@
                 <p>Styles go here!</p>
             </div>
         </div>
+
+        <div class="col-md-8">
+            <div class="col-bezel">
+                <h2>Validators</h2>
+
+                <form>
+                    {{ components.input('Large limit integers', 'integerBigInput', 'int') }}
+
+                    {{ components.input('Small limit integers', 'integerSmallInput', 'int', 100, 0) }}
+
+                    {{ components.input('String limit test', 'stringLimitInput', 'string', 50) }}
+                </form>
+            </div>
+        </div>
     </div>
 
 </div>
