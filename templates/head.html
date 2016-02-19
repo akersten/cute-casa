@@ -31,6 +31,14 @@
 </head>
 <body>
 
+<script type="text/javascript">
+    // Set across validation components and checked by submit components; if validation fails, don't let the user submit
+    // the form without fixing the issues. Obviously we have server-side validation too. This is a list of all the ids
+    // that failed to validate.
+    // TODO: Actually implement checking for validation failures before submitting the page.
+    var validationFailures = [];
+</script>
+
 {% import '_macros/common.html' as macros %}
 {% import '_macros/components.html' as components %}
 

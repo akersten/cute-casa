@@ -20,6 +20,9 @@
             var msg = $('#' + this.id + '_errorText');
             var val = e.val();
 
+            // Yes, ok, a lot of things are invalid with a zero length. This is a future enhancement that we will have
+            // to make about how to handle this without showing a scary red warning message right away. For now, just
+            // catch it on the server if something is left blank.
             if (val.length == 0) {
                 msgc.hide();
                 return;
