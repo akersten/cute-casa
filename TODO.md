@@ -7,4 +7,7 @@ Longterm TODO
 [] Indentaiton spacing (e.g. be consistent about 2 vs 4 spaces in css files)
 [] Rename jinja2 macros imported as "shared" to "macros"
 [] Have bootstrap3 less files compile to .css
-[] 
+[] Find TODOs in code
+[] Validation framework on server
+[] Finish implementing validators client-side
+[] Move zdb bringup into init function just like SQL init
