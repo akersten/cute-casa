@@ -37,29 +37,52 @@
     {{ macros.flasher() }}
 
     <div class="row">
+        <div class="col-md-8">
+            <div class="col-bezel">
+                <h2><i class="fa fa-shopping-cart"></i> Shopping Lists</h2>
+            </div>
+
+            {% if hh.shoppings
+            <!--
+            <div class="col-bezel">
+            <h2><i class="fa fa-comment-o"></i> Whiteboard</h2>
+                <p>A whiteboard for messages from this house goes here.</p>
+            </div>
+            -->
+
+
+
+            <!--
+            <div class="col-bezel">
+                <h2><i class="fa fa-heartbeat"></i> Pulse</h2>
+                <p>What is happening</p>
+            </div>
+            -->
+        </div>
         <div class="col-md-4">
+
             <div class="col-bezel">
                 <h2>Activities</h2>
 
                 <div class="bezelInnerContainer">
                     <a href="{{ url_for('dashboard') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-bell-o fa-fw"></i> Alerts &amp; Reminders</a>
-                    <p><span class="highlight-light">&mdash;</span> active alerts.</p>
+                    <!-- <p><span class="highlight-light">&mdash;</span> active alerts.</p> -->
                 </div>
 
                 <div class="bezelInnerContainer">
-                    <a href="{{ url_for('billing_dashboard') }}" class="btn btn-lg btn-default btn-block btn-text-left"><i class="fa fa-money fa-fw"></i> Billing</a>
-                    <p><span class="highlight-dark">$475.00</span> owed.</p>
+                    <a href="{{ url_for('billing_dashboard') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-money fa-fw"></i> Billing</a>
+                    <!-- <p><span class="highlight-dark">$475.00</span> owed.</p> -->
                 </div>
 
                 <div class="bezelInnerContainer">
                     <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-tablet fa-fw"></i> Connected Devices</a>
-                    <p><span class="highlight-light">&mdash;</span> devices online.</p>
-                    <p><span class="highlight-dark">&mdash;</span> devices offline.</p>
+                    <!-- <p><span class="highlight-light">&mdash;</span> devices online.</p>
+                    <p><span class="highlight-dark">&mdash;</span> devices offline.</p> -->
                 </div>
 
                 <div class="bezelInnerContainer">
                     <a href="{{ url_for('billing_billsplit') }}" class="btn btn-lg btn-default btn-block btn-text-left disabled"><i class="fa fa-list fa-fw"></i> Duties</a>
-                    <p>Upcoming duties:</p>
+                    <!-- <p>Upcoming duties:</p>
                     <table>
 
                         <tr>
@@ -86,18 +109,9 @@
                                 Party
                             </td>
                         </tr>
-                    </table>
+                    </table> -->
                 </div>
-
             </div>
-        </div>
-        <div class="col-md-8">
-
-            <div class="col-bezel">
-            <h2><i class="fa fa-comment-o"></i> Whiteboard</h2>
-                <p>A whiteboard for messages from this house goes here.</p>
-            </div>
-
 
             <div class="col-bezel">
                 <h2><i class="fa fa-users"></i> Members</h2>
@@ -110,13 +124,6 @@
 
 
             </div>
-            <!--
-            <div class="col-bezel">
-                <h2><i class="fa fa-heartbeat"></i> Pulse</h2>
-                <p>What is happening</p>
-            </div>
-            -->
-
         </div>
     </div>
 
