@@ -28,6 +28,9 @@
 @flare-inverse-light: lighten(@master-flare-inverse, 10%);
 @flare-inverse-dark: darken(@master-flare-inverse, 10%);
 
+@red: #CB2424;
+@red-dark: darken(@red, 10%);
+
 
 /******************************************************************************
  * Bootstrap overrides                                                        *
@@ -63,7 +66,16 @@
 
 .btn-danger, .btn-danger:visited {
   color: @white;
+  background: linear-gradient(@red, @red-dark);
 }
+  .btn-danger:hover {
+    border-color: @red;
+    background: linear-gradient(@red, @red);
+  }
+
+  .btn-danger:focus {
+    background: linear-gradient(@red, @red);
+  }
 
 .btn-text-left {
     text-align: left;
