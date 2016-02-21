@@ -12,8 +12,8 @@
 @master-copy: @black;
 //#@master-background: #dfe8df;
 @master-background: #dfdfdf;
-@master-flare: #2497CB;
-@master-flare-inverse: #CD0099;
+@master-flare: #66CCA7;
+@master-flare-inverse: #F51B4E;
 @background-light: @master-background;
 @background-lighter: lighten(@background-light, 3%);
 
@@ -50,7 +50,7 @@
         background: linear-gradient(@flare, @flare);
     }
 
-.btn-success {
+.btn-success, .btn-success:visited {
   background: linear-gradient(@flare-inverse, @flare-inverse-dark);
   border-color: @flare-inverse;
 }
