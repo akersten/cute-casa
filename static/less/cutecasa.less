@@ -25,6 +25,8 @@
 @flare-dark: darken(@master-flare, 10%);
 
 @flare-inverse: @master-flare-inverse;
+@flare-inverse-light: lighten(@master-flare-inverse, 10%);
+@flare-inverse-dark: darken(@master-flare-inverse, 10%);
 
 
 /******************************************************************************
@@ -45,9 +47,23 @@
         background: linear-gradient(@flare, @flare);
     }
 
-    .btn-danger, .btn-danger:visited {
-      color: @white;
-    }
+.btn-success {
+  background: linear-gradient(@flare-inverse, @flare-inverse-dark);
+  border-color: @flare-inverse;
+}
+
+  .btn-success:hover {
+    border-color: @flare-inverse;
+    background: linear-gradient(@flare-inverse, @flare-inverse);
+  }
+
+  .btn-success:focus {
+    background: linear-gradient(@flare-inverse, @flare-inverse-dark);
+  }
+
+.btn-danger, .btn-danger:visited {
+  color: @white;
+}
 
 .btn-text-left {
     text-align: left;
