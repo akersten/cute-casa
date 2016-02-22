@@ -194,11 +194,25 @@ def household_deny(householdId, id):
     flash('Removed user from household.', 'info')
     return redirect(url_for('household_profile'))
 
+
+
+def household_add_shoppingList(householdId):
+    """
+    Async. Create a shopping list.
+    :param householdId: The current household.
+    :return:
+    """
+    shared.validate(
+
+    )
+
 # ######################################################################################################################
 # Household object representation
+# TODO: Move this to its own file
 # ######################################################################################################################
 
-import persistent
+import persistent, transaction
+from src.household._shopping import ShoppingList
 
 class Household(persistent.Persistent):
 
@@ -215,6 +229,7 @@ class Household(persistent.Persistent):
         # Object properties
         self._members = []
         self._sharedBills = []
+        self._shoppingLists = []
 
     def addMember(self, member):
         pass
@@ -226,3 +241,15 @@ class Household(persistent.Persistent):
         :return: Tuple (idx, SharedBill) for each shared bill in the household.
         """
         return enumerate(self._sharedBills)
+
+    def getShoppingLists(self):
+        """
+        Gets the shopping lists for this household, along with each's index in the shopping lists list.
+        :return: Tuple (idx, ShoppingList) for each shopping list in the household.
+        """
+        return enumerate(self._shoppingLists)
+
+    def addShoppingList(self, shoppingListTitle):
+        self._shoppingLists.append(ShoppingList(shoppingListTitle))
+        self._p_changed = True
+        transaction.commit()

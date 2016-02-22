@@ -58,3 +58,29 @@
 
     </script>
 {% endmacro %}
+
+{% macro submit(title, name, endpoint, values, callback) %}
+<!--
+    A submit button for an ajax request.
+    title: The text for the button.
+    name: The id for the button.
+    endpoint: The ajax endpoint for the button (use url_for).
+    values: A dictionary of values to submit to the endpoint.
+    callback: Delegate to call when the ajax call returns successfully.
+-->
+    <button class="btn btn-primary" id="{{ name }}">{{ title }}</button>
+
+    <script type="text/javascript">
+        $('#{{ name }}').on('click', function() {
+            $.ajax({
+                url: {{ endpoint }},
+                data: {{ values }},
+
+                {% if callback %}
+                    success: {{ callback }}(data)
+                {% endif %}
+            });
+        });
+    </script>
+
+{% endmacro %}

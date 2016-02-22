@@ -11,3 +11,7 @@ Longterm TODO
 [] Validation framework on server
 [] Finish implementing validators client-side
 [] Move zdb bringup into init function just like SQL init
+[] Write tests for ShoppingList
+[] Write tests for async/validators
+[] Logging instrumentation for async errors
+[] Find a better way to modularize async calls

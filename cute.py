@@ -88,6 +88,9 @@ def before_request():
     g.dog.zdb = S_Zdb
     g.dog.yoer = S_Yoer
 
+
+    # TODO: We need to just force a logout here since the user probably doesn't exit
+
     # Populate useful items
     if 'id' in session:
         g.dog.me = g.dog.zdb.getUser(session['id'])

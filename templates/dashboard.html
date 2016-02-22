@@ -39,10 +39,17 @@
     <div class="row">
         <div class="col-md-8">
             <div class="col-bezel">
-                <h2><i class="fa fa-shopping-cart"></i> Shopping Lists</h2>
+                <h2><i class="fa fa-shopping-cart"></i> Shopping Lists<a href="#" class="btn btn-primary btn-float-right"><i class="fa fa-plus"></i> Create New List</a></h2>
+
+
+                <div class="bezelInnerContainer">
+                    <h3>Some list</h3>
+                </div>
             </div>
 
-            {% if hh.shoppings
+            {% for (idx, list) in g.dog.hh.getShoppingLists() %}
+                <p>{{ list.title }}</p>
+            {% endfor %}
             <!--
             <div class="col-bezel">
             <h2><i class="fa fa-comment-o"></i> Whiteboard</h2>
