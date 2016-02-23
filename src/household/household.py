@@ -202,8 +202,11 @@ def household_add_shoppingList(householdId):
     :param householdId: The current household.
     :return:
     """
+    # TODO: Check that the user is logged in and belongs to this household.
     shared.validate(
+            {
 
+            }
     )
 
 # ######################################################################################################################
