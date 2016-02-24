@@ -96,15 +96,21 @@ class Validator():
         :param value: The value to test.
         :return: Empty string if value passes validation, error message if fails.
         """
-        pass
+        return ''
 
 
-class IntValidator():
+class IntValidator(Validator):
     def __init__(self):
         pass
 
-class StringValidator():
+    def test(self, value):
+        return ''
+
+class StringValidator(Validator):
     def __init__(self):
+        pass
+
+    def test(self, value):
         pass
 
 
