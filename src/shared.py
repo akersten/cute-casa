@@ -100,14 +100,18 @@ class Validator():
 
 
 class IntValidator(Validator):
-    def __init__(self):
+
+    def __init__(self, max=None, min=None):
+        self._max = max
+        self._min = min
         pass
 
     def test(self, value):
         return ''
 
 class StringValidator(Validator):
-    def __init__(self):
+    def __init__(self, length=None):
+        self._length = length
         pass
 
     def test(self, value):
