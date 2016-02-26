@@ -8,7 +8,6 @@ from flask import abort, session, g, request, jsonify
 import queries
 from src import db
 from src import enums
-from src import logger
 import src
 
 def softstop():
@@ -74,7 +73,7 @@ def validate(fields):
 
     for (name, validator) in fields:
         if type(validator) is not Validator:
-            logger.logSystem('Bad validator specified!', enums.e_log_event_level.critical)
+            src.logger.logSystem('Bad validator specified!', enums.e_log_event_level.critical)
             raise(TypeError)
 
         if not fields.get(name):
