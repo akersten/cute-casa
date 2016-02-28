@@ -1,3 +1,5 @@
+{% import '_macros/components.html' as components %}
+
 <!--
  Modal dialog for selecting a household.
 -->
@@ -8,7 +10,7 @@
 </div>
 <div class="modal-body">
     {{ components.input('List title:', 'listTitleInput', 'string', 50) }}
-    {{ components.submit('Create', 'shoppingListSubmit', '/';} }
+    {{ components.submit('Create', 'shoppingListSubmit', '/') }}
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
