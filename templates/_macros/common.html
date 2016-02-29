@@ -1,5 +1,5 @@
 {% macro flasher() %}
-
+    <!-- Flasher -->
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
             <!-- Realistically, category will never be blank and we'll never default in 'info'
