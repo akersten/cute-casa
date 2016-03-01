@@ -96,13 +96,22 @@ def before_request():
         g.dog.me = g.dog.zdb.getUser(session['id'])
 
         if g.dog.me is None:
-            abort(500, "Integrity error - user object lookup failed for user id " + str(session['id']))
+            logger.logSystem('Integrity error - user object lookup failed for user id ' + str(session['id']),
+                             enums.e_log_event_level.critical)
+            session.clear()
+            flash('Please log in again.', 'info')
+            return redirect(url_for('splash'))
 
     if 'householdId' in session:
         g.dog.hh = g.dog.zdb.getHousehold(session['householdId'])
 
         if g.dog.hh is None:
-            abort(500, "Integrity error - household object lookup failed for household id " + str(session['householdId']))
+            logger.logSystem("Integrity error - household object lookup failed for household id " +
+                                str(session['householdId']),
+                             enums.e_log_event_level.critical)
+            session.clear()
+            flash('Please log in again.', 'info')
+            return redirect(url_for('splash'))
 
 
 @app.teardown_request
