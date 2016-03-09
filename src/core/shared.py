@@ -5,10 +5,11 @@
 # ######################################################################################################################
 
 from flask import abort, session, g, request, jsonify, redirect, url_for
+
 import queries
-from src import db
-from src import enums
 import src
+from src.core import db, enums
+
 
 def softstop():
     """
@@ -101,7 +102,7 @@ def failRequest(code, message):
     src.logger.logUser()
     if request.method == 'POST':
         # Can't redirect to the error page - it was an Ajax request! Send some error JSON instead.
-
+        pass
     else:
         return redirect(url_for(message))
 
@@ -164,7 +165,7 @@ def getHouseholdsForUser(userId):
     :param userId: The user for which to get the households.
     :return: A list of households for the user.
     """
-    return db.query_db(queries.USER_GET_HOUSEHOLDS_NO_REQUESTS, [userId,])
+    return db.query_db(queries.USER_GET_HOUSEHOLDS_NO_REQUESTS, [userId, ])
 
 def getUsersForHousehold(householdId):
     """
@@ -175,7 +176,7 @@ def getUsersForHousehold(householdId):
     :param householdId:
     :return: A list of users for the household.
     """
-    return db.query_db(queries.HOUSEHOLD_GET_USERS, [householdId,])
+    return db.query_db(queries.HOUSEHOLD_GET_USERS, [householdId, ])
 
 def setHousehold(householdId):
     """

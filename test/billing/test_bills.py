@@ -1,6 +1,10 @@
-import unittest, datetime
-from src.billing._bills import Bill, BillGroup
-from src.zdb import Zdb
+import datetime
+import unittest
+
+from src.core.billing.bills import Bill, BillGroup
+
+from src.core.zdb import Zdb
+
 
 class Tests_Bill(unittest.TestCase):
     """Tests the Bill object."""

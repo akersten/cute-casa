@@ -1,10 +1,7 @@
 from flask import flash, render_template, request, session, g, redirect, url_for
 
-from src import shared
-from src import db
-from src import logger
-from src import enums
 import queries
+from src.core import db, enums, logger, shared
 
 
 def dashboard():
@@ -33,11 +30,11 @@ def logviewer(logname, after):
     log = nameToLog(logname)
 
     return render_template('admin/logviewer.html', events=getEvents(log, after, 50),
-                                                    getUserDisplayname=lambda n: shared.getUserDisplayname(n),
-                                                    logname=logname,
-                                                    after=int(after),
-                                                    next=int(after)+50,
-                                                    prev=max(int(after)-50, 0))
+                           getUserDisplayname=lambda n: shared.getUserDisplayname(n),
+                           logname=logname,
+                           after=int(after),
+                           next=int(after)+50,
+                           prev=max(int(after)-50, 0))
 
 def nodeviewer(node, index):
     """

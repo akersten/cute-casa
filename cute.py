@@ -2,28 +2,21 @@
 # The application entry point. Run this via cute.sh so that environment variables are set.
 # ######################################################################################################################
 
+import hashlib
+import os
 import sqlite3
 from contextlib import closing
-import os
-import hashlib
 
 from flask import Flask, request, session, g, redirect, url_for, \
     abort, render_template, flash
 
-
-from src import shared
-from src import db
-from src import zdb
-from src import logger
-from src import enums
-from src.user import user
-from src.household import household
-from src.billing import billing
-from src.admin import admin
-
-from src._notification.yo.yoer import Yoer
-
 import queries
+from src.admin import admin
+from src.billing import billing
+from src.core import db, enums, logger, shared, zdb
+from src.core.notification.yo.yoer import Yoer
+from src.household import household
+from src.user import user
 
 VERSION = "0.0.0"
 
@@ -107,7 +100,7 @@ def before_request():
 
         if g.dog.hh is None:
             logger.logSystem("Integrity error - household object lookup failed for household id " +
-                                str(session['householdId']),
+                             str(session['householdId']),
                              enums.e_log_event_level.critical)
             session.clear()
             flash('Please log in again.', 'info')

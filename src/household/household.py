@@ -1,10 +1,8 @@
 from flask import flash, render_template, request, session, abort, redirect, url_for, jsonify, g
 
-from src import db
-from src import enums
-from src import logger
-from src import shared
 import queries
+from src.core import db, enums, logger, shared
+
 
 def profile():
     """
@@ -120,7 +118,7 @@ def select(householdId):
 
         return redirect(url_for('dashboard'))
     else:
-        households=shared.getHouseholdsForUser(session['id'])
+        households= shared.getHouseholdsForUser(session['id'])
 
         # TODO: If the person is only a member of one household, just set that household and redirect to the dashboard.
         # TODO: Be careful though - if we came here from the dashboard, we want to not redirect so that the user has
@@ -223,7 +221,7 @@ def household_add_shoppingList(householdId):
 # ######################################################################################################################
 
 import persistent, transaction
-from src.household._shopping import ShoppingList
+from src.core.household.shopping import ShoppingList
 
 class Household(persistent.Persistent):
 

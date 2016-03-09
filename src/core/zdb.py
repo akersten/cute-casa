@@ -3,16 +3,15 @@
 #
 # ######################################################################################################################
 
-import ZODB, ZODB.FileStorage, BTrees.OOBTree, transaction
+import BTrees.OOBTree
+import ZODB
+import ZODB.FileStorage
+import transaction
 
-
-
-from src import logger
-from src import enums
-
+from src.core import enums, logger
+from src.core.globalSettings import GlobalSettings
 from src.household.household import Household
 from src.user.user import User
-from src._shared.globalSettings import GlobalSettings
 
 
 class DuplicateRecordException(Exception):

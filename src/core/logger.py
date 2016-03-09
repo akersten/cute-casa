@@ -4,13 +4,13 @@
 # Items can be written to different logs here.
 # ######################################################################################################################
 
-from flask import abort, request
+from os import environ
+
+from flask import abort
 
 import queries
-from os import environ
-from src import enums
-from src import db
-from src import shared
+from src.core import db, enums, shared
+
 
 def _log(message, log, level=enums.e_log_event_level, print=False, user=None):
     """
