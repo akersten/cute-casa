@@ -10,8 +10,8 @@ import transaction
 
 from src.core import enums, logger
 from src.core.globalSettings import GlobalSettings
-from src.household.household import Household
-from src.user.user import User
+from src.route.household import Household
+from src.route.user.user import User
 
 
 class DuplicateRecordException(Exception):

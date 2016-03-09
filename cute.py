@@ -11,12 +11,12 @@ from flask import Flask, request, session, g, redirect, url_for, \
     abort, render_template, flash
 
 import queries
-from src.admin import admin
-from src.billing import billing
 from src.core import db, enums, logger, shared, zdb
 from src.core.notification.yo.yoer import Yoer
-from src.household import household
-from src.user import user
+from src.route.admin import admin
+from src.route.billing import billing
+from src.route.household import household
+from src.route.user import user
 
 VERSION = "0.0.0"
 
