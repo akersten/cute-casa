@@ -35,9 +35,24 @@ class e_log_event_level(IntEnum):
     critical = 3
     crash = 4
 
+class e_log_event_type(IntEnum):
+    """
+    The type of an event in the event log.
+    """
+    system = 1
+    user = 2
+    admin = 3
+
 class e_user_authority(IntEnum):
     """
     The user authority defines the administrative rights of a user over the particular cutecasa instance.
     """
     user = 1,
     admin = 2
+
+class e_http_codes(IntEnum):
+    """
+    The HTTP codes that we use for errors.
+    """
+    bad_request = 400,
+    internal_error = 500

@@ -22,7 +22,17 @@ def logviewer(logname, after):
     :return: The render template.
     """
     logger.logAdmin('Logviewer (' + logname + ') accessed.', session['id'], enums.e_log_event_level.warning)
-    return render_template('admin/logviewer.html', events=getEvents(logname, after, 50),
+
+    def nameToLog(name):
+        return {
+            'system': enums.e_log_event_type.system,
+            'user': enums.e_log_event_type.user,
+            'admin': enums.e_log_event_type.admin,
+        }.get(name, '')
+
+    log = nameToLog(logname)
+
+    return render_template('admin/logviewer.html', events=getEvents(log, after, 50),
                                                     getUserDisplayname=lambda n: shared.getUserDisplayname(n),
                                                     logname=logname,
                                                     after=int(after),
@@ -95,18 +105,18 @@ def globalSettings():
 
 
 
-def getEvents(logname, after, count):
+def getEvents(log, after, count):
     """
     Return the events after a certain index.
+    :param log: The log type to get events for.
     :param after: Index to start events (descending)
     :param count: How many events to pull.
     :return: An array of events.
     """
-    if logname == "system":
-        return db.query_db(queries.SYSTEM_LOG_GET, [after, count])
-    elif logname == "admin":
-        return db.query_db(queries.ADMIN_LOG_GET, [after, count])
-    else:
+    if not enums.contains(enums.e_log_event_type, log):
         return None
+
+    return db.query_db(queries.LOG_GET, [log, after, count])
+
 
 

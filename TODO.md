@@ -15,3 +15,4 @@ Longterm TODO
 [] Write tests for async/validators
 [] Logging instrumentation for async errors
 [] Find a better way to modularize async calls
+[] Everything in core/ should be covered by tests

@@ -209,6 +209,14 @@ def household_add_shoppingList(householdId):
             }
     )
 
+    h = g.dog.zdb.getHousehold(householdId)
+    if h is None:
+        shared.badRequest('Invalid household id.')
+
+
+
+
+
 # ######################################################################################################################
 # Household object representation
 # TODO: Move this to its own file
