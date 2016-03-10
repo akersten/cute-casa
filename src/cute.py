@@ -7,16 +7,16 @@ import os
 import sqlite3
 from contextlib import closing
 
+from core import db, enums, logger, shared, zdb
+from core.notification.yo.yoer import Yoer
 from flask import Flask, request, session, g, redirect, url_for, \
     abort, render_template, flash
 
-import queries
-from src.core import db, enums, logger, shared, zdb
-from src.core.notification.yo.yoer import Yoer
-from src.route.admin import admin
-from src.route.billing import billing
-from src.route.household import household
-from src.route.user import user
+from route.admin import admin
+from route.billing import billing
+from route.household import household
+from route.user import user
+from core.database import queries
 
 VERSION = "0.0.0"
 
@@ -230,17 +230,6 @@ def logout():  # TODO: Session tokens
         session.clear()
         return redirect(url_for('splash'))
     abort(401)
-
-
-@app.route('/floorplan', methods=['GET', 'POST'])
-def floorplan():
-    """
-    The floorplanning view.
-    :return: The floorplan template.
-    """
-    if not session.get('logged_in'):
-        abort(401)
-    return render_template('floorplan/floorplan.html')
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])

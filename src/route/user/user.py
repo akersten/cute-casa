@@ -1,7 +1,6 @@
 from flask import flash, render_template, request, session, g, redirect, url_for, abort
 
-import queries
-from src.core import db
+from src.core.database import db, queries
 
 
 def profile():
@@ -77,64 +76,3 @@ def profile():
     else:
         return render_template('user/profile.html')
 
-# ######################################################################################################################
-# User object representation
-# ######################################################################################################################
-
-import persistent, transaction
-
-class User(persistent.Persistent):
-
-    def __init__(self, id, displayname):
-        if not type(id) is str:
-            raise TypeError('A user id must be of str type.')
-
-        if not type(displayname) is str:
-            raise TypeError('A displayname must be of str type.')
-
-        if len(id) == 0:
-            raise ValueError('A user id must be non-zero length.')
-
-        if len(displayname) == 0:
-            raise ValueError('A displayname must be non-zero length.')
-
-        self.id = id
-        self.displayname = displayname
-
-        self.yoUsername = ""
-        self.favoriteColor = "#E0E0FF"
-        self.cellphone =""
-
-
-    @property
-    def displayname(self):
-        return self._displayname
-    @displayname.setter
-    def displayname(self, displayname):
-        self._displayname = displayname
-        transaction.commit()
-
-    @property
-    def yoUsername(self):
-        return self._yoUsername
-    @yoUsername.setter
-    def yoUsername(self, yoUsername):
-        self._yoUsername = yoUsername
-        transaction.commit()
-
-
-    @property
-    def favoriteColor(self):
-        return self._favoriteColor
-    @favoriteColor.setter
-    def favoriteColor(self, favoriteColor):
-        self._favoriteColor = favoriteColor
-        transaction.commit()
-
-    @property
-    def cellphone(self):
-        return self._cellphone
-    @cellphone.setter
-    def cellphone(self, cellphone):
-        self._cellphone = cellphone
-        transaction.commit()

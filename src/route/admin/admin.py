@@ -1,7 +1,7 @@
 from flask import flash, render_template, request, session, g, redirect, url_for
 
-import queries
-from src.core import db, enums, logger, shared
+from src.core import enums, logger, shared
+from src.core.database import db, queries
 
 
 def dashboard():

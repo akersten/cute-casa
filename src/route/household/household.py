@@ -1,7 +1,7 @@
 from flask import flash, render_template, request, session, abort, redirect, url_for, jsonify, g
 
-import queries
-from src.core import db, enums, logger, shared
+from src.core import enums, logger, shared
+from src.core.database import db, queries
 
 
 def profile():
@@ -211,54 +211,3 @@ def household_add_shoppingList(householdId):
     if h is None:
         shared.badRequest('Invalid household id.')
 
-
-
-
-
-# ######################################################################################################################
-# Household object representation
-# TODO: Move this to its own file
-# ######################################################################################################################
-
-import persistent, transaction
-from src.core.household.shopping import ShoppingList
-
-class Household(persistent.Persistent):
-
-    def __init__(self, householdId):
-        if not type(householdId) is str:
-            raise TypeError('A household id must be of str type.')
-
-        if len(householdId) == 0:
-            raise ValueError('A household id must be non-zero length.')
-
-        # SQL properties
-        self.householdId = householdId
-
-        # Object properties
-        self._members = []
-        self._sharedBills = []
-        self._shoppingLists = []
-
-    def addMember(self, member):
-        pass
-
-
-    def getSharedBills(self):
-        """
-        Gets the shared bills for this household, along with each's index in the shared bills list.
-        :return: Tuple (idx, SharedBill) for each shared bill in the household.
-        """
-        return enumerate(self._sharedBills)
-
-    def getShoppingLists(self):
-        """
-        Gets the shopping lists for this household, along with each's index in the shopping lists list.
-        :return: Tuple (idx, ShoppingList) for each shopping list in the household.
-        """
-        return enumerate(self._shoppingLists)
-
-    def addShoppingList(self, shoppingListTitle):
-        self._shoppingLists.append(ShoppingList(shoppingListTitle))
-        self._p_changed = True
-        transaction.commit()

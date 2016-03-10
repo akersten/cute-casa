@@ -1,6 +1,6 @@
 import unittest
 
-from src.core import zdb
+from src.core.database import zdb
 
 
 class Tests_zdb_household(unittest.TestCase):

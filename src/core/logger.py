@@ -8,8 +8,8 @@ from os import environ
 
 from flask import abort
 
-import queries
-from src.core import db, enums, shared
+from src.core import enums, shared
+from src.core.database import db, queries
 
 
 def _log(message, log, level=enums.e_log_event_level, print=False, user=None):
