@@ -1,6 +1,6 @@
 import unittest
 
-from src.route.household import Household
+from src.core.household.household import Household
 
 
 class Tests_Household(unittest.TestCase):

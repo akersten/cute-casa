@@ -1,6 +1,6 @@
 import unittest
 
-from src.route.user.user import User
+from src.core.user.user import User
 
 
 class Tests_User(unittest.TestCase):
