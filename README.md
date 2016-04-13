@@ -25,6 +25,7 @@ future paid/dedicated hosting.
 * Python (3.4+)
 * Flask
 * ZODB
+* Tesseract (requires python3-image package)
 
 ### Running CuteCasa
 
