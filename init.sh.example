@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Init script to get cutecasa set up for first time use. The init script is destructive (it may reset the database), in
+# contrast with the build script.
+
+export CUTE_DB="secret/cute.db"
+export CUTE_DEBUG="False"
+export CUTE_SECRET_KEY="development key"
+export CUTE_USERNAME="admin"
+export CUTE_PASSWORD="default"
+export CUTE_PORT="5050"
+export CUTE_SALT="random salt"
+python3 src/init.py

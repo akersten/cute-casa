@@ -1,0 +1,10 @@
+#!/bin/sh
+export CUTE_DB="secret/cute.db"
+export CUTE_DEBUG="False"
+export CUTE_SECRET_KEY="set a secret development key"
+export CUTE_USERNAME="admin"
+export CUTE_PASSWORD="default"
+export CUTE_PORT="5050"
+export CUTE_SALT="random salt"
+python3 src/cute.py
+
