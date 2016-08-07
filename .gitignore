@@ -2,7 +2,7 @@ secret
 .idea
 __pycache__
 .sass-cache
-cute.sh
+run.sh
 init.sh
 *.pyc
 static/css/bin

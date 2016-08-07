@@ -42,7 +42,7 @@ Create a shell script to load the variables in cute.py and to launch the program
     export CUTE_SALT="16 or so good random bytes"
     python3 cute.py
 
-Set it executable (`chmod +x cute.sh`) and run it (`./cute.sh`). If everything's set up correctly, CuteCasa will now be
+Set it executable (`chmod +x run.sh`) and run it (`./run.sh`). If everything's set up correctly, CuteCasa will now be
 running on your server. Obviously don't commit this file into VCS.
 
 ## Contributors
