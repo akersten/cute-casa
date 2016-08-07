@@ -12,8 +12,8 @@ IoT-enabled house, split bills, manage rent, delegate tasks, and more.
 
 * jQuery
 * Flask
-* Bootstrap
 * Sass
+* [Bulma](http://bulma.io)
 
 ## Setup
 
@@ -24,6 +24,7 @@ future paid/dedicated hosting.
 
 * Python (3.4+)
 * Flask
+* Sass
 * ZODB
 * pytesseract (requires python3-image package and Tesseract OCR package)
 

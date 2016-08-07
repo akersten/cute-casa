@@ -1,8 +1,8 @@
+secret
 .idea
 __pycache__
+.sass-cache
 cute.sh
 init.sh
-secret
 *.pyc
-static/css/cutecasa.css
-static/css/splash.css
+static/css/bin
