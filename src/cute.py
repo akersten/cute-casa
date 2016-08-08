@@ -31,7 +31,6 @@ PASSWORD = os.environ.get('CUTE_PASSWORD')
 PORT = os.environ.get('CUTE_PORT')
 SALT = os.environ.get('CUTE_SALT')
 
-
 # Singletons
 
 S_Zdb = None
@@ -65,7 +64,7 @@ PORT = int(PORT)
 
 print("Starting CuteCasa backend " + VERSION + "...")
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
 app.config.from_object(__name__)
 
 
@@ -125,6 +124,7 @@ def splash():
     if session.get('logged_in'):
         return redirect(url_for('dashboard'))
 
+    print(app.template_folder)
     return render_template('splash.html')
 
 
@@ -400,6 +400,6 @@ if __name__ == '__main__':
 
 def init_db():
     with closing(connect_db()) as db:
-        with app.open_resource('schema.sql', mode='r') as f:
+        with app.open_resource('core/Rdatabase/schema.sql', mode='r') as f:
             db.cursor().executescript(f.read())
         db.commit()

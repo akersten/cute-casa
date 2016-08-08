@@ -11,15 +11,15 @@ from flask import abort
 from core import enums
 from core.database import db, queries
 
-def _log(message, log, level=enums.e_log_event_level, print=False, user=None):
+def _log(message, log, level=enums.e_log_event_level, show=False, user=None):
     """
     Internal helper method that actually does the logging of the event. If the event level is e_log_event_level.crash,
     the server will terminate.
     :param message: The message to log.
     :param log: Which log to log the message to.
     :param level: The event importance.
+    :param show: Whether to print the message to the screen by default.
     :param user: The user ID that caused this event.
-    :param print: Whether to print the message to the screen by default.
     """
     if environ.get('CUTECASA_TEST'):
         return
@@ -44,7 +44,7 @@ def _log(message, log, level=enums.e_log_event_level, print=False, user=None):
             enums.e_log_event_type.admin: 'ADMIN'
         }.get(log, '')
 
-    if print or level == enums.e_log_event_level.crash:
+    if show or level == enums.e_log_event_level.crash:
         print('[' + levelTag(level) + '][' + logTag(log) + ']: ' + message)
 
     db.post_db(queries.LOG_INSERT, [user, message, level])
