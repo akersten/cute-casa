@@ -8,10 +8,11 @@ import ZODB
 import ZODB.FileStorage
 import transaction
 
-from src.core import enums, logger
-from src.core.globalSettings import GlobalSettings
-from src.core.household.household import Household
-from src.core.user.user import User
+from core import enums, logger
+from core.globalSettings import GlobalSettings
+from core.household.household import Household
+from core.user.user import User
+from core.web import server
 
 
 class DuplicateRecordException(Exception):
@@ -54,8 +55,10 @@ class Zdb():
         """
         if self.zdb is None:
             logger.logSystem("Schema creation invoked without a database.", enums.e_log_event_level.crash)
+            server.hardStop()
         if self.root is None:
             logger.logSystem("Schema creation invoked without a root element.", enums.e_log_event_level.crash)
+            server.hardstop()
 
 
         if not hasattr(self.root, 'globalSettings'):

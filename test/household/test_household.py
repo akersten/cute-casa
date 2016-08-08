@@ -1,6 +1,6 @@
 import unittest
 
-from src.core.household.household import Household
+from core.household.household import Household
 
 
 class Tests_Household(unittest.TestCase):

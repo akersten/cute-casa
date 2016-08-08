@@ -1,6 +1,7 @@
 from flask import flash, render_template, session, abort, redirect, url_for
 
-from src.core import enums, shared
+from core import enums
+from core.household import household
 
 
 def billsplit():
@@ -34,7 +35,7 @@ def admin():
     if not session.get('householdId'):
         abort(400, "householdId missing")
 
-    if not shared.getHouseholdRelation(session['householdId'], session['id']) == enums.e_household_relation.admin:
+    if not household.getHouseholdRelation(session['householdId'], session['id']) == enums.e_household_relation.admin:
         abort(403, 'not authorized as an admin for this household')
 
     return render_template('billing/admin.html')

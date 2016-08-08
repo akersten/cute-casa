@@ -1,6 +1,6 @@
 import unittest
 
-import src.core.notification.yo.yoer as yo
+import core.notification.yo.yoer as yo
 
 class Tests_Yoer(unittest.TestCase):
     """Tests the Yoer object."""

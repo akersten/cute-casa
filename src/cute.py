@@ -5,9 +5,11 @@
 import hashlib
 import os
 import sqlite3
+
 from contextlib import closing
 
-from core import db, enums, logger, shared, zdb
+from core import enums, logger
+from core.database import db, zdb
 from core.notification.yo.yoer import Yoer
 from flask import Flask, request, session, g, redirect, url_for, \
     abort, render_template, flash
@@ -154,7 +156,7 @@ def login():
 
             session['email'] = res['email']
 
-            session['admin'] = shared.isCuteCasaAdmin(session['id'])
+            session['admin'] = user.isCuteCasaAdmin(session['id'])
             logger.logAdmin("User logged in.", session['id'])
 
             # Instead of setting household session items here, direct to household selection in order to set them.
@@ -238,10 +240,10 @@ def dashboard():
     Render the dashboard view. This will be the home screen that everyone sees upon logging in.
     :return: The render template.
     """
-    shared.checkLogin()
+    user.checkLogin()
     if not session.get('householdId'):
         return redirect(url_for('household_select'))
-    return render_template('dashboard.html', members=shared.getUsersForHousehold(session['householdId']))
+    return render_template('dashboard.html', members=household.getUsersForHousehold(session['householdId']))
 
 
 # ######################################################################################################################
@@ -256,7 +258,7 @@ def dashboard():
 
 @app.route('/user/profile', methods=['GET', 'POST'])
 def user_profile():
-    shared.checkLogin()
+    user.checkLogin()
     return user.profile()
 
 # ######################################################################################################################
@@ -267,37 +269,37 @@ def user_profile():
 @app.route('/household/select/', methods=['GET'])
 @app.route('/household/select/<householdId>', methods=['GET'])
 def household_select(householdId=None):
-    shared.checkLogin()
+    user.checkLogin()
     return household.select(householdId)
 
 
 @app.route('/household/profile', methods=['GET', 'POST'])
 def household_profile():
-    shared.checkLogin()
+    user.checkLogin()
     return household.profile()
 
 
 @app.route('/household/search/<partial>', methods=['GET'])
 def household_search(partial):
-    shared.checkLogin()
+    user.checkLogin()
     return household.search(partial)
 
 
 @app.route('/household/request/<id>')
 def household_request(id):
-    shared.checkLogin()
+    user.checkLogin()
     return household.household_request(id)
 
 
 @app.route('/household/approve/<householdId>/<id>')
 def household_approve(householdId, id):
-    shared.checkLogin()
+    user.checkLogin()
     return household.household_approve(householdId, id)
 
 
 @app.route('/household/deny/<householdId>/<id>')
 def household_deny(householdId, id):
-    shared.checkLogin()
+    user.checkLogin()
     return household.household_deny(householdId, id)
 
 # ######################################################################################################################
@@ -306,28 +308,28 @@ def household_deny(householdId, id):
 
 @app.route('/billing/dashboard', methods=['GET'])
 def billing_dashboard():
-    shared.checkLogin()
+    user.checkLogin()
     return billing.dashboard()
 
 
 @app.route('/billing/admin', methods=['GET'])
 def billing_admin():
-    shared.checkLogin()
+    user.checkLogin()
     return billing.admin()
 
 @app.route('/billing/billsplit', methods=['GET', 'POST'])
 def billing_billsplit():
-    shared.checkLogin()
+    user.checkLogin()
     return billing.billsplit()
 
 @app.route('/billing/billsplit/create', methods=['POST'])
 def billing_billsplit_create():
-    shared.checkLogin()
+    user.checkLogin()
     return billing.billsplit_create();
 
 @app.route('/billing/utilities', methods=['GET'])
 def billing_utilities():
-    shared.checkLogin()
+    user.checkLogin()
     return billing.utilities()
 
 # ######################################################################################################################
@@ -337,24 +339,24 @@ def billing_utilities():
 
 @app.route('/admin/dashboard', methods=['GET'])
 def admin_dashboard():
-    shared.checkAdmin()
+    user.checkAdmin()
     return admin.dashboard()
 
 @app.route('/admin/logviewer/<logname>/<after>', methods=['GET'])
 def admin_logviewer(logname, after):
-    shared.checkAdmin()
+    user.checkAdmin()
     return admin.logviewer(logname, after)
 
 
 @app.route('/admin/nodeviewer/<node>', methods=['GET'], defaults={'index': None})
 @app.route('/admin/nodeviewer/<node>/<index>', methods=['GET'])
 def admin_nodeviewer(node, index):
-    shared.checkAdmin()
+    user.checkAdmin()
     return admin.nodeviewer(node, index)
 
 @app.route('/admin/styletest', methods=['GET'])
 def admin_styletest():
-    shared.checkAdmin()
+    user.checkAdmin()
     return admin.styletest()
 
 @app.route('/admin/globalSettings', methods=['GET', 'POST'])
@@ -390,7 +392,6 @@ def before_first_request():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT)
-    print("RUNNING")
 
 
 # #

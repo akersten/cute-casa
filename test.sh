@@ -1,5 +1,6 @@
 #!/bin/sh
 
+clear
 rm secret/test*
 
 echo "-------------------------"
@@ -14,7 +15,9 @@ python3 -m unittest discover
 
 if [ $? -eq 0 ]
 then
+    echo "--------------------"
     echo "CuteCasa tests pass."
+    echo "--------------------"
 else
     echo -e "\n" >&2
     echo "----------------------" >&2

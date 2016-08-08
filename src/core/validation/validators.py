@@ -1,3 +1,6 @@
+from flask import jsonify
+from core import logger
+
 def validate(fields):
     """
     Validate a list of fields. Pass the json object from the request with a list of expected fields.
@@ -10,7 +13,7 @@ def validate(fields):
 
     for (name, validator) in fields:
         if type(validator) is not Validator:
-            src.logger.logSystem('Bad validator specified!', enums.e_log_event_level.critical)
+            logger.logSystem('Bad validator specified!', enums.e_log_event_level.critical)
             raise(TypeError)
 
         if not fields.get(name):

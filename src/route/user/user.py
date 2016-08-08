@@ -1,6 +1,7 @@
 from flask import flash, render_template, request, session, g, redirect, url_for, abort
 
-from src.core.database import db, queries
+from core.database import db, queries
+
 
 
 def profile():

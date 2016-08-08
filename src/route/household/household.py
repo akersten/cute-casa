@@ -1,7 +1,8 @@
 from flask import flash, render_template, request, session, abort, redirect, url_for, jsonify, g
 
-from src.core import enums, logger, shared
-from src.core.database import db, queries
+from core import enums, logger
+from core.database import db, queries
+from core.household import household
 
 
 def profile():
@@ -97,7 +98,7 @@ def profile():
         # The template logic should handle checking if we have selected a household or not.
         users = None
         if session.get('householdId'):
-            users = shared.getUsersForHousehold(session['householdId'])
+            users = household.getUsersForHousehold(session['householdId'])
 
         return render_template('household/profile.html', users=users)
 
@@ -113,12 +114,12 @@ def select(householdId):
     if householdId:
         # The user has chosen a house. Make sure they can select this house, set it in the session and redirect to the
         # dashboard.
-        if not shared.setHousehold(householdId):
+        if not household.setHousehold(householdId):
             abort(500)
 
         return redirect(url_for('dashboard'))
     else:
-        households= shared.getHouseholdsForUser(session['id'])
+        households= household.getHouseholdsForUser(session['id'])
 
         # TODO: If the person is only a member of one household, just set that household and redirect to the dashboard.
         # TODO: Be careful though - if we came here from the dashboard, we want to not redirect so that the user has
@@ -128,7 +129,7 @@ def select(householdId):
         # "current" (last selected) house).
 
         if (session.get('householdId')):
-            shared.unsetHousehold()
+            household.unsetHousehold()
 
         return render_template('household/select.html', households=households)
 
@@ -149,7 +150,7 @@ def household_request(householdId):
     :return: The parameter UR
     """
     # TODO: Validate ids.
-    currentRelation = shared.getHouseholdRelation(householdId, session['id'])
+    currentRelation = household.getHouseholdRelation(householdId, session['id'])
 
     if not currentRelation is None:
         flash('You have already requested to join that household, or you already belong to it.', 'warning')
@@ -201,13 +202,13 @@ def household_add_shoppingList(householdId):
     :return:
     """
     # TODO: Check that the user is logged in and belongs to this household.
-    shared.validate(
-            {
-
-            }
-    )
+    #shared.validate(
+    #        {
+    #
+    #        }
+    #)
 
     h = g.dog.zdb.getHousehold(householdId)
-    if h is None:
-        shared.badRequest('Invalid household id.')
+    #if h is None:
+    #        shared.badRequest('Invalid household id.')
 

@@ -1,4 +1,4 @@
-import persistent, transaction, datetime
+import persistent, transaction
 
 class ShoppingListItem(persistent.Persistent):
     """

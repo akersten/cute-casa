@@ -1,8 +1,8 @@
 import datetime
 import unittest
 
-from src.core.billing.bills import Bill, BillGroup
-from src.core.database.zdb import Zdb
+from core.billing.bills import Bill, BillGroup
+from core.database.zdb import Zdb
 
 
 class Tests_Bill(unittest.TestCase):

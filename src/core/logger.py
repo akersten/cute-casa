@@ -8,10 +8,8 @@ from os import environ
 
 from flask import abort
 
-from src.core import enums
-from src.core.database import db, queries
-from src.core.web import server
-
+from core import enums
+from core.database import db, queries
 
 def _log(message, log, level=enums.e_log_event_level, print=False, user=None):
     """
@@ -50,9 +48,6 @@ def _log(message, log, level=enums.e_log_event_level, print=False, user=None):
         print('[' + levelTag(level) + '][' + logTag(log) + ']: ' + message)
 
     db.post_db(queries.LOG_INSERT, [user, message, level])
-
-    if level == enums.e_log_event_level.crash:
-        server.hardstop()
 
 
 def logAdmin(message, user, level=enums.e_log_event_level.info):

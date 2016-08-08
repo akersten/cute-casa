@@ -1,4 +1,7 @@
+from core.user import user
+from core.database import db, queries
 
+from flask import session
 
 
 def getHouseholdType(householdId):
@@ -51,7 +54,7 @@ def setHousehold(householdId):
     """
     # TODO: Check household validity.
     # TODO: Check household membership.
-    checkLogin()
+    user.checkLogin()
 
     house = db.getRow('households', householdId)
     if house is None:
@@ -79,7 +82,7 @@ def unsetHousehold():
 # ######################################################################################################################
 
 import persistent, transaction
-from src.core.household.shopping import ShoppingList
+from core.household.shopping import ShoppingList
 
 class Household(persistent.Persistent):
 
