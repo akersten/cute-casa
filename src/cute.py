@@ -362,7 +362,7 @@ def admin_styletest():
 
 @app.route('/admin/globalSettings', methods=['GET', 'POST'])
 def admin_globalSettings():
-    shared.checkAdmin()
+    user.checkAdmin()
     return admin.globalSettings()
 
 # ######################################################################################################################
