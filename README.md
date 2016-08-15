@@ -33,7 +33,7 @@ future paid/dedicated hosting.
 Create a shell script to load the variables in cute.py and to launch the program:
 
     #!/bin/sh
-    export CUTE_DB="secret/cute.db"
+    export CUTE_DB="config/secret/cute.db"
     export CUTE_DEBUG="False"
     export CUTE_SECRET_KEY="set a secret development key"
     export CUTE_USERNAME="admin"

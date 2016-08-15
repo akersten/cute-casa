@@ -34,7 +34,7 @@ class Zdb():
         """
         logger.logSystem("Bringing up ZODB...")
 
-        storage = ZODB.FileStorage.FileStorage(dbPath) # usually 'secret/cute.zdb'
+        storage = ZODB.FileStorage.FileStorage(dbPath) # usually 'config/secret/cute.zdb'
         self.zdb = ZODB.DB(storage)
         connection = self.zdb.open()
         self.root = connection.root

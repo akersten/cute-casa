@@ -1,5 +1,5 @@
 #!/bin/sh
-export CUTE_DB="secret/cute.db"
+export CUTE_DB="config/secret/cute.db"
 export CUTE_DEBUG="False"
 export CUTE_SECRET_KEY="set a secret development key"
 export CUTE_USERNAME="admin"

@@ -1,7 +1,12 @@
 #!/bin/sh
 
 clear
-rm secret/test*
+rm config/secret/test*
+
+if  [ ! -d test/secret ]
+then
+    mkdir test/secret
+fi
 
 echo "-------------------------"
 echo "Running CuteCasa tests..."

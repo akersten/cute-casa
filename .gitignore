@@ -1,4 +1,5 @@
 config/secret
+test/secret
 .idea
 __pycache__
 .sass-cache

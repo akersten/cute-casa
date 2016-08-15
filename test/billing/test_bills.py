@@ -9,7 +9,7 @@ class Tests_Bill(unittest.TestCase):
     """Tests the Bill object."""
 
     def setUp(self):
-        self.z = Zdb('secret/tests.zdb')
+        self.z = Zdb('test/secret/tests.zdb')
 
     def tearDown(self):
         self.z.teardown()
@@ -201,7 +201,7 @@ class Tests_BillGroup(unittest.TestCase):
     """Tests the BillGroup object."""
 
     def setUp(self):
-        self.z = Zdb('secret/tests.zdb')
+        self.z = Zdb('test/secret/tests.zdb')
 
     def tearDown(self):
         self.z.teardown()

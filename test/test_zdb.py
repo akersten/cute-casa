@@ -7,7 +7,7 @@ class Tests_zdb_household(unittest.TestCase):
     """Tests the zdb functions for Household objects."""
 
     def setUp(self):
-        self.z = zdb.Zdb('secret/tests.zdb')
+        self.z = zdb.Zdb('test/secret/tests.zdb')
 
     def tearDown(self):
         self.z.teardown()
@@ -69,7 +69,7 @@ class Tests_zdb_user(unittest.TestCase):
     """Tests saving User objects to the object database."""
 
     def setUp(self):
-        self.z = zdb.Zdb('secret/tests.zdb')
+        self.z = zdb.Zdb('test/secret/tests.zdb')
 
     def tearDown(self):
         self.z.teardown()

@@ -16,7 +16,7 @@ then
     echo "  Init script exists."
 else
     echo "  Copying init script..."
-    cp init.sh.example init.sh
+    cp config/init.sh.example init.sh
 fi
 
 if [ -e "run.sh" ]
@@ -24,7 +24,7 @@ then
     echo "  Run script exists."
 else
     echo "  Copying run script..."
-    cp run.sh.example run.sh
+    cp config/run.sh.example run.sh
 fi
 
 echo "-----------------------------------------------------------------------------------"
