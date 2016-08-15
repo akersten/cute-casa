@@ -23,8 +23,8 @@ from core.database import queries
 VERSION = "0.0.0"
 
 # Read configuration from environment variables - these are set by the secret script that we don't commit...
-DATABASE = '../' + os.environ.get('CUTE_DB') # This is relative to the root directory, but we're running from ../src, so
-                                             # append a ../
+DATABASE = os.environ.get('CUTE_DB')
+ZDATABASE = os.environ.get('CUTE_ZDB')
 DEBUG = (os.environ.get('CUTE_DEBUG') in ['True', 'true', '1', 'yes'])
 SECRET_KEY = os.environ.get('CUTE_SECRET_KEY')
 USERNAME = os.environ.get('CUTE_USERNAME')
@@ -381,7 +381,7 @@ def before_first_request():
     logger.logSystem("First request received, initializing.")
 
     # Set up dog object's singletons.
-    S_Zdb = zdb.Zdb(app.config['DATABASE'])
+    S_Zdb = zdb.Zdb(app.config['ZDATABASE'])
 
     if (S_Zdb.root.globalSettings.yoApiKey is not None and S_Zdb.root.globalSettings.yoApiKey != ""):
         S_Yoer = Yoer(S_Zdb.root.globalSettings.yoApiKey)

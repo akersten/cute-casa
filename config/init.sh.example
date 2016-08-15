@@ -9,6 +9,7 @@ then
 fi
 
 export CUTE_DB="config/secret/cute.db"
+export CUTE_ZDB="config/secret/cute.zdb"
 export CUTE_DEBUG="False"
 export CUTE_SECRET_KEY="development key"
 export CUTE_USERNAME="admin"
