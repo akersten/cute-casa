@@ -44,8 +44,8 @@ HOUSEHOLD_GET_USERS = "SELECT users.id as id," \
 # Logging queries
 # ######################################################################################################################
 
-LOG_INSERT = "INSERT INTO admin_log_events (blame, message, e_log_event_level) VALUES (?, ?, ?)"
-LOG_GET = "SELECT * FROM admin_log_events WHERE log = ? ORDER BY id DESC LIMIT ?, ?"
+LOG_INSERT = "INSERT INTO event_log (blame, message, e_log_event_level, e_log_event_type) VALUES (?, ?, ?, ?)"
+LOG_GET = "SELECT * FROM event_log WHERE e_log_event_type = ? ORDER BY id DESC LIMIT ?, ?"
 
 
 

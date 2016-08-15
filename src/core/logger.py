@@ -47,7 +47,7 @@ def _log(message, log, level=enums.e_log_event_level, show=False, user=None):
     if show or level == enums.e_log_event_level.crash:
         print('[' + levelTag(level) + '][' + logTag(log) + ']: ' + message)
 
-    db.post_db(queries.LOG_INSERT, [user, message, level])
+    db.post_db(queries.LOG_INSERT, [user, message, level, log])
 
 
 def logAdmin(message, user, level=enums.e_log_event_level.info):

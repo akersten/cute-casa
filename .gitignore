@@ -1,9 +1,9 @@
 config/secret
 test/secret
+static/css/bin
 .idea
 __pycache__
 .sass-cache
 run.sh
 init.sh
 *.pyc
-static/css/bin

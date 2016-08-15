@@ -39,7 +39,7 @@ CREATE TABLE household_memberships (
 -- blame: the user who raised or encountered the event..
 -- timestamp: when this event was raised.
 -- e_log_event_level: the criticality of the event
--- e_log: the type of event (e.g. system, user, admin)
+-- e_log_event_type: the type of event (e.g. system, user, admin)
 -- message: the event message
 --
 DROP TABLE IF EXISTS event_log;

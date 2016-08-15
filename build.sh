@@ -17,6 +17,7 @@ then
 else
     echo "  Copying init script..."
     cp config/init.sh.example init.sh
+    chmod +x init.sh
 fi
 
 if [ -e "run.sh" ]
@@ -25,6 +26,7 @@ then
 else
     echo "  Copying run script..."
     cp config/run.sh.example run.sh
+    chmod +x run.sh
 fi
 
 echo "-----------------------------------------------------------------------------------"
