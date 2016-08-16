@@ -79,6 +79,7 @@ def before_request():
     g.db = connect_db()
 
     # Add singleton references to dog object.
+    # TODO: Init this with the static cutectx.
     g.dog = lambda: None
     g.dog.zdb = S_Zdb
     g.dog.yoer = S_Yoer

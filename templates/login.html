@@ -1,43 +1,43 @@
 {% extends "head.html" %}
+
+{% block header %}
+    {% include "header.html" %}
+{% endblock %}
+
 {% block body %}
 
+<div class="section">
+    <div class="container">
+        {{ macros.flasher() }}
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4">
+        <div class="columns">
+            <div class="column is-half">
+                <h1 class="title">CuteCasa</h1>
+                <h2 class="subtitle">Login with Facebook</h2>
+            </div>
+            <div class="column is-half">
+                <h1 class="title">Too cool for school?</h1>
+                <h2 class="subtitle">Login the regular way</h2>
 
-        </div>
-        <div class="col-md-4 bezel">
-            <h2>Login to CuteCasa</h2>
 
-            {{ macros.flasher() }}
 
-            <form method="POST" action="{{ url_for('login') }}">
-                <div class="form-group">
-                    <label for="inputUsername">
-                        <h3>Username</h3>
-                    </label>
-                    <input type="text" id="inputUsername" name="inputUsername" class="form-control" autofocus>
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword">
-                        <h3>Password</h3>
-                    </label>
-                    <input type="password" id="inputPassword" name="inputPassword" class="form-control">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="form-control">Login</button>
-                </div>
+                <form method="POST" action="{{ url_for('login') }}">
+                        <label for="inputUsername" class="label">Username</label>
+                        <p class="control">
+                            <input class="input" type="text" id="inputUsername" name="inputUsername" autofocus>
+                        </p>
 
-            </form>
-        </div>
-        <div class="col-md-4">
+                        <label for="inputPassword" class="label">Password</label>
+                        <p class="control has-icon has-icon-right">
+                            <input class="input" type="password" id="inputPassword" name="inputPassword">
+                            <i class="fa fa-warning"></i>
+                        </p>
+                        <button class="button is-primary" type="submit">Login</button>
 
+                </form>
+            </div>
         </div>
     </div>
-
-
 </div>
-
 
 {% endblock %}

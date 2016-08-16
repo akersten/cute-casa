@@ -14,6 +14,9 @@
     <!-- Icon font -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Yantramanav:300" rel="stylesheet">
+
     <!-- User styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bin/cutecasa.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bin/cutecasa-splash.css') }}">
@@ -38,6 +41,9 @@
 
 {% import '_macros/common.html' as macros %}
 {% import '_macros/components.html' as components %}
+
+{% block header %}
+{% endblock %}
 
 {% block body %}
 {% endblock %}

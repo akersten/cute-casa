@@ -7,7 +7,7 @@ clear
 echo "CuteCasa build started..."
 
 echo "  Building stylesheets..."
-sass deps/bulma/bulma.sass static/css/bin/bulma.css
+sass static/sass/bulma.sass static/css/bin/bulma.css
 sass static/sass/cutecasa.sass static/css/bin/cutecasa.css
 sass static/sass/cutecasa-splash.sass static/css/bin/cutecasa-splash.css
 

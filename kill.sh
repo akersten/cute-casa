@@ -5,6 +5,8 @@
 
 rm -rf config/secret
 rm -rf test/secret
+rm -f static/css/bin/bulma.css
+rm -f static/css/bin/bulma.css.map
 rm -f static/css/bin/cutecasa.css
 rm -f static/css/bin/cutecasa.css.map
 rm -f static/css/bin/cutecasa-splash.css
