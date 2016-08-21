@@ -17,7 +17,7 @@ from flask import Flask, request, session, g, redirect, url_for, \
 from route.admin import admin
 from route.billing import billing
 from route.household import household
-from route.user import user
+from core.user import user
 from core.database import queries
 
 VERSION = "0.0.0"

@@ -1,0 +1,29 @@
+@import "cutecasa-variables";
+
+/* Inputs */
+
+/* Make input fields look flat; don't remove any of the seemingly-redundant border properties here, I promise they all
+ * serve an important purpose (there are some very aggressive inherited styles for different input states). */
+.input {
+  border: 0; /* Clear out a bunch of default junk before setting the real border properties. */
+  box-shadow: none;
+  border-radius: 0;
+
+  border: 1px solid $cutecasa-primary-subtle;
+  border-left: 0.25rem solid $cutecasa-primary-subtle;
+
+  &:hover {
+    border: 1px solid $cutecasa-primary-subtle;
+    border-left: 0.25rem solid $cutecasa-primary-subtle;
+    background-color: $cutecasa-primary-subtle;
+
+  }
+
+  &:focus {
+    border: 1px solid $cutecasa-primary-subtle;
+    border-left: 0.25rem solid $cutecasa-primary;
+    background-color: $cutecasa-primary-subtle;
+  }
+}
+
+

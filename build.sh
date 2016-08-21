@@ -7,9 +7,9 @@ clear
 echo "CuteCasa build started..."
 
 echo "  Building stylesheets..."
-sass static/sass/bulma.sass static/css/bin/bulma.css
-sass static/sass/cutecasa.sass static/css/bin/cutecasa.css
-sass static/sass/cutecasa-splash.sass static/css/bin/cutecasa-splash.css
+sass static/sass/bulma.scss static/css/bin/bulma.css
+sass static/sass/cutecasa.scss static/css/bin/cutecasa.css
+sass static/sass/cutecasa-splash.scss static/css/bin/cutecasa-splash.css
 
 if [ -e "init.sh" ]
 then
