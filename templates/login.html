@@ -8,18 +8,12 @@
 
 <div class="section">
     <div class="container">
-        {{ macros.flasher() }}
-
         <div class="columns">
-            <div class="column is-half">
-                <h1 class="title">CuteCasa</h1>
-                <h2 class="subtitle">Login with Facebook</h2>
-            </div>
-            <div class="column is-half">
-                <h1 class="title">Too cool for school?</h1>
-                <h2 class="subtitle">Login the regular way</h2>
+            <div class="column is-half is-offset-one-quarter">
+                {{ macros.flasher() }}
 
-
+                <h1 class="title">Login</h1>
+                <h3 class="subtitle">Please enter your username and password.</h3>
 
                 <form method="POST" action="{{ url_for('login') }}">
                         <label for="inputUsername" class="label">Username</label>
@@ -32,8 +26,23 @@
                             <input class="input is-medium" type="password" id="inputPassword" name="inputPassword">
                             <i class="fa fa-warning"></i>
                         </p>
-                        <button class="button is-primary" type="submit">Login</button>
-                        <a href="#">Register</a>
+                        <div class="level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <button class="button is-primary is-medium" type="submit">Login</button>
+                                </div>
+                                <div class="level-item">
+                                    <a class="button is-medium">Register</a>
+                                </div>
+                            </div>
+
+                            <div class="level-right">
+                                <div class="level-item">
+                                    <a href="#">Reset Password</a>
+                                </div>
+                            </div>
+
+                        </div>
                 </form>
             </div>
         </div>
