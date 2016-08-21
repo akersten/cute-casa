@@ -1,6 +1,7 @@
 config/secret
 test/secret
 static/css/bin
+static/js/bin
 .idea
 __pycache__
 .sass-cache
