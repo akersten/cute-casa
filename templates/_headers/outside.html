@@ -1,7 +1,13 @@
+{#
+    The header for pages that are not the splash page and also are not any of the logged-in pages.
+#}
+
 <nav class="nav">
     <div class="nav-left">
         <div class="nav-item">
-            Left
+            <a href="{{ url_for('splash') }}">
+                <i class="fa fa-home"></i>
+            </a>
         </div>
     </div>
 
@@ -11,16 +17,22 @@
         </div>
     </div>
 
-      <span class="nav-toggle">
+    {# The hamburger menu toggle. Each interior span is one line in the menu icon - don't put any content in them. #}
+    <span class="nav-toggle">
         <span></span>
         <span></span>
         <span></span>
     </span>
 
-
-    <div class="nav-right">
+    <div class="nav-right nav-menu">
         <div class="nav-item">
-            right
+            Login
+        </div>
+        <div class="nav-item">
+            Register
+        </div>
+        <div class="nav-item">
+            Forgot Password
         </div>
     </div>
 </nav>

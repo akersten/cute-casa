@@ -19,13 +19,18 @@
 
     <!-- User styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bin/cutecasa.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bin/cutecasa-splash.css') }}">
+
+    {% block styles %}
+    {% endblock %}
 
     <!-- jQuery -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.3.min.js') }}"></script>
 
     <!-- Custom js -->
-    <script type="text/javascript" src="{{ url_for('static', filename='js/shared.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bin/head.js') }}"></script>
+
+    {% block scripts %}
+    {% endblock %}
 
     <title>CuteCasa</title>
 </head>

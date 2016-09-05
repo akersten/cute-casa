@@ -10,8 +10,9 @@ IoT-enabled house, split bills, manage rent, delegate tasks, and more.
 
 ## Technologies
 
+* Python
+* * Flask
 * jQuery
-* Flask
 * Sass
 * [Bulma](http://bulma.io)
 
@@ -23,9 +24,10 @@ future paid/dedicated hosting.
 ### Requirements
 
 * Python (3.4+)
-* Flask
-* Sass
-* ZODB
+* * [Flask](http://flask.pocoo.org/)
+* * [ZODB](http://www.zodb.org/en/latest/)
+* [Sass](http://sass-lang.com/) (`sass`)
+* [Typescript](https://www.typescriptlang.org/) (`tsc`)
 * pytesseract (requires python3-image package and Tesseract OCR package)
 
 ### Running CuteCasa

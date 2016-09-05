@@ -1,48 +1,44 @@
-<div class="footerDark">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <h3>Made in Madison</h3>
+{#
+    Footer for the splash page.
+#}
 
-                <p>
+<footer class="footer">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h2 class="subtitle">Made in Madison</h2>
+                <p class="content">
                     Madison, WI is the greatest place on earth.
                 </p>
             </div>
-
-            <div class="col-sm-3">
-                <h3>Contact</h3>
-
-                <p>
+            <div class="column">
+                <h2 class="subtitle">Contact</h2>
+                <p class="content">
                     CuteCasa is a project by <a href="http://kersten.email">Alex Kersten</a>.
                 </p>
             </div>
-
-            <div class="col-sm-3">
-                <h3>Links</h3>
-                <ul>
+            <div class="column">
+                <h2 class="subtitle">Links</h2>
+                <ul class="content">
                     <li><a href="http://alex.ink">Blog</a></li>
                     <li><a href="https://twitter.com/amkersten">Twitter</a></li>
                 </ul>
             </div>
-
-            <div class="col-sm-3">
-                <h3>Legal</h3>
-
-                <p>The CuteCasa software is open source, with no warranty expressed or implied.</p>
-                <ul>
+            <div class="column">
+                <h2 class="subtitle">Legal</h2>
+                <p class="content">The CuteCasa software is open source, with no warranty expressed or implied.</p>
+                <ul class="content">
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Terms of Use</a></li>
                 </ul>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <a href="http://cute.works">
-                    <img src="{{ url_for('static', filename='img/cuteworks-emboss.png') }}"
-                         alt="cuteworks" class="cuteworks-logo"/>
-                </a>
-            </div>
+        <div class="has-text-centered cwxs-footer-images">
+            <a href="http://cute.works">
+                <img src="{{ url_for('static', filename='img/cuteworks-emboss.png') }}"
+                     alt="Cuteworks"/>
+            </a>
         </div>
     </div>
-</div>
+</footer>

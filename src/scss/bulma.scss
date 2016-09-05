@@ -1,0 +1,35 @@
+/* This file is responsible for generating the master framework CSS file, after overriding any variables with our own
+ * variables coming from cutecasa-variables.scss. */
+
+@import "cutecasa-variables";
+
+/* Map framework variables to CuteCasa variables. */
+$family-sans-serif: $cutecasa-font;
+$primary: $cutecasa-primary;
+$info: $cutecasa-secondary;
+
+@import "../../deps/bulma/bulma";
+
+/* Framework fixes */
+
+/* Mobile fixes. */
+@media screen and (max-width: $tablet - 1px) {
+
+  /* Block on buttons on mobile doesn't actually make it 100% width. */
+  .button.is-block-mobile {
+    width: 100%;
+  }
+
+  /* Text for block buttons on mobile has wrong vertical alignment. */
+  a.is-block-mobile {
+    padding-top: 0.5rem;
+  }
+
+  /* Vertically stacked buttons on mobile need some space between them. */
+  a.is-block-mobile + a.is-block-mobile,
+  a.is-block-mobile + button.is-block-mobile,
+  button.is-block-mobile + a.is-block-mobile,
+  button.is-block-mobile + button.is-block-mobile {
+    margin-top: 0.5rem;
+  }
+}

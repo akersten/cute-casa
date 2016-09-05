@@ -9,7 +9,7 @@ Longterm TODO
 [] Have bootstrap3 less files compile to .css
 [] Find TODOs in code
 [] Validation framework on server
-[] Finish implementing validators client-side
+[] Finish implementing validators client-side, including jinja templates for input fields + validation
 [] Move zdb bringup into init function just like SQL init
 [] Write tests for ShoppingList
 [] Write tests for async/validators

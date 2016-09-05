@@ -1,12 +1,12 @@
 {% extends "head.html" %}
 
 {% block header %}
-    {% include "header.html" %}
+    {% include "_headers/outside.html" %}
 {% endblock %}
 
 {% block body %}
 
-<div class="section">
+<section class="section">
     <div class="container">
         <div class="columns">
             <div class="column is-half is-offset-one-quarter">
@@ -26,27 +26,43 @@
                             <input class="input is-medium" type="password" id="inputPassword" name="inputPassword">
                             <i class="fa fa-warning"></i>
                         </p>
-                        <div class="level">
-                            <div class="level-left">
-                                <div class="level-item">
-                                    <button class="button is-primary is-medium" type="submit">Login</button>
-                                </div>
-                                <div class="level-item">
-                                    <a class="button is-medium">Register</a>
-                                </div>
-                            </div>
 
-                            <div class="level-right">
+                        {#
+                            We're conditionally showing a "forgot password" link next to the buttons on desktop, but not
+                            on mobile - we'll have two separate sections since hte is-block-mobile class doesn't really
+                            do what we want inside of the level div. We also switch the markup order of the buttons
+                            between the layouts (login is on the far right/last in the desktop view, but first in the
+                            mobile view).
+                         #}
+                        <div class="level is-hidden-mobile">
+                            <div class="level-left">
+                                {# For phone screens, this link is in the hamburger. #}
                                 <div class="level-item">
                                     <a href="#">Reset Password</a>
                                 </div>
                             </div>
 
+                            <div class="level-right">
+                                <div class="level-item">
+                                    <a class="button is-medium">Sign Up</a>
+                                </div>
+                                <div class="level-item">
+                                    <button class="button is-primary is-medium" type="submit">Login</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        {#
+                            The mobile version of the login buttons.
+                        #}
+                        <div class="is-hidden-tablet">
+                            <button class="button is-primary is-medium is-block-mobile" type="submit">Login</button>
+                            <a class="button is-medium is-block-mobile">Sign Up</a>
                         </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 {% endblock %}

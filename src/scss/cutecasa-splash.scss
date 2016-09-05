@@ -1,0 +1,24 @@
+@import "cutecasa-variables";
+
+/* Styles specific to the splash/landing page. */
+
+/* Some downsizing on the hero. */
+section.hero svg {
+  width: 10rem;
+  height: 50%;
+  fill: #fff;
+}
+
+/* Raise the buttons up from the bottom of the page to the center. */
+section.hero div.hero-foot {
+  padding-bottom: 20vh;
+}
+
+/* Footer image - get rid of border for clickable link. */
+footer div.container  div.cwxs-footer-images a {
+  border: 0;
+
+  img {
+    width: 15%;
+  }
+}

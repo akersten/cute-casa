@@ -1,7 +1,8 @@
+/// <reference path="../../../../static/js/jquery.d.ts" />
+
 if (!$('#selectHouseholdModal').length) {
     alert("requestHouseholdInvite.js is being included on the wrong page. It should only be used on household select.");
 }
-
 
 function showRequestHouseholdInvite() {
     // Show a modal dialog for the user to request a household invitation.
@@ -10,7 +11,6 @@ function showRequestHouseholdInvite() {
     dialog.modal('show');
 }
 
-
 // Don't send a request for every keystroke - wait until user is probably done typing.
 var rhiRequestsInFlight = 0;
 var rhiRequestDelay = 400;
@@ -18,7 +18,6 @@ var rhiRequestDelay = 400;
 function rhiTypeAhead() {
     // oninput handler for the household name field in the request invite screen. Populate the list of potential houses
     // with things we got from the server.
-
 
     var search = $('#inputHouseholdSearch').val();
     if (search && search.length > 0) {

@@ -1,195 +1,211 @@
-{% extends "head.html" %}
-{% block body %}
+{#
+    The main splash page for CuteCasa - this page is the default view for landing on the site without being logged in.
+#}
 
-<section class="hero is-primary">
-    <div class="hero-head">
-        <header class="nav">
-            <div class="container">
-                <div class="nav-left">
-                    <h1 class="nav-item title">CuteCasa</h1>
-                </div>
-                <div class="nav-right nav-menu">
-                    <a class="nav-item is-active">
-                        Home
-                    </a>
-                    <a class="nav-item">
-                        Examples
-                    </a>
-                    <a class="nav-item">
-                        Documentation
-                    </a>
+{% extends "head.html" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bin/cutecasa-splash.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section class="hero is-primary is-fullheight">
+        <div class="hero-head">
+            <header class="nav">
+                <div class="container">
+                    <div class="nav-left">
+                        <h1 class="nav-item title">CuteCasa</h1>
+                    </div>
+                    <div class="nav-right nav-menu">
+                        <a class="nav-item is-active">
+                            TODO
+                        </a>
+                        <a class="nav-item">
+                            TODO
+                        </a>
+                        <a class="nav-item">
+                            TODO
+                        </a>
                     <span class="nav-item">
                         <a class="button is-primary is-inverted">
-                          <span class="icon">
-                            <i class="fa fa-github"></i>
-                          </span>
+                            <span class="icon">
+                                <i class="fa fa-github"></i>
+                            </span>
                             <span>Download</span>
                         </a>
                     </span>
+                    </div>
                 </div>
-            </div>
-        </header>
-    </div>
+            </header>
+        </div>
 
-    <div class="hero-body has-text-centered">
-        <svg
-                        xmlns:svg="http://www.w3.org/2000/svg"
-                        xmlns="http://www.w3.org/2000/svg"
-                        id="svg2"
-                        version="1.1"
-                        xml:space="preserve"
-                        width="315"
-                        height="234"
-                        viewBox="0 0 315 234" >
-                        <defs id="defs6">
-                            <clipPath clipPathUnits="userSpaceOnUse" id="clipPath16">
-                                <path d="M 0,300 500,300 500,0 0,0 0,300 Z" id="path18" />
-                            </clipPath>
-                        </defs>
-                        <g id="g10" transform="matrix(1.25,0,0,-1.25,-128.26577,326.74975)">
-                            <g id="g12">
-                                <g id="g14" clip-path="url(#clipPath16)"><path id="path22"
-                                    style="fill-opacity:1;fill-rule:evenodd;stroke:none"
-                                    d="m 237.4502,130.5498 c 5,4.967 11.017,7.45 18.05,7.45 7.033,0 13.033,-2.483 18,-7.45 5,-5 7.5,-11.017 7.5,-18.05 0,-7.033 -2.5,-13.033 -7.5,-18 -4.967,-5 -10.967,-7.5 -18,-7.5 -7.033,0 -13.05,2.5 -18.05,7.5 -4.967,4.967 -7.45,10.967 -7.45,18 0,7.033 2.483,13.05 7.45,18.05 m 87.3,56.85 15.099,-15.1 c 2.368,-2.367 2.384,-4.716 0.051,-7.05 l -17.15,-17.15 c -2.366,-2.366 -4.734,-2.366 -7.1,0 l -59.551,59.55 -59.299,-59.3 c -0.5,-0.5 -0.983,-0.883 -1.45,-1.15 l -53.95,-53.95 c -2.367,-2.366 -4.734,-2.366 -7.1,0 l -17.15,17.151 c -2.333,2.333 -2.317,4.682 0.05,7.049 l 61.15,61.15 0.3,0 55.1,55.1 0.35,0 7.85,7.85 c 4.6,4.6 9.2,6.95 13.8,7.05 l 0.599,0 c 3.467,-0.067 6.934,-1.417 10.401,-4.05 l 13.65,-12.6 -0.1,-0.1 23.2,-23.2 0,13.2 c 0,3.333 1.667,5 5,5 l 11.25,0 c 3.333,0 5,-1.667 5,-5 l 0,-34.45 z" />
+        <div class="hero-body has-text-centered">
+            <div class="container">
+                <svg
+                            xmlns:svg="http://www.w3.org/2000/svg"
+                            xmlns="http://www.w3.org/2000/svg"
+                            id="svg2"
+                            version="1.1"
+                            xml:space="preserve"
+                            width="315"
+                            height="234"
+                            viewBox="0 0 315 234" >
+                            <defs id="defs6">
+                                <clipPath clipPathUnits="userSpaceOnUse" id="clipPath16">
+                                    <path d="M 0,300 500,300 500,0 0,0 0,300 Z" id="path18" />
+                                </clipPath>
+                            </defs>
+                            <g id="g10" transform="matrix(1.25,0,0,-1.25,-128.26577,326.74975)">
+                                <g id="g12">
+                                    <g id="g14" clip-path="url(#clipPath16)"><path id="path22"
+                                        style="fill-opacity:1;fill-rule:evenodd;stroke:none"
+                                        d="m 237.4502,130.5498 c 5,4.967 11.017,7.45 18.05,7.45 7.033,0 13.033,-2.483 18,-7.45 5,-5 7.5,-11.017 7.5,-18.05 0,-7.033 -2.5,-13.033 -7.5,-18 -4.967,-5 -10.967,-7.5 -18,-7.5 -7.033,0 -13.05,2.5 -18.05,7.5 -4.967,4.967 -7.45,10.967 -7.45,18 0,7.033 2.483,13.05 7.45,18.05 m 87.3,56.85 15.099,-15.1 c 2.368,-2.367 2.384,-4.716 0.051,-7.05 l -17.15,-17.15 c -2.366,-2.366 -4.734,-2.366 -7.1,0 l -59.551,59.55 -59.299,-59.3 c -0.5,-0.5 -0.983,-0.883 -1.45,-1.15 l -53.95,-53.95 c -2.367,-2.366 -4.734,-2.366 -7.1,0 l -17.15,17.151 c -2.333,2.333 -2.317,4.682 0.05,7.049 l 61.15,61.15 0.3,0 55.1,55.1 0.35,0 7.85,7.85 c 4.6,4.6 9.2,6.95 13.8,7.05 l 0.599,0 c 3.467,-0.067 6.934,-1.417 10.401,-4.05 l 13.65,-12.6 -0.1,-0.1 23.2,-23.2 0,13.2 c 0,3.333 1.667,5 5,5 l 11.25,0 c 3.333,0 5,-1.667 5,-5 l 0,-34.45 z" />
+                                    </g>
                                 </g>
                             </g>
-                        </g>
-        </svg>
-        <h1 class="title">Centralized Home Administration</h1>
-    </div>
-</section>
+                </svg>
+                <h1 class="title">Welcome Home</h1>
+            </div>
+        </div>
+        <div class="hero-foot has-text-centered">
+            <div class="container">
+                <a class="button is-large is-light is-outlined" href="{{ url_for('register') }}">Sign Up</a>
+                <a class="button is-large is-light is-outlined" href="{{ url_for('login') }}">Login</a>
+            </div>
+        </div>
+    </section>
 
-<section class="section">
-    {{ macros.flasher() }}
-    <div>
-        <a class="button" href="{{ url_for('register') }}">Sign Up</a>
-    </div>
-    <div>
-        <a class="button" href="{{ url_for('login') }}">Log In</a>
-    </div>
-</section>
+    <section class="section">
+        {{ macros.flasher() }}
+    </section>
 
 
-    </div>
-    <div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Your household, online</h1>
+        </div>
+    </section>
 
-    </div>
-</div>
-
-<div>
-    <div>
-        <h2>
-            Alerts
-        </h2>
-    </div>
-</div>
-
-<div>
     <div>
         <div>
-            <h2>Maintenance Reminders</h2>
-            <p>
-                Set up SMS alerts and never forget to change a furnace filter again.
-                We'll walk you through setting up only the reminders that matter to your house.
-            </p>
-        </div>
-        <div>
-            <h2>Task Delegation</h2>
-            <p>
-                Create alerts for household maintenance, broadcast messages to your roommates, and make sure no one forgets
-                whose turn it is to take out the trash.
-                Automatically generate fair schedules and send text reminders.
-            </p>
+            <h2>
+                Alerts
+            </h2>
         </div>
     </div>
-</div>
 
-<div>
-    <div>
-        <h2>
-            Billing
-        </h2>
-    </div>
-</div>
-
-<div>
-    <div>
-        <div>
-            <h2>Personal Billboards</h2>
-            <p>
-                Split utility and grocery bills, automate payments, and keep track of debts.
-            </p>
-        </div>
-        <div>
-            <h2>Lease Management</h2>
-            <p>
-                Set up automatic payments via Stripe integration &mdash; never miss rent again!
-            </p>
-        </div>
-    </div>
-</div>
-
-<div>
-    <div>
-        <h2>
-            Connect Devices
-        </h2>
-    </div>
-</div>
-
-<div>
-    <div>
-        <div>
-            <h2>Dashboards</h2>
-            <p>
-                See the heartbeat of your house &mdash; view data from all modules in one place to see what needs doing
-                and statistics that devices are reporting.
-            </p>
-        </div>
-        <div>
-            <h2>IoT Integration</h2>
-            <p>
-                Connect your devices using <a href="http://scrymg.com">Scrymg</a> and command them online.
-                Aggregate and analyze data throughout your home.
-            </p>
-        </div>
-    </div>
-</div>
-
-<div>
     <div>
         <div>
             <div>
-                <h3>Open Source</h3>
+                <h2>Maintenance Reminders</h2>
                 <p>
-                    We are committed to open source development &mdash; the CuteCasa software is and always will be
-                    free.
-                    CuteCasa is developed under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.
-                    The project can be found, forked, and fiddled with on the <a href="https://github.com/akersten/cute-casa">CuteCasa GitHub page</a>.
-                    Any feature requests or bug reports should be filed as issues against the project on GitHub.
+                    Set up SMS alerts and never forget to change a furnace filter again.
+                    We'll walk you through setting up only the reminders that matter to your house.
                 </p>
             </div>
             <div>
-                <h3>Hosting</h3>
+                <h2>Task Delegation</h2>
                 <p>
-                    CuteCasa is a self-hosted solution. When you host this on your own, you should customize this footer
-                    and put your contact information here. The official cute.casa instance is developed and maintained
-                    by <a href="http://kersten.email">Alex Kersten</a>.
-                </p>
-            </div>
-            <div>
-                <h3>Release</h3>
-                <p>
-                    CuteCasa is very much a product under active development and registration is currently closed. Check
-                    back frequently for updates!
+                    Create alerts for household maintenance, broadcast messages to your roommates, and make sure no one
+                    forgets
+                    whose turn it is to take out the trash.
+                    Automatically generate fair schedules and send text reminders.
                 </p>
             </div>
         </div>
     </div>
-</div>
+
+    <div>
+        <div>
+            <h2>
+                Billing
+            </h2>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <div>
+                <h2>Personal Billboards</h2>
+                <p>
+                    Split utility and grocery bills, automate payments, and keep track of debts.
+                </p>
+            </div>
+            <div>
+                <h2>Lease Management</h2>
+                <p>
+                    Set up automatic payments via Stripe integration &mdash; never miss rent again!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <h2>
+                Connect Devices
+            </h2>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <div>
+                <h2>Dashboards</h2>
+                <p>
+                    See the heartbeat of your house &mdash; view data from all modules in one place to see what needs
+                    doing
+                    and statistics that devices are reporting.
+                </p>
+            </div>
+            <div>
+                <h2>IoT Integration</h2>
+                <p>
+                    Connect your devices using <a href="http://scrymg.com">Scrymg</a> and command them online.
+                    Aggregate and analyze data throughout your home.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <div>
+                <div>
+                    <h3>Open Source</h3>
+                    <p>
+                        We are committed to open source development &mdash; the CuteCasa software is and always will be
+                        free.
+                        CuteCasa is developed under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.
+                        The project can be found, forked, and fiddled with on the <a
+                            href="https://github.com/akersten/cute-casa">CuteCasa GitHub page</a>.
+                        Any feature requests or bug reports should be filed as issues against the project on GitHub.
+                    </p>
+                </div>
+                <div>
+                    <h3>Hosting</h3>
+                    <p>
+                        CuteCasa is a self-hosted solution. When you host this on your own, you should customize this
+                        footer
+                        and put your contact information here. The official cute.casa instance is developed and
+                        maintained
+                        by <a href="http://kersten.email">Alex Kersten</a>.
+                    </p>
+                </div>
+                <div>
+                    <h3>Release</h3>
+                    <p>
+                        CuteCasa is very much a product under active development and registration is currently closed.
+                        Check
+                        back frequently for updates!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
 {% block footer %}
-    {% include "splashfooter.html" %}
+    {% include "_footers/splash.html" %}
 {% endblock %}
