@@ -2,7 +2,8 @@
  * files we build with the project. They are read in cutecasa.scss and used there to override the default framework
  * styles. */
 
-$cutecasa-font: 'Yantramanav', sans-serif;
+$cutecasa-sans-serif-font: 'Yantramanav', sans-serif;
+$cutecasa-serif-font: 'Roboto Slab', serif;
 
 $cutecasa-primary: #1FC8DB;
 $cutecasa-primary-subtle: #F0F7F7;

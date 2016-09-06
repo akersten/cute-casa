@@ -1,5 +1,12 @@
 @import "cutecasa-variables";
 
+/* Copy */
+
+/* Some rules to improve the appearance of body/copy text. */
+p.content, ul.content {
+  font-family: $cutecasa-serif-font;
+}
+
 /* Inputs */
 
 /* Make input fields look flat; don't remove any of the seemingly-redundant border properties here, I promise they all

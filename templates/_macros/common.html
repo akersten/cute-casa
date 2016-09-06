@@ -7,7 +7,7 @@
             {% for category, message in messages %}
                 <div class="notification is-{{ category | default('info') }}" style="margin-top: 1em;">
                     <a href="#" class="delete" data-dismiss="alert" aria-label="close"></a>
-                    <p>{{ message }}</p>
+                    <p class="content">{{ message }}</p>
                 </div>
             {% endfor %}
         {% endif %}
