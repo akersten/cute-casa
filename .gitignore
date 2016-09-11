@@ -8,3 +8,4 @@ __pycache__
 run.sh
 init.sh
 *.pyc
+venv
