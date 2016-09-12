@@ -4,6 +4,13 @@ from cute import init_db,connect_db
 from core.database import queries,zdb
 
 
+# ######################################################################################################################
+# Initialize the databases and create basic structure for first-time startup. Usually invoked from the command line as
+# init.sh.
+# ######################################################################################################################
+
+
+
 # region Initialize SQL database
 print('Regenerating CuteCasa DB...')
 init_db()

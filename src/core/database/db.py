@@ -7,6 +7,8 @@
 # These functions rely on consistent naming in the database (e.g. having an id column).
 # ######################################################################################################################
 
+
+# TODO: This should not be here. We need to separate Flask from the database so our shell/context is independent.
 from flask import g, abort
 
 def query_db(query, args=(), one=False):
