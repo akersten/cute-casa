@@ -1,12 +1,16 @@
 #!/bin/sh
 clear
-export CUTEWORKS_CUTECASA_DB="config/secret/cute.db"
-export CUTEWORKS_CUTECASA_ZDB="config/secret/cute.zdb"
+
+# Standard Flask variables.
 export CUTEWORKS_CUTECASA_DEBUG="False"
 export CUTEWORKS_CUTECASA_SECRET_KEY="set a secret development key"
-export CUTEWORKS_CUTECASA_USERNAME="admin"
-export CUTEWORKS_CUTECASA_PASSWORD="default"
 export CUTEWORKS_CUTECASA_PORT="5050"
-export CUTEWORKS_CUTECASA_SALT="random salt"
-python3 src/cute.py
 
+# CuteCasa database paths.
+export CUTEWORKS_CUTECASA_SQL_DATABASE="config/secret/cute.db"
+export CUTEWORKS_CUTECASA_OBJECT_DATABASE="config/secret/cute.zdb"
+
+# Salt for user passwords.
+export CUTEWORKS_CUTECASA_SALT="random salt"
+
+python3 src/cute.py

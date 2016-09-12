@@ -8,12 +8,16 @@ then
     mkdir config/secret
 fi
 
-export CUTE_DB="config/secret/cute.db"
-export CUTE_ZDB="config/secret/cute.zdb"
-export CUTE_DEBUG="False"
-export CUTE_SECRET_KEY="development key"
-export CUTE_USERNAME="admin"
-export CUTE_PASSWORD="default"
-export CUTE_PORT="5050"
-export CUTE_SALT="random salt"
+# Standard Flask variables.
+export CUTEWORKS_CUTECASA_DEBUG="False"
+export CUTEWORKS_CUTECASA_SECRET_KEY="set a secret development key"
+export CUTEWORKS_CUTECASA_PORT="5050"
+
+# CuteCasa database paths.
+export CUTEWORKS_CUTECASA_SQL_DATABASE="config/secret/cute.db"
+export CUTEWORKS_CUTECASA_OBJECT_DATABASE="config/secret/cute.zdb"
+
+# Salt for user passwords.
+export CUTEWORKS_CUTECASA_SALT="random salt"
+
 python3 src/init.py

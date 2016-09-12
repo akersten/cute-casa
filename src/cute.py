@@ -17,64 +17,41 @@ from shell.manifest import Manifest
 from flask import Flask, session, g, redirect, url_for, flash
 
 
+# First, set up the application context and read configuration from environment variables set in the secret shell script
+# that we don't commit. Then, set some Flask configuration variables that get read from this namespace, and create the
+# Flask application.
+
 APP_TITLE = "CuteCasa"
 APP_VERSION = "0.0.0"
 APP_PREFIX = "CUTECASA_"
 
-ctx = Context(Manifest(APP_TITLE, APP_VERSION, APP_PREFIX))
+context = Context(Manifest(APP_TITLE, APP_VERSION, APP_PREFIX))
 
-exit()
+DEBUG = context.get_env('DEBUG')
+SECRET_KEY = context.get_env('SECRET_KEY')
 
-# Read configuration from environment variables - these are set by the secret script that we don't commit...
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
+app.config.from_object(__name__)
 
-DATABASE = os.environ.get('CUTE_DB')
-ZDATABASE = os.environ.get('CUTE_ZDB')
-DEBUG = (os.environ.get('CUTE_DEBUG') in ['True', 'true', '1', 'yes'])
-SECRET_KEY = os.environ.get('CUTE_SECRET_KEY')
-USERNAME = os.environ.get('CUTE_USERNAME')
-PASSWORD = os.environ.get('CUTE_PASSWORD')
-PORT = os.environ.get('CUTE_PORT')
-SALT = os.environ.get('CUTE_SALT')
+
+
+
+
+
+
+
+
+
+
+
 
 # Singletons
 
 S_Zdb = None
 S_Yoer = None
 
-def notSet(problem):
-    """
-    Abort initialization if any of the configuration environment variables isn't set.
-    :param problem: The item that is not set.
-    """
-    print(problem + " not set! Run through the secret shell script.")
-    exit(1)
-
-
-if USERNAME is None:
-    notSet("Username")
-
-if PASSWORD is None:
-    notSet("Password")
-
-if SECRET_KEY is None:
-    notSet("Secret key")
-
-if SALT is None:
-    notSet("Salt")
-
-if PORT is None:
-    notSet("Port")
-
-PORT = int(PORT)
-
-print("Starting CuteCasa backend " + VERSION + "...")
-
-app = Flask(__name__, template_folder='../templates', static_folder='../static')
-app.config.from_object(__name__)
-
-
 def connect_db():
-    return sqlite3.connect(app.config['DATABASE'])
+    return sqlite3.connect(context.get_env("SQL_DATABASE"))
 
 
 # Bringup and teardown
@@ -144,7 +121,7 @@ def before_first_request():
     logger.logSystem("First request received, initializing.")
 
     # Set up dog object's singletons.
-    S_Zdb = zdb.Zdb(app.config['ZDATABASE'])
+    S_Zdb = zdb.Zdb(context.get_env("OBJECT_DATABASE"))
 
     if (S_Zdb.root.globalSettings.yoApiKey is not None and S_Zdb.root.globalSettings.yoApiKey != ""):
         S_Yoer = Yoer(S_Zdb.root.globalSettings.yoApiKey)
@@ -155,7 +132,7 @@ def before_first_request():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=PORT)
+    app.run(host='0.0.0.0', port=int(context.get_env('PORT')))
 
 
 # #

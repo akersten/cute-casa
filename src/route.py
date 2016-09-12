@@ -36,7 +36,7 @@ def login():
 
         hash = hashlib.pbkdf2_hmac('sha512',
                                    bytearray(request.form['inputPassword'], 'utf-8'),
-                                   bytearray(SALT, 'utf-8'),
+                                   bytearray(context.get_env('SALT'), 'utf-8'),
                                    100000)
 
         res = db.query_db(queries.CHECK_LOGIN, [request.form['inputUsername'], hash], True)
@@ -96,7 +96,7 @@ def register():
 
         pwHash = hashlib.pbkdf2_hmac('sha512',
                                    bytearray(request.form['inputPassword'], 'utf-8'),
-                                   bytearray(SALT, 'utf-8'),
+                                   bytearray(context.get_env('SALT'), 'utf-8'),
                                    100000)
 
         res = db.query_db(queries.CHECK_USERNAME, [request.form['inputUsername'], ], True)
