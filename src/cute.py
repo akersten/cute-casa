@@ -1,5 +1,6 @@
 # ######################################################################################################################
-# The application entry point. Run this via cute.sh so that environment variables are set.
+# The CuteCasa application bootstrapper & entry point. Sets up the application context and starts the Flask engine. Run
+# this via cute.sh so that environment variables are set for the context.
 # ######################################################################################################################
 
 import os
@@ -10,14 +11,22 @@ from contextlib import closing
 from core import enums, logger
 from core.database import zdb
 from core.notification.yo.yoer import Yoer
+from shell.context import Context
+from shell.manifest import Manifest
+
 from flask import Flask, session, g, redirect, url_for, flash
 
-VERSION = "0.0.0"
 
-# Create the cute context
+APP_TITLE = "CuteCasa"
+APP_VERSION = "0.0.0"
+APP_PREFIX = "CUTECASA_"
 
+ctx = Context(Manifest(APP_TITLE, APP_VERSION, APP_PREFIX))
+
+exit()
 
 # Read configuration from environment variables - these are set by the secret script that we don't commit...
+
 DATABASE = os.environ.get('CUTE_DB')
 ZDATABASE = os.environ.get('CUTE_ZDB')
 DEBUG = (os.environ.get('CUTE_DEBUG') in ['True', 'true', '1', 'yes'])
