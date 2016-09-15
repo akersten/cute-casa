@@ -22,3 +22,31 @@ def failRequest(code, message):
         pass
     else:
         return redirect(url_for(message))
+
+
+def run_integrity_checks():
+
+    # TODO: We need to just force a logout here since the user probably doesn't exit
+    # TODO: Don't populate these items, have a cleaner API for getting useful items.
+
+    # Populate useful items
+    if 'id' in session:
+        g.dog.me = g.dog.zdb.getUser(session['id'])
+
+        if g.dog.me is None:
+            logger.logSystem('Integrity error - user object lookup failed for user id ' + str(session['id']),
+                             enums.e_log_event_level.critical)
+            session.clear()
+            flash('Please log in again.', 'info')
+            return redirect(url_for('splash'))
+
+    if 'householdId' in session:
+        g.dog.hh = g.dog.zdb.getHousehold(session['householdId'])
+
+        if g.dog.hh is None:
+            logger.logSystem("Integrity error - household object lookup failed for household id " +
+                             str(session['householdId']),
+                             enums.e_log_event_level.critical)
+            session.clear()
+            flash('Please log in again.', 'info')
+            return redirect(url_for('splash'))

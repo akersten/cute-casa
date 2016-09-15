@@ -1,14 +1,11 @@
 # ######################################################################################################################
-# CuteWorks applications have a context, through which things like the object database can be accessed from outside of
-# the Flask routes. Application variables are set here. The context should be one of the first things initialized for an
-# application.
+# CuteWorks applications have a shell, through which things like the object database can be accessed from outside of
+# the Flask routes. The shell should be one of the first things initialized for an application.
 # ######################################################################################################################
 
 import os
 import random
 import math
-
-from shell.cuteshell import print_italic
 
 
 # The CuteWorks string is used for prefixing environment variables.
@@ -41,9 +38,9 @@ def get_inspiration():
     return INSPIRATIONS[math.floor(random.random() * len(INSPIRATIONS))]
 
 
-class Context:
+class Shell:
     """
-    The main context object that launches the application, initiates the user shell, and tracks singletons.
+    The main shell object that launches the application, initiates the user shell, and tracks singletons.
     """
 
     def __init__(self, manifest):
@@ -62,6 +59,9 @@ class Context:
         print("\nReading environment variables...")
         self._env = {}
         self.init_env()
+
+        # The context should be set later so that the shell can access the application variables.
+        self.context = None
 
     def init_env(self):
         """
@@ -97,3 +97,29 @@ class Context:
         if key not in self._env:
             return None
         return self._env[key]
+
+    def set_context(self, context):
+        """
+        Sets the context for this shell - an object representing the current application that we're running.
+        :param context: The current application context.
+        """
+        self.context = context
+
+# ######################################################################################################################
+# Static functions to implement shell functionality.
+# ######################################################################################################################
+
+def print_italic(line):
+    if os.name == "posix":
+        # Hopefully Bash or other emulator that understands this formatting.
+        os.system("echo -e \"\\e[3m" + line + "\\e[0m\"")
+    else:
+        # Probably won't understand the formatting.
+        print(line)
+
+
+def print_bold(line):
+    if os.name == "posix":
+        os.system("echo -e \"\\e[1m" + line + "\\e[0m\"")
+    else:
+        print(line)

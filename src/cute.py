@@ -8,94 +8,59 @@ import sqlite3
 
 from contextlib import closing
 
-from core import enums, logger
+from core import logger
+from core.context import Context
 from core.database import zdb
 from core.notification.yo.yoer import Yoer
-from shell.context import Context
+
+from shell.shell import Shell
 from shell.manifest import Manifest
 
-from flask import Flask, session, g, redirect, url_for, flash
+from flask import Flask, g
 
 
-# First, set up the application context and read configuration from environment variables set in the secret shell script
+# ######################################################################################################################
+# First, set up the application shell and read configuration from environment variables set in the secret shell script
 # that we don't commit. Then, set some Flask configuration variables that get read from this namespace, and create the
-# Flask application.
+# Flask application with the appropriate request handlers and hooks.
+# ######################################################################################################################
 
 APP_TITLE = "CuteCasa"
 APP_VERSION = "0.0.0"
 APP_PREFIX = "CUTECASA_"
 
-context = Context(Manifest(APP_TITLE, APP_VERSION, APP_PREFIX))
+DIR_TEMPLATES = "../templates"
+DIR_STATIC = "../static"
 
-DEBUG = context.get_env('DEBUG')
-SECRET_KEY = context.get_env('SECRET_KEY')
+shell = Shell(Manifest(APP_TITLE, APP_VERSION, APP_PREFIX))
+context = Context()
+shell.set_context(context)
 
-app = Flask(__name__, template_folder='../templates', static_folder='../static')
+DEBUG = shell.get_env('DEBUG')
+SECRET_KEY = shell.get_env('SECRET_KEY')
+
+app = Flask(__name__, template_folder=DIR_TEMPLATES, static_folder=DIR_STATIC)
 app.config.from_object(__name__)
 
 
-
-
-
-
-
-
-
-
-
-
-
-# Singletons
-
-S_Zdb = None
-S_Yoer = None
-
-def connect_db():
-    return sqlite3.connect(context.get_env("SQL_DATABASE"))
-
-
-# Bringup and teardown
 @app.before_request
 def before_request():
-    g.db = connect_db()
+    """
+    Make the shell & context available on each request, and also bringup/teardown any non-singleton db connections.
+    :return:
+    """
+    g.shell = shell
+    g.context = context
 
-    # Add singleton references to dog object.
-    # TODO: Init this with the static cutectx.
-    g.dog = lambda: None
-    g.dog.zdb = S_Zdb
-    g.dog.yoer = S_Yoer
-
-
-    # TODO: We need to just force a logout here since the user probably doesn't exit
-
-    # Populate useful items
-    if 'id' in session:
-        g.dog.me = g.dog.zdb.getUser(session['id'])
-
-        if g.dog.me is None:
-            logger.logSystem('Integrity error - user object lookup failed for user id ' + str(session['id']),
-                             enums.e_log_event_level.critical)
-            session.clear()
-            flash('Please log in again.', 'info')
-            return redirect(url_for('splash'))
-
-    if 'householdId' in session:
-        g.dog.hh = g.dog.zdb.getHousehold(session['householdId'])
-
-        if g.dog.hh is None:
-            logger.logSystem("Integrity error - household object lookup failed for household id " +
-                             str(session['householdId']),
-                             enums.e_log_event_level.critical)
-            session.clear()
-            flash('Please log in again.', 'info')
-            return redirect(url_for('splash'))
+    context.begin_request()
 
 
 @app.teardown_request
 def teardown_request(exception):
-    db = getattr(g, 'db', None)
-    if db is not None:
-        db.close()
+    """
+    Tell the context that this request is ending so it can do any cleanup it needs to.
+    """
+    context.after_request(exception)
 
 # ######################################################################################################################
 # Initialize the Flask application routes as defined in the routes file.
@@ -104,6 +69,31 @@ def teardown_request(exception):
 with open(os.path.dirname(os.path.realpath(__file__)) + '/route.py') as f:
     code = compile(f.read(), 'route.py', 'exec')
     exec(code)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def connect_db():
+    return sqlite3.connect(context.get_env("SQL_DATABASE"))
+
+
+
+
+
 
 # ######################################################################################################################
 # Final setup and initiation
