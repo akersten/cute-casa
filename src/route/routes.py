@@ -12,17 +12,15 @@ from route.billing import billing
 
 
 # noinspection PyUnresolvedReferences
-@app.route('/')
 def splash():
-    if session.get('logged_in'):
-        return redirect(url_for('dashboard'))
+   # if session.get('logged_in'):
+    #    return redirect(url_for('dashboard'))
 
-    print(app.template_folder)
+
     return render_template('splash.html')
 
 
 # noinspection PyUnresolvedReferences
-@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         if session.get('logged_in'):
@@ -69,7 +67,6 @@ def login():
 
 
 # noinspection PyUnresolvedReferences
-@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         if session.get('logged_in'):
@@ -122,7 +119,7 @@ def register():
 
 
 # noinspection PyUnresolvedReferences
-@app.route('/logout', methods=['GET', 'POST'])
+#@app.route('/logout', methods=['GET', 'POST'])
 def logout():  # TODO: Session tokens
     if session.get('logged_in'):
         session.clear()
@@ -131,7 +128,7 @@ def logout():  # TODO: Session tokens
 
 
 # noinspection PyUnresolvedReferences
-@app.route('/dashboard', methods=['GET', 'POST'])
+#@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     """
     Render the dashboard view. This will be the home screen that everyone sees upon logging in.
@@ -147,7 +144,7 @@ def dashboard():
 # ######################################################################################################################
 
 # noinspection PyUnresolvedReferences
-@app.route('/user/profile', methods=['GET', 'POST'])
+#@app.route('/user/profile', methods=['GET', 'POST'])
 def user_profile():
     user.checkLogin()
     return user.profile()
@@ -157,38 +154,38 @@ def user_profile():
 # ######################################################################################################################
 
 # noinspection PyUnresolvedReferences
-@app.route('/household/select/', methods=['GET'])
-@app.route('/household/select/<householdId>', methods=['GET'])
+#@app.route('/household/select/', methods=['GET'])
+#@app.route('/household/select/<householdId>', methods=['GET'])
 def household_select(householdId=None):
     user.checkLogin()
     return household.select(householdId)
 
 # noinspection PyUnresolvedReferences
-@app.route('/household/profile', methods=['GET', 'POST'])
+#@app.route('/household/profile', methods=['GET', 'POST'])
 def household_profile():
     user.checkLogin()
     return household.profile()
 
 # noinspection PyUnresolvedReferences
-@app.route('/household/search/<partial>', methods=['GET'])
+#@app.route('/household/search/<partial>', methods=['GET'])
 def household_search(partial):
     user.checkLogin()
     return household.search(partial)
 
 # noinspection PyUnresolvedReferences
-@app.route('/household/request/<id>')
+#@app.route('/household/request/<id>')
 def household_request(id):
     user.checkLogin()
     return household.household_request(id)
 
 # noinspection PyUnresolvedReferences
-@app.route('/household/approve/<householdId>/<id>')
+#@app.route('/household/approve/<householdId>/<id>')
 def household_approve(householdId, id):
     user.checkLogin()
     return household.household_approve(householdId, id)
 
 # noinspection PyUnresolvedReferences
-@app.route('/household/deny/<householdId>/<id>')
+#@app.route('/household/deny/<householdId>/<id>')
 def household_deny(householdId, id):
     user.checkLogin()
     return household.household_deny(householdId, id)
@@ -198,31 +195,31 @@ def household_deny(householdId, id):
 # ######################################################################################################################
 
 # noinspection PyUnresolvedReferences
-@app.route('/billing/dashboard', methods=['GET'])
+#@app.route('/billing/dashboard', methods=['GET'])
 def billing_dashboard():
     user.checkLogin()
     return billing.dashboard()
 
 # noinspection PyUnresolvedReferences
-@app.route('/billing/admin', methods=['GET'])
+#@app.route('/billing/admin', methods=['GET'])
 def billing_admin():
     user.checkLogin()
     return billing.admin()
 
 # noinspection PyUnresolvedReferences
-@app.route('/billing/billsplit', methods=['GET', 'POST'])
+#@app.route('/billing/billsplit', methods=['GET', 'POST'])
 def billing_billsplit():
     user.checkLogin()
     return billing.billsplit()
 
 # noinspection PyUnresolvedReferences
-@app.route('/billing/billsplit/create', methods=['POST'])
+#@app.route('/billing/billsplit/create', methods=['POST'])
 def billing_billsplit_create():
     user.checkLogin()
     return billing.billsplit_create()
 
 # noinspection PyUnresolvedReferences
-@app.route('/billing/utilities', methods=['GET'])
+#@app.route('/billing/utilities', methods=['GET'])
 def billing_utilities():
     user.checkLogin()
     return billing.utilities()
@@ -232,32 +229,32 @@ def billing_utilities():
 # ######################################################################################################################
 
 # noinspection PyUnresolvedReferences
-@app.route('/admin/dashboard', methods=['GET'])
+#@app.route('/admin/dashboard', methods=['GET'])
 def admin_dashboard():
     user.checkAdmin()
     return admin.dashboard()
 
 # noinspection PyUnresolvedReferences
-@app.route('/admin/logviewer/<logname>/<after>', methods=['GET'])
+#@app.route('/admin/logviewer/<logname>/<after>', methods=['GET'])
 def admin_logviewer(logname, after):
     user.checkAdmin()
     return admin.logviewer(logname, after)
 
 # noinspection PyUnresolvedReferences
-@app.route('/admin/nodeviewer/<node>', methods=['GET'], defaults={'index': None})
-@app.route('/admin/nodeviewer/<node>/<index>', methods=['GET'])
+#@app.route('/admin/nodeviewer/<node>', methods=['GET'], defaults={'index': None})
+#@app.route('/admin/nodeviewer/<node>/<index>', methods=['GET'])
 def admin_nodeviewer(node, index):
     user.checkAdmin()
     return admin.nodeviewer(node, index)
 
 # noinspection PyUnresolvedReferences
-@app.route('/admin/styletest', methods=['GET'])
+#@app.route('/admin/styletest', methods=['GET'])
 def admin_styletest():
     user.checkAdmin()
     return admin.styletest()
 
 # noinspection PyUnresolvedReferences
-@app.route('/admin/globalSettings', methods=['GET', 'POST'])
+#@app.route('/admin/globalSettings', methods=['GET', 'POST'])
 def admin_globalSettings():
     user.checkAdmin()
     return admin.globalSettings()

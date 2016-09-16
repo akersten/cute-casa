@@ -1,21 +1,76 @@
-import os, hashlib
-
-from cute import init_db,connect_db
-from core.database import queries,zdb
-
-
 # ######################################################################################################################
-# Initialize the databases and create basic structure for first-time startup. Usually invoked from the command line as
+# Initialize the databases and create basic structure for first-time startup. Usually invoked from the command line in
 # init.sh.
 # ######################################################################################################################
 
+import os
+import hashlib
+import sqlite3
+
+from contextlib import closing
+
+from core.database import queries, zdb
+
+from shell.shell import Shell
+from shell.manifest import Manifest
+
+
+APP_TITLE = "CuteCasa initialization"
+APP_VERSION = "0.0.0"
+APP_PREFIX = "CUTECASA"
+
+shell = Shell(Manifest(APP_TITLE, APP_VERSION, APP_PREFIX))
+
+if not shell.env_expect([
+    "SQL_DATABASE",
+    "SQL_SCHEMA"
+]):
+    print("Missing required environment variable.")
+    quit(1)
+
+
+def connect_db():
+    """
+    Connect to the SQL database in order to insert the schema.
+    """
+    return sqlite3.connect(shell.env_get("SQL_DATABASE"))
+
+
+def init_db():
+    """
+    Initialize the SQL database with the CuteCasa schema.
+    """
+    with closing(connect_db()) as db:
+        with open(shell.env_get('SQL_SCHEMA'), mode='r') as f:
+            db.cursor().executescript(f.read())
+        db.commit()
 
 
 # region Initialize SQL database
+
 print('Regenerating CuteCasa DB...')
 init_db()
 print('Done.')
+
 # endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+quit(0)
 
 # region Create admin user
 # Shouldn't have to worry about duplicate users here, this should be the first user in the database.

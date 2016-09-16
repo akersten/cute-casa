@@ -8,14 +8,9 @@ then
     mkdir config/secret
 fi
 
-# Standard Flask variables.
-export CUTEWORKS_CUTECASA_DEBUG="False"
-export CUTEWORKS_CUTECASA_SECRET_KEY="set a secret development key"
-export CUTEWORKS_CUTECASA_PORT="5050"
-
 # CuteCasa database paths.
 export CUTEWORKS_CUTECASA_SQL_DATABASE="config/secret/cute.db"
-export CUTEWORKS_CUTECASA_OBJECT_DATABASE="config/secret/cute.zdb"
+export CUTEWORKS_CUTECASA_SQL_SCHEMA="config/schema.sql"
 
 # Salt for user passwords.
 export CUTEWORKS_CUTECASA_SALT="random salt"
