@@ -3,17 +3,12 @@
 # this via cute.sh so that environment variables are set for the context.
 # ######################################################################################################################
 
-import os
-
-from core import logger
 from core.context import Context
-from core.database import zdb
-from core.notification.yo.yoer import Yoer
 
 from shell.shell import Shell
 from shell.manifest import Manifest
 
-from flask import Flask, g
+from flask import Flask
 
 
 # ######################################################################################################################
@@ -31,10 +26,12 @@ APP_PREFIX = "CUTECASA"
 DIR_TEMPLATES = "../templates"
 DIR_STATIC = "../static"
 
+# ######################################################################################################################
+# Initialize and spawn the application shell.
+# ######################################################################################################################
+
 shell = Shell(Manifest(APP_TITLE, APP_VERSION, APP_PREFIX))
 context = Context(shell, Flask(__name__, template_folder=DIR_TEMPLATES, static_folder=DIR_STATIC))
 shell.context_add(context)
 
-
-# TODO: drop into a repl and let the user initiate this...
-context.start()
+shell.start()

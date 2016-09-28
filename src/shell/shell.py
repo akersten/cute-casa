@@ -7,6 +7,9 @@ import os
 import random
 import math
 
+from threading import Thread
+
+from shell.repl import Repl
 
 # The CuteWorks string is used for prefixing environment variables.
 CUTEWORKS = "CUTEWORKS"
@@ -43,11 +46,14 @@ class Shell:
     The main shell object that launches the application, initiates the user shell, and tracks singletons.
     """
 
+    # region Initialization
+
     def __init__(self, manifest):
         """
         Initialize an application context for a CuteWorks application.
         :param manifest: An instance of the CuteManifest object describing the application.
         """
+        os.system("clear")
         print("CuteShell " + CUTESHELL_VERSION + " initializing...\n")
         print_italic(get_inspiration())
 
@@ -61,7 +67,11 @@ class Shell:
         self._env_expected = set()
         self.env_init()
 
+        print("\nInitializing REPL...")
+        self._repl = Repl()
+
         self._contexts = []
+
 
     def context_add(self, context):
         """
@@ -131,6 +141,31 @@ class Shell:
             self._env_expected.add(keys)
 
         return True
+
+    # endregion
+
+    # region Control flow
+
+    def start(self):
+        """
+        The main entry point for the shell after it has been initialized. This will drop the user into a REPL and allow
+        them to launch the application. Maybe in the future this can be used to reload environment variables or similar,
+        if we exit out of the application context/REPL and want to relaunch without restarting the program.
+        """
+        userInput = ""
+        while userInput.lower() != "exit":
+            print("\n\t`repl` -> Launch REPL\n\t`exit` -> Exit Shell\n")
+            userInput = input("cuteshell $ ")
+
+            if len(userInput) == 0:
+                continue
+
+            if userInput == "repl":
+                t = Thread(target=self._repl.run)
+                t.start()
+                t.join()
+
+    # endregion
 
     def print_error(self, message):
         """
