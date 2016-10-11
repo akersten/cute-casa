@@ -68,7 +68,7 @@ class Shell:
         self.env_init()
 
         print("\nInitializing REPL...")
-        self._repl = Repl()
+        self._repl = Repl(self)
 
         self._contexts = []
 
