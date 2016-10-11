@@ -80,6 +80,24 @@ class Shell:
         """
         self._contexts.append(context)
 
+    def context_get_raw(self):
+        """
+        Get the raw list backing the context array. Shouldn't use this too often, mostly used from the REPL where we
+        want to do things like inspect the list directly.
+        :return: The private list of contexts.
+        """
+        return self._contexts
+
+    def context_get(self, context_idx):
+        """
+        Gets the object representing the context.
+        :param context_idx: The number of the context to get.
+        :return: The object representing this context.
+        """
+        if len(self._contexts) <= context_idx:
+            return None
+        return self._contexts[context_idx]
+
     def env_init(self):
         """
         Loads any environment variables that start with "CUTEWORKS_" + manifest.env_prefix and puts them into the

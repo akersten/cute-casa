@@ -13,6 +13,12 @@ class Repl:
     def __init__(self, shell):
         self._shell = shell
 
+        # The function pointer dictionary containing the list of commands that
+        self._commands = {
+            "status": self.cmd_status,
+            "context": self.cmd_context
+        }
+
         self.running = False
 
     def run(self):
@@ -62,20 +68,38 @@ class Repl:
             return
 
         if cmd_base == "?":
-            self.show_help(cmd_ary)
+            self.show_help()
             return
 
-        if cmd_base == "a":
-            for s in self.get_shell()._contexts:
-                print(s)
+        if cmd_base in self._commands.keys():
+            self._commands[cmd_base](cmd_ary)
+            return
 
-
-    def show_help(self, cmdAry):
+    def show_help(self):
         """
-        Shows help for a command or available commands if no command is specified.
-        :param: cmdAry The full command array.
+        Shows help for  available commands.
+        """
+        print("Available commands:")
+        for cmd in self._commands.keys():
+            print("\t" + cmd)
+
+    def cmd_status(self, cmd_ary):
+        """
+        The status command shows the current status of all application contexts.
+        :param cmd_ary: The full command array.
         """
 
-        if len(cmdAry) == 1:
-            # General help (just the "?"), show available commands.
-            print("Available commands: ?, context")
+        if len(cmd_ary) == 1:
+            print("There are " + str(len(self.get_shell().context_get_raw())) + " contexts")
+
+    def cmd_context(self, cmd_ary):
+        """
+        The context command controls the behavior of individual application contexts (starting, stopping, status, etc.).
+        :param cmd_ary: The full command array.
+        """
+        if len(cmd_ary) == 1:
+            print("The context command controls the behavior of individual application contexts. Usage:")
+            print("\tcontext create - Creates a new context.")
+            print("\tcontext start  - Starts a context.")
+            print("\tcontext stop   - Stops a context.")
+            return
