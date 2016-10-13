@@ -2,6 +2,8 @@
 # This REPL is launched by the shell to accept input once the program launches.
 # ######################################################################################################################
 
+from core.context import Context
+
 REPL_PROMPT = "cute $ "  # The REPL prompt that the user will see.
 
 
@@ -89,17 +91,74 @@ class Repl:
         :param cmd_ary: The full command array.
         """
 
-        if len(cmd_ary) == 1:
-            print("There are " + str(len(self.get_shell().context_get_raw())) + " contexts")
+        ctx_idx = 0
+        for context in self.get_shell().context_get_raw():
+            print(str(ctx_idx) + " - " + ("Active" if context.running else "Ready") + " - :"  + str(context.port))
+            ctx_idx += 1
 
     def cmd_context(self, cmd_ary):
         """
         The context command controls the behavior of individual application contexts (starting, stopping, status, etc.).
         :param cmd_ary: The full command array.
         """
-        if len(cmd_ary) == 1:
+        if len(cmd_ary) <= 1:
             print("The context command controls the behavior of individual application contexts. Usage:")
             print("\tcontext create - Creates a new context.")
             print("\tcontext start  - Starts a context.")
             print("\tcontext stop   - Stops a context.")
             return
+
+        sub_cmd = cmd_ary[1].lower()
+
+        if sub_cmd == "create":
+            self.cmd_context_create(cmd_ary)
+
+        if sub_cmd == "start":
+            self.cmd_context_start(cmd_ary)
+
+        if sub_cmd == "stop":
+            self.cmd_context_stop(cmd_ary)
+
+
+    def cmd_context_create(self, cmd_ary):
+        """
+        Creates a context for this application and adds it to the shell.
+        :param cmd_ary: The full command array.
+        """
+        if len(self.get_shell().context_get_raw()) == 1:
+            print(
+                    """
+                    Sorry, support for more than one context isn't implemented yet. At a minimum, the framework for multiple
+                    databases will need to be put in place (as well as initialization code for creating them).
+                    """
+            )
+            return
+
+        context = Context(self.get_shell())
+        self.get_shell().context_add(context)
+
+        self.cmd_status([])
+
+    def cmd_context_start(self, cmd_ary):
+        """
+        Brings up a context and causes it to run.
+        :param cmd_ary: The full command array.
+        """
+        if len(cmd_ary) < 3:
+            return
+
+        try:
+            ctx_idx = int(cmd_ary[2])
+        except ValueError:
+            return
+
+        print(ctx_idx)
+
+        pass
+
+    def cmd_context_stop(self, cmd_ary):
+        """
+        Shuts down a context completely and removes it from the list of contexts.
+        :param cmd_ary: The full command array.
+        """
+        pass

@@ -80,6 +80,17 @@ class Shell:
         """
         self._contexts.append(context)
 
+    def context_remove(self, context_idx):
+        """
+        Removes a context from this shell's list of contexts. Assumes that the context in question has already been
+        properly shut down and is no longer active; there will be no way of accessing it via the shell after this call.
+        :param context_idx: The context number to remove.
+        """
+        if context_idx >= len(self._contexts) or context_idx < 0:
+            return
+        del self._contexts[context_idx]
+
+
     def context_get_raw(self):
         """
         Get the raw list backing the context array. Shouldn't use this too often, mostly used from the REPL where we

@@ -5,35 +5,47 @@
 from core.web.client import run_integrity_checks
 from route import routes
 
-from flask import g
+from flask import Flask, g
 
 class Context:
     """
     The CuteCasa global context for this instance, to track state and singletons.
     """
-    def __init__(self, shell, flaskApp):
+    def __init__(self, shell):
         self.shell = shell
-        self.flaskApp = flaskApp
+        self.running = False
 
         if not self.init_env_verify():
             print("Missing required environment variable.")
             quit(1)
 
+
+        # Default variables that could be overridden as parameters.
+        DEFAULT_DIR_TEMPLATES = "../templates"
+        DEFAULT_DIR_STATIC = "../static"
+        DEFAULT_PORT = int(self.shell.env_get("PORT"))
+
         # Set Flask variables on this object.
         self.DEBUG = self.shell.env_get('DEBUG')
         self.SECRET_KEY = self.shell.env_get('SECRET_KEY')
+
+        # Set our own instance variables.
+        self.port = DEFAULT_PORT
+        self.flaskApp = Flask(__name__,
+                              template_folder=DEFAULT_DIR_TEMPLATES,
+                              static_folder=DEFAULT_DIR_STATIC)
 
         # Singleton initialization. TODO: What is this
         self.Zdb = None
         self.Yoer = None
 
         # Initialize routes and Flask functions..
-        flaskApp.config.from_object(self)
+        self.flaskApp.config.from_object(self)
         self.init_routes()
 
-        flaskApp.before_first_request(self.before_first_request)
-        flaskApp.before_request(self.before_request)
-        flaskApp.teardown_request(self.teardown_request)
+        self.flaskApp.before_first_request(self.before_first_request)
+        self.flaskApp.before_request(self.before_request)
+        self.flaskApp.teardown_request(self.teardown_request)
 
     # region Initialization
 
@@ -122,6 +134,7 @@ class Context:
     # region Application control
 
     def start(self):
-        self.flaskApp.run(host='0.0.0.0', port=int(self.shell.env_get('PORT')))
+        self.running = True
+        self.flaskApp.run(host='0.0.0.0', port=self.port)
 
     # endregion

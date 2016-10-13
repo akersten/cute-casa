@@ -3,13 +3,8 @@
 # this via cute.sh so that environment variables are set for the context.
 # ######################################################################################################################
 
-from core.context import Context
-
 from shell.shell import Shell
 from shell.manifest import Manifest
-
-from flask import Flask
-
 
 # ######################################################################################################################
 # First, set up the application shell and read configuration from environment variables set in the secret shell script
@@ -23,15 +18,9 @@ APP_TITLE = "CuteCasa"
 APP_VERSION = "0.0.0"
 APP_PREFIX = "CUTECASA"
 
-DIR_TEMPLATES = "../templates"
-DIR_STATIC = "../static"
-
 # ######################################################################################################################
 # Initialize and spawn the application shell.
 # ######################################################################################################################
 
 shell = Shell(Manifest(APP_TITLE, APP_VERSION, APP_PREFIX))
-context = Context(shell, Flask(__name__, template_folder=DIR_TEMPLATES, static_folder=DIR_STATIC))
-shell.context_add(context)
-
 shell.start()
