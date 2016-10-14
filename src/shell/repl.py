@@ -152,9 +152,17 @@ class Repl:
         except ValueError:
             return
 
-        print(ctx_idx)
+        contexts = self.get_shell().context_get_raw()
 
-        pass
+        if len(contexts) <= ctx_idx:
+            print("Context does not exist: " + str(ctx_idx))
+            return
+
+        # TODO: This should be in a subprocess so we can (a) redirect stdout to a log for interactive viewing and (b)
+        # run in debug mode.
+        contexts[ctx_idx].start()
+
+        self.cmd_status([])
 
     def cmd_context_stop(self, cmd_ary):
         """
