@@ -9,6 +9,7 @@ import math
 
 from threading import Thread
 
+from core.context import Context
 from shell.repl import Repl
 
 # The CuteWorks string is used for prefixing environment variables.
@@ -181,6 +182,15 @@ class Shell:
         them to launch the application. Maybe in the future this can be used to reload environment variables or similar,
         if we exit out of the application context/REPL and want to relaunch without restarting the program.
         """
+
+        # If we're in debug mode, Flask will run with a stat/restarter and that will completely bork our repl/subprocess
+        # scheme. Just run it as a single standalone app in debug mode, with the assumed defaults.
+        if self._env.get("DEBUG"):      # Not using env_get because the context hasn't env_expect'ed anything yet.
+            print_red("Running in standalone debug mode.")
+            context = Context(self)
+            context.start()
+            return
+
         userInput = ""
         while userInput.lower() != "exit":
             print("\n\t`repl` -> Launch REPL\n\t`exit` -> Exit Shell\n")

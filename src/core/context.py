@@ -2,6 +2,8 @@
 # THe global context for the CuteCasa application. This object tracks the global state and singletons for an instance.
 # ######################################################################################################################
 
+import os
+
 from core.web.client import run_integrity_checks
 from route import routes
 
@@ -21,8 +23,9 @@ class Context:
 
 
         # Default variables that could be overridden as parameters.
-        DEFAULT_DIR_TEMPLATES = "../templates"
-        DEFAULT_DIR_STATIC = "../static"
+        print(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../templates"))
+        DEFAULT_DIR_TEMPLATES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../templates")
+        DEFAULT_DIR_STATIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../static")
         DEFAULT_PORT = int(self.shell.env_get("PORT"))
 
         # Set Flask variables on this object.

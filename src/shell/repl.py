@@ -2,6 +2,8 @@
 # This REPL is launched by the shell to accept input once the program launches.
 # ######################################################################################################################
 
+from multiprocessing import Process
+
 from core.context import Context
 
 REPL_PROMPT = "cute $ "  # The REPL prompt that the user will see.
@@ -66,6 +68,8 @@ class Repl:
         cmd_base = cmd_ary[0].lower()
 
         if cmd_base == "exit":
+            # TODO: Check for any running contexts and terminate their processes.
+
             self.running = False
             return
 
@@ -160,7 +164,8 @@ class Repl:
 
         # TODO: This should be in a subprocess so we can (a) redirect stdout to a log for interactive viewing and (b)
         # run in debug mode.
-        contexts[ctx_idx].start()
+        p = Process(target=contexts[ctx_idx].start)
+        p.start()
 
         self.cmd_status([])
 
