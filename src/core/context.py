@@ -10,16 +10,27 @@ from route import routes
 
 from flask import Flask, g
 
+
 class Context:
     """
     The CuteCasa global context for this instance, to track state and singletons.
     """
+
     def __init__(self, shell, port=None, sql_database=None, object_database=None, dir_static=None, dir_templates=None):
+        """
+        Construct a context for this application and initialize the application.
+        :param shell: The CuteWorks shell hosting this application.
+        :param port: The port to listen on. Looks to environment variables if not defined.
+        :param sql_database: The name of the SQL database. Defaults from environment.
+        :param object_database: The name of the object database. Defaults from environment.
+        :param dir_static: The static files directory. Defaults from environment.
+        :param dir_templates: The template files directory. Defaults from environment.
+        """
         self.shell = shell
         self.running = False
         self._process = None
 
-        # Set defaults for context variales that might not be set.
+        # Set defaults for context variables that might not be set.
         if port is None:
             port = int(self.shell.env_get("DEFAULT_PORT"))
 
@@ -34,7 +45,6 @@ class Context:
 
         if dir_static is None:
             dir_static = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../static")
-
 
         self._port = port
         self._sql_database = sql_database
@@ -53,7 +63,6 @@ class Context:
         self.flaskApp = Flask(__name__,
                               static_folder=dir_static,
                               template_folder=dir_templates)
-
 
         # Singleton initialization. TODO: What is this
         self.Zdb = None
@@ -101,6 +110,7 @@ class Context:
         with zodb, so only initialize it when we're actually ready to process the first request.
         """
         #global S_Zdb, S_Yoer
+        # TODO: Reimplement; probably want to keep things on g so it's magic and stays with the right requetss
 
         #g.db = connect_db() # Connect to the SQL database to provide logging functionality.
         #logger.logSystem("First request received, initializing.")
@@ -141,6 +151,8 @@ class Context:
         """
         Take care of any teardown after a request.
         """
+        #TODO: Update from g to use context
+
         db = getattr(g, 'db', None)
         if db is not None:
             db.close()

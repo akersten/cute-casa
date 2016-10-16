@@ -80,7 +80,6 @@ class Shell:
 
         self._contexts = []
 
-
     def context_add(self, context):
         """
         Adds a context to this shell's list of contexts that can be inspected by the command line operations.
@@ -219,7 +218,6 @@ class Shell:
         if we exit out of the application context/REPL and want to relaunch without restarting the program.
         """
 
-
         # If we're in debug mode, Flask will run with a stat/restarter and that will completely bork our repl/subprocess
         # scheme. Just run it as a single standalone app in debug mode, with the assumed defaults.
         if self.env_get("DEBUG"):
@@ -228,15 +226,15 @@ class Shell:
             context.start()
             return
 
-        userInput = ""
-        while userInput.lower() != "exit":
+        user_input = ""
+        while user_input.lower() != "exit":
             print("\n\t`repl` -> Launch REPL\n\t`exit` -> Exit Shell\n")
-            userInput = input("cuteshell $ ")
+            user_input = input("cuteshell $ ")
 
-            if len(userInput) == 0:
+            if len(user_input) == 0:
                 continue
 
-            if userInput == "repl":
+            if user_input == "repl":
                 t = Thread(target=self._repl.run)
                 t.start()
                 t.join()
@@ -283,6 +281,7 @@ def print_red(line):
         os.system("echo -e \"\\e[31m" + line + "\\e[0m\"")
     else:
         print(line)
+
 
 def print_yellow(line):
     if os.name == "posix":
