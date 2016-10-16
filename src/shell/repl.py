@@ -2,8 +2,6 @@
 # This REPL is launched by the shell to accept input once the program launches.
 # ######################################################################################################################
 
-from multiprocessing import Process
-
 from core.context import Context
 
 REPL_PROMPT = "cute $ "  # The REPL prompt that the user will see.
@@ -39,7 +37,6 @@ class Repl:
         """
         return self._shell
 
-
     def prompt(self) -> str:
         """
         Show the shell prompt and read the user input. If the user input is well-formed, return it. Otherwise continue
@@ -52,7 +49,6 @@ class Repl:
             if user_input == "":
                 continue
         return user_input
-
 
     def eval(self, cmd: str):
         """
@@ -68,9 +64,7 @@ class Repl:
         cmd_base = cmd_ary[0].lower()
 
         if cmd_base == "exit":
-            # TODO: Check for any running contexts and terminate their processes.
-
-            self.running = False
+            self.cmd_exit()
             return
 
         if cmd_base == "?":
@@ -89,6 +83,19 @@ class Repl:
         for cmd in self._commands.keys():
             print("\t" + cmd)
 
+    def cmd_exit(self):
+        """
+        Exit the REPL and terminate any subprocesses that we spawened.
+        :return:
+        """
+        i = len(self.get_shell().context_get_raw())
+        while i > 0:
+            i = i - 1
+            self.get_shell().context_get_raw()[i].stop()
+            self.get_shell().context_remove(i)
+
+        self.running = False
+
     def cmd_status(self, cmd_ary):
         """
         The status command shows the current status of all application contexts.
@@ -97,7 +104,7 @@ class Repl:
 
         ctx_idx = 0
         for context in self.get_shell().context_get_raw():
-            print(str(ctx_idx) + " - " + ("Active" if context.running else "Ready") + " - :"  + str(context.port))
+            print(str(ctx_idx) + " - " + ("Active" if context.running else "Ready") + " - :" + str(context._port))
             ctx_idx += 1
 
     def cmd_context(self, cmd_ary):
@@ -123,22 +130,47 @@ class Repl:
         if sub_cmd == "stop":
             self.cmd_context_stop(cmd_ary)
 
-
     def cmd_context_create(self, cmd_ary):
         """
         Creates a context for this application and adds it to the shell.
         :param cmd_ary: The full command array.
         """
-        if len(self.get_shell().context_get_raw()) == 1:
-            print(
-                    """
-                    Sorry, support for more than one context isn't implemented yet. At a minimum, the framework for multiple
-                    databases will need to be put in place (as well as initialization code for creating them).
-                    """
-            )
-            return
 
-        context = Context(self.get_shell())
+        port = input("Port: ")
+        sql_database = input("SQL database: ")
+        object_database = input("Object database: ")
+
+        # Set defaults here instead of letting the context constructor set them so we can check against existing
+        # contexts.
+        if port == "":
+            port = self.get_shell().env_get("DEFAULT_PORT")
+
+        if sql_database == "":
+            sql_database = self.get_shell().env_get("DEFAULT_SQL_DATABASE")
+
+        if object_database == "":
+            object_database = self.get_shell().env_get("DEFAULT_OBJECT_DATABASE")
+
+        try:
+            port = int(port)
+        except ValueError:
+            port = ""
+
+        # Make sure this context wouldn't be running on the same port or with any of the same database.
+        for ctx in self.get_shell().context_get_raw():
+            if ctx._port == port:
+                self.get_shell().print_error("A context with this port already exists: " + str(port))
+                return
+            if ctx._sql_database == sql_database:
+                self.get_shell().print_error("A context with this SQL database already exists: " + sql_database)
+                return
+            if ctx._object_database == object_database:
+                self.get_shell().print_error("A context with this object database already exists: " + object_database)
+                return
+
+        # TODO: Maybe if the DB/ZDB doesn't exist, run a basic init.
+
+        context = Context(self.get_shell(), port, sql_database, object_database)
         self.get_shell().context_add(context)
 
         self.cmd_status([])
@@ -158,14 +190,7 @@ class Repl:
 
         contexts = self.get_shell().context_get_raw()
 
-        if len(contexts) <= ctx_idx:
-            print("Context does not exist: " + str(ctx_idx))
-            return
-
-        # TODO: This should be in a subprocess so we can (a) redirect stdout to a log for interactive viewing and (b)
-        # run in debug mode.
-        p = Process(target=contexts[ctx_idx].start)
-        p.start()
+        self.get_shell().context_start(ctx_idx)
 
         self.cmd_status([])
 
@@ -174,4 +199,15 @@ class Repl:
         Shuts down a context completely and removes it from the list of contexts.
         :param cmd_ary: The full command array.
         """
-        pass
+        if len(cmd_ary) < 3:
+            return
+
+        try:
+            idx = int(cmd_ary[2])
+        except ValueError:
+            return
+
+        self.get_shell().context_stop(idx)
+        self.get_shell().context_remove(idx)
+
+        self.cmd_status([])

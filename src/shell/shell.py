@@ -68,6 +68,13 @@ class Shell:
         self._env_expected = set()
         self.env_init()
 
+        self.env_expect([
+            "DEBUG",
+            "DEFAULT_PORT",
+            "DEFAULT_SQL_DATABASE",
+            "DEFAULT_OBJECT_DATABASE"
+        ])
+
         print("\nInitializing REPL...")
         self._repl = Repl(self)
 
@@ -87,10 +94,39 @@ class Shell:
         properly shut down and is no longer active; there will be no way of accessing it via the shell after this call.
         :param context_idx: The context number to remove.
         """
+        if type(context_idx) is not int:
+            raise TypeError("Context index must be an integer.")
+
         if context_idx >= len(self._contexts) or context_idx < 0:
             return
         del self._contexts[context_idx]
 
+    def context_start(self, context_idx):
+        """
+        Start a context's host process.
+        :param context_idx: The context number to start.
+        """
+        if type(context_idx) is not int:
+            raise TypeError("Context index must be an integer.")
+
+        if len(self._contexts) <= context_idx or context_idx < 0:
+            return
+
+        # Start this context - internally, it will create a new process to track its state and console output.
+        self._contexts[context_idx].start()
+
+    def context_stop(self, context_idx):
+        """
+        Stop a context's host process.
+        :param context_idx: The context number to stop.
+        """
+        if type(context_idx) is not int:
+            raise TypeError("Context index must be an integer.")
+
+        if len(self._contexts) <= context_idx or context_idx < 0:
+            return
+
+        self._contexts[context_idx].stop()
 
     def context_get_raw(self):
         """
@@ -183,9 +219,10 @@ class Shell:
         if we exit out of the application context/REPL and want to relaunch without restarting the program.
         """
 
+
         # If we're in debug mode, Flask will run with a stat/restarter and that will completely bork our repl/subprocess
         # scheme. Just run it as a single standalone app in debug mode, with the assumed defaults.
-        if self._env.get("DEBUG"):      # Not using env_get because the context hasn't env_expect'ed anything yet.
+        if self.env_get("DEBUG"):
             print_red("Running in standalone debug mode.")
             context = Context(self)
             context.start()

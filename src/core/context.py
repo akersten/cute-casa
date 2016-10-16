@@ -3,6 +3,7 @@
 # ######################################################################################################################
 
 import os
+from multiprocessing import Process
 
 from core.web.client import run_integrity_checks
 from route import routes
@@ -13,30 +14,46 @@ class Context:
     """
     The CuteCasa global context for this instance, to track state and singletons.
     """
-    def __init__(self, shell):
+    def __init__(self, shell, port=None, sql_database=None, object_database=None, dir_static=None, dir_templates=None):
         self.shell = shell
         self.running = False
+        self._process = None
+
+        # Set defaults for context variales that might not be set.
+        if port is None:
+            port = int(self.shell.env_get("DEFAULT_PORT"))
+
+        if sql_database is None:
+            sql_database = self.shell.env_get("DEFAULT_SQL_DATABASE")
+
+        if object_database is None:
+            object_database = self.shell.env_get("DEFAULT_OBJECT_DATABASE")
+
+        if dir_templates is None:
+            dir_templates = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../templates")
+
+        if dir_static is None:
+            dir_static = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../static")
+
+
+        self._port = port
+        self._sql_database = sql_database
+        self._object_database = object_database
 
         if not self.init_env_verify():
             print("Missing required environment variable.")
             quit(1)
 
-
-        # Default variables that could be overridden as parameters.
-        print(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../templates"))
-        DEFAULT_DIR_TEMPLATES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../templates")
-        DEFAULT_DIR_STATIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../static")
-        DEFAULT_PORT = int(self.shell.env_get("PORT"))
-
         # Set Flask variables on this object.
-        self.DEBUG = self.shell.env_get('DEBUG')
-        self.SECRET_KEY = self.shell.env_get('SECRET_KEY')
+        self.DEBUG = self.shell.env_get("DEBUG")
+        self.SECRET_KEY = self.shell.env_get("SECRET_KEY")
+        self.SALT = self.shell.env_get("SALT")
 
         # Set our own instance variables.
-        self.port = DEFAULT_PORT
         self.flaskApp = Flask(__name__,
-                              template_folder=DEFAULT_DIR_TEMPLATES,
-                              static_folder=DEFAULT_DIR_STATIC)
+                              static_folder=dir_static,
+                              template_folder=dir_templates)
+
 
         # Singleton initialization. TODO: What is this
         self.Zdb = None
@@ -58,11 +75,7 @@ class Context:
         :return: False if we are missing an environment variable, True otherwise.
         """
         return self.shell.env_expect([
-            "DEBUG",
             "SECRET_KEY",
-            "PORT",
-            "SQL_DATABASE",
-            "OBJECT_DATABASE",
             "SALT"
         ])
 
@@ -138,6 +151,20 @@ class Context:
 
     def start(self):
         self.running = True
-        self.flaskApp.run(host='0.0.0.0', port=self.port)
+        self._process = Process(target=self._start_impl)
+        self._process.start()
+
+    def _start_impl(self):
+        """
+        The target for context process launch - starts the Flask application.
+        """
+        self.flaskApp.run(host='0.0.0.0', port=self._port)
+
+    def stop(self):
+        """
+        Trigger any shutdown requirements and terminate the process hosting this context.
+        """
+        self.running = False
+        self._process.terminate()
 
     # endregion
