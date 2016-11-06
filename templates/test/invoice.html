@@ -1,0 +1,407 @@
+{% extends "head.html" %}
+{% block body %}
+
+    <script type="text/javascript">
+        document.title = "CuteCasa - October 2016 - Monthly Expenses"
+    </script>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="title">Summary</h2>
+
+            <div class="columns is-mobile">
+
+                <!-- Probably don't have people on here if they don't owe anything... -->
+
+                <!--
+                <div class="column">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-32x32">
+                                        <img src="http://placehold.it/64x64" class="is-circle" alt="Image">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-5">Alex</p>
+                                    <p class="subtitle is-6">Owes $0.00</p>
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Phasellus nec iaculis mauris. <a href="#">@bulmaio</a>.
+                                <a href="#">#css</a> <a href="#">#responsive</a>
+                                <br>
+                                <small>11:09 PM - 1 Jan 2016</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+                <div class="column">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-32x32">
+                                        <img src="http://placehold.it/64x64" class="is-circle" alt="Image">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-5">David</p>
+                                    <p class="subtitle is-6">Owes <strong>$684.54</strong> to Alex</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-32x32">
+                                        <img src="http://placehold.it/64x64" class="is-circle" alt="Image">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-5">Wendy</p>
+                                    <p class="subtitle is-6">Owes <strong>$174.68</strong> to Alex</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p>David & Wendy's amounts for Alex reflect $4.99 owed to David from Wendy.</p>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container">
+            <h2 class="title">Bills</h2>
+
+            <table class="table is-narrow">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Creditor</th>
+                    <th>Debtors</th>
+                    <th class="has-text-right">Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td>Rent</td>
+                    <td>11/3</td>
+                    <td>Alex</td>
+                    <td>David</td>
+                    <td class="has-text-right">$475.00</td>
+                </tr>
+
+                <!-- Really, if we have the situation where there are two debtors but one is the payor, it should collapse up to the first line. They don't really care about the bill total. -->
+                <!--
+                <tr>
+                    <td>MG&E</td>
+                    <td>10/12</td>
+                    <td>Alex</td>
+                    <td>Alex & David</td>
+                    <td class="has-text-right">$28.72</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>David</td>
+                    <td class="has-text-right">$14.36</td>
+                </tr>
+
+                <tr>
+                    <td>Alliant Energy</td>
+                    <td>10/20</td>
+                    <td>Alex</td>
+                    <td>Alex & David</td>
+                    <td class="has-text-right">$66.90</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>David</td>
+                    <td class="has-text-right">$33.45</td>
+                </tr>
+
+
+                <tr>
+                    <td>City of Madison</td>
+                    <td>10/11</td>
+                    <td>Alex</td>
+                    <td>Alex & David</td>
+                    <td class="has-text-right">$46.52</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>David</td>
+                    <td class="has-text-right">$23.26</td>
+                </tr>
+
+                <tr>
+                    <td>Charter</td>
+                    <td>10/21</td>
+                    <td>Alex</td>
+                    <td>Alex & David</td>
+                    <td class="has-text-right">$108.24</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>David</td>
+                    <td class="has-text-right">$54.12</td>
+                </tr>
+                -->
+                <tr>
+                    <td>MG&E</td>
+                    <td>10/12</td>
+                    <td>Alex</td>
+                    <td>David</td>
+                    <td class="has-text-right">$14.36</td>
+                </tr>
+
+                <tr>
+                    <td>Alliant Energy</td>
+                    <td>10/20</td>
+                    <td>Alex</td>
+                    <td>David</td>
+                    <td class="has-text-right">$33.45</td>
+                </tr>
+
+                <tr>
+                    <td>City of Madison</td>
+                    <td>10/11</td>
+                    <td>Alex</td>
+                    <td>David</td>
+                    <td class="has-text-right">$23.26</td>
+                </tr>
+
+                <tr>
+                    <td>Charter</td>
+                    <td>10/21</td>
+                    <td>Alex</td>
+                    <td>David</td>
+                    <td class="has-text-right">$54.12</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container">
+            <h2 class="title">Receipts</h2>
+
+            <table class="table is-narrow">
+                <thead>
+                <tr>
+                    <th>Receipt</th>
+                    <th>Date</th>
+                    <th>Payor</th>
+                    <th>Debtors</th>
+                    <th class="has-text-right">Before Split</th>
+                    <th class="has-text-right">Each Owes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Copps</td>
+                    <td>10/14</td>
+                    <td>Alex</td>
+                    <td><em>Everyone</em></td>
+                    <td class="has-text-right">$43.46</td>
+                    <td class="has-text-right">$14.49</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Wendy</td>
+                    <td class="has-text-right">$12.12</td>
+                    <td class="has-text-right">$12.12</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Alex & Wendy</td>
+                    <td class="has-text-right">$26.47</td>
+                    <td class="has-text-right">$13.24</td>
+                </tr>
+
+
+                <tr>
+                    <td>Copps</td>
+                    <td>10/21</td>
+                    <td>Alex</td>
+                    <td><em>Everyone</em></td>
+                    <td class="has-text-right">$110.27</td>
+                    <td class="has-text-right">$36.76</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Wendy</td>
+                    <td class="has-text-right">$4.49</td>
+                    <td class="has-text-right">$4.49</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Alex & Wendy</td>
+                    <td class="has-text-right">$9.40</td>
+                    <td class="has-text-right">$4.70</td>
+                </tr>
+
+
+                <tr>
+                    <td>Walgreens</td>
+                    <td>10/21</td>
+                    <td>Alex</td>
+                    <td>Alex & Wendy</td>
+                    <td class="has-text-right">$13.61</td>
+                    <td class="has-text-right">$6.81</td>
+                </tr>
+
+                <tr>
+                    <td>Copps</td>
+                    <td>10/26</td>
+                    <td>Alex</td>
+                    <td><em>Everyone</em></td>
+                    <td class="has-text-right">$78.55</td>
+                    <td class="has-text-right">$26.18</td>
+                </tr>
+
+                <tr>
+                    <td>Copps</td>
+                    <td>11/03</td>
+                    <td>David</td>
+                    <td><em>Everyone</em></td>
+                    <td class="has-text-right">$14.97</td>
+                    <td class="has-text-right">$4.99</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Alex & David</td>
+                    <td class="has-text-right">$7.99</td>
+                    <td class="has-text-right">$4.00</td>
+                </tr>
+
+
+                <tr>
+                    <td>Copps</td>
+                    <td>11/04</td>
+                    <td>Alex</td>
+                    <td><em>Everyone</em></td>
+                    <td class="has-text-right">$62.69</td>
+                    <td class="has-text-right">$20.90</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Wendy</td>
+                    <td class="has-text-right">$10.48</td>
+                    <td class="has-text-right">$10.48</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Alex & Wendy</td>
+                    <td class="has-text-right">$10.81</td>
+                    <td class="has-text-right">$5.41</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <section class="section">
+        <div class="container">
+            <h2 class="title">Other</h2>
+
+            <table class="table is-narrow">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Creditor</th>
+                    <th>Debtors</th>
+                    <th class="has-text-right">Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Apple picking</td>
+                    <td>10/15</td>
+                    <td>Alex</td>
+                    <td>Wendy</td>
+                    <td class="has-text-right">$14.00</td>
+                </tr>
+
+                <tr>
+                    <td>Corn maze</td>
+                    <td>10/22</td>
+                    <td>Alex</td>
+                    <td>Wendy</td>
+                    <td class="has-text-right">$6.00</td>
+                </tr>
+
+                <tr>
+                    <td>Coffee & Devil's Lake</td>
+                    <td>11/05</td>
+                    <td>Alex</td>
+                    <td>Wendy</td>
+                    <td class="has-text-right">$13.00</td>
+                </tr>
+
+
+                <tr>
+                    <td>Ice cream & cheese curds</td>
+                    <td>10/29</td>
+                    <td>Wendy</td>
+                    <td>Alex</td>
+                    <td class="has-text-right">$4.40</td>
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container has-text-centered cwxs-footer-images">
+                <img src="{{ url_for('static', filename='img/cuteworks-emboss.png') }}"
+                     alt="Cuteworks" style="width: 15%;"/>
+        </div>
+    </section>
+
+
+
+
+{% endblock %}

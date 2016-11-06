@@ -258,3 +258,17 @@ def admin_styletest():
 def admin_globalSettings():
     user.checkAdmin()
     return admin.globalSettings()
+
+
+
+
+
+
+# #
+
+# TESTING ONLY
+
+# #
+
+def testing_invoice():
+    return render_template('test/invoice.html')
