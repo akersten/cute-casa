@@ -98,8 +98,6 @@ class Context:
         self.flaskApp.add_url_rule('/login', 'login', methods=["GET","POST"], view_func=routes.login)
         self.flaskApp.add_url_rule('/register', 'register', methods=["GET","POST"], view_func=routes.register)
 
-        self.flaskApp.add_url_rule('/invoice', 'invaaaaaaa', view_func=routes.testing_invoice)
-
 
     # endregion
 

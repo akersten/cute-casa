@@ -34,8 +34,3 @@ $info: $cutecasa-secondary;
     margin-top: 0.5rem;
   }
 }
-
-/* Right align doesn't work in tables because the th rule is too specific. */
-table th.has-text-right {
-  text-align: right;
-}
