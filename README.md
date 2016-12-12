@@ -23,7 +23,7 @@ future paid/dedicated hosting.
 
 ### Requirements
 
-* Python (3.4+)
+* Python (3.5+)
 * * [Flask](http://flask.pocoo.org/)
 * * [ZODB](http://www.zodb.org/en/latest/)
 * [Sass](http://sass-lang.com/) (`sass`)

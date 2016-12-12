@@ -88,10 +88,10 @@ class Repl:
         Exit the REPL and terminate any subprocesses that we spawened.
         :return:
         """
-        i = len(self.get_shell().context_get_raw())
+        i = len(self.get_shell().context_get_raw_list())
         while i > 0:
             i = i - 1
-            self.get_shell().context_get_raw()[i].stop()
+            self.get_shell().context_get_raw_list()[i].stop()
             self.get_shell().context_remove(i)
 
         self.running = False
@@ -103,7 +103,7 @@ class Repl:
         """
 
         ctx_idx = 0
-        for context in self.get_shell().context_get_raw():
+        for context in self.get_shell().context_get_raw_list():
             print(str(ctx_idx) + " - " + ("Active" if context.running else "Ready") + " - :" + str(context._port))
             ctx_idx += 1
 
@@ -157,7 +157,7 @@ class Repl:
             port = ""
 
         # Make sure this context wouldn't be running on the same port or with any of the same database.
-        for ctx in self.get_shell().context_get_raw():
+        for ctx in self.get_shell().context_get_raw_list():
             if ctx._port == port:
                 self.get_shell().print_error("A context with this port already exists: " + str(port))
                 return
@@ -170,7 +170,7 @@ class Repl:
 
         # TODO: Maybe if the DB/ZDB doesn't exist, run a basic init.
 
-        context = Context(self.get_shell(), port, sql_database, object_database)
+        context = Context(self.get_shell(), port, None, None, sql_database, object_database)
         self.get_shell().context_add(context)
 
         self.cmd_status([])
@@ -188,7 +188,7 @@ class Repl:
         except ValueError:
             return
 
-        contexts = self.get_shell().context_get_raw()
+        contexts = self.get_shell().context_get_raw_list()
 
         self.get_shell().context_start(ctx_idx)
 

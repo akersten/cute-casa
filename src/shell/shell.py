@@ -7,10 +7,14 @@ import os
 import random
 import math
 
-from threading import Thread
+import shell.shellContext as shellContext
 
-from core.context import Context
+from threading import Thread
+from typing import List, Union
+
 from shell.repl import Repl
+from shell.manifest import Manifest
+from shell.shellContext import ShellContext
 
 # The CuteWorks string is used for prefixing environment variables.
 CUTEWORKS = "CUTEWORKS"
@@ -30,7 +34,14 @@ ENV_SENSITIVE_VARIABLES = [
 
 # These variables should be interpreted as booleans if they are set as an environment variable.
 ENV_BOOLEANS = [
-    "DEBUG"
+    "DEBUG",
+]
+
+# The environment variables that we expect to see set by the run script (at least at this point in the setup; we
+# check on an as-needed basis for more specific variables (like default database paths) when we actually set up the
+# application context.
+ENV_EXPECTED = [
+    "DEBUG",
 ]
 
 
@@ -47,47 +58,42 @@ class Shell:
     The main shell object that launches the application, initiates the user shell, and tracks singletons.
     """
 
-    # region Initialization
-
-    def __init__(self, manifest):
+    def __init__(self, manifest: Manifest):
         """
         Initialize an application context for a CuteWorks application.
         :param manifest: An instance of the CuteManifest object describing the application.
         """
+        self.manifest = manifest
+
+        self._contexts = []
+        self._env = {}
+        self._env_expected = set()
+
         os.system("clear")
         print("CuteShell " + CUTESHELL_VERSION + " initializing...\n")
-        print_italic(get_inspiration())
+        print_italic(get_inspiration() + "\n")
 
-        print("\nLoading manifest for application...")
-        self.manifest = manifest
         print("\t" + self.manifest.name)
         print("\t" + self.manifest.version)
 
         print("\nReading environment variables...")
-        self._env = {}
-        self._env_expected = set()
         self.env_init()
 
-        self.env_expect([
-            "DEBUG",
-            "DEFAULT_PORT",
-            "DEFAULT_SQL_DATABASE",
-            "DEFAULT_OBJECT_DATABASE"
-        ])
+        self.env_expect(ENV_EXPECTED)
 
         print("\nInitializing REPL...")
         self._repl = Repl(self)
 
-        self._contexts = []
+    # region Context
 
-    def context_add(self, context):
+    def context_add(self, context: ShellContext) -> None:
         """
         Adds a context to this shell's list of contexts that can be inspected by the command line operations.
         :param context: The context to add.
         """
         self._contexts.append(context)
 
-    def context_remove(self, context_idx):
+    def context_remove(self, context_idx: int) -> None:
         """
         Removes a context from this shell's list of contexts. Assumes that the context in question has already been
         properly shut down and is no longer active; there will be no way of accessing it via the shell after this call.
@@ -98,9 +104,10 @@ class Shell:
 
         if context_idx >= len(self._contexts) or context_idx < 0:
             return
+
         del self._contexts[context_idx]
 
-    def context_start(self, context_idx):
+    def context_start(self, context_idx: int) -> None:
         """
         Start a context's host process.
         :param context_idx: The context number to start.
@@ -114,7 +121,7 @@ class Shell:
         # Start this context - internally, it will create a new process to track its state and console output.
         self._contexts[context_idx].start()
 
-    def context_stop(self, context_idx):
+    def context_stop(self, context_idx: int) -> None:
         """
         Stop a context's host process.
         :param context_idx: The context number to stop.
@@ -127,7 +134,7 @@ class Shell:
 
         self._contexts[context_idx].stop()
 
-    def context_get_raw(self):
+    def context_get_raw_list(self) -> List[ShellContext]:
         """
         Get the raw list backing the context array. Shouldn't use this too often, mostly used from the REPL where we
         want to do things like inspect the list directly.
@@ -135,7 +142,7 @@ class Shell:
         """
         return self._contexts
 
-    def context_get(self, context_idx):
+    def context_get(self, context_idx: int) -> ShellContext:
         """
         Gets the object representing the context.
         :param context_idx: The number of the context to get.
@@ -143,11 +150,16 @@ class Shell:
         """
         if len(self._contexts) <= context_idx:
             return None
+
         return self._contexts[context_idx]
 
-    def env_init(self):
+    # endregion
+
+    # region Environment
+
+    def env_init(self) -> None:
         """
-        Loads any environment variables that start with "CUTEWORKS_" + manifest.env_prefix and puts them into the
+        Loads any environment variables that start with "CUTEWORKS_" + manifest.env_prefix + "_" and puts them into the
         environment variable dictionary for the context. The environment variables dictionary will have the environment
         variables without any prefix.
         """
@@ -171,7 +183,7 @@ class Shell:
 
                 self._env[key] = val
 
-    def env_get(self, key):
+    def env_get(self, key: str) -> str:
         """
         Gets an environment variable related to the application (i.e. one starting with this application's prefix).
         :param key: The name of the application environment variable to return.
@@ -187,7 +199,7 @@ class Shell:
             return None
         return self._env[key]
 
-    def env_expect(self, keys):
+    def env_expect(self, keys: Union[str, List[str]]) -> bool:
         """
         Checks if a list of keys or a single key exists in the environment.
         :param keys: The key or list of keys to check.
@@ -211,7 +223,7 @@ class Shell:
 
     # region Control flow
 
-    def start(self):
+    def start(self) -> None:
         """
         The main entry point for the shell after it has been initialized. This will drop the user into a REPL and allow
         them to launch the application. Maybe in the future this can be used to reload environment variables or similar,
@@ -222,7 +234,7 @@ class Shell:
         # scheme. Just run it as a single standalone app in debug mode, with the assumed defaults.
         if self.env_get("DEBUG"):
             print_red("Running in standalone debug mode.")
-            context = Context(self)
+            context = shellContext.default_context_create(self)
             context.start()
             return
 
@@ -241,14 +253,14 @@ class Shell:
 
     # endregion
 
-    def print_error(self, message):
+    def print_error(self, message: str) -> None:
         """
         Prints an error message - in the future, we might log this error somewhere to the shell error log.
         :param message: The message to print.
         """
         print_red(message)
 
-    def print_warning(self, message):
+    def print_warning(self, message: str) -> None:
         """
         Prints a warning message - in the future, we might log this warning somewhere to the shell warning log.
         :param message: The message to print.
@@ -260,7 +272,11 @@ class Shell:
 # ######################################################################################################################
 
 
-def print_italic(line):
+def print_italic(line: str) -> None:
+    """
+    Try to print a line in italics.
+    :param line: The line to print.
+    """
     if os.name == "posix":
         # Hopefully Bash or other emulator that understands this formatting.
         os.system("echo -e \"\\e[3m" + line + "\\e[0m\"")
@@ -269,21 +285,33 @@ def print_italic(line):
         print(line)
 
 
-def print_bold(line):
+def print_bold(line: str) -> None:
+    """
+    Try to print a line in bold.
+    :param line: The line to print.
+    """
     if os.name == "posix":
         os.system("echo -e \"\\e[1m" + line + "\\e[0m\"")
     else:
         print(line)
 
 
-def print_red(line):
+def print_red(line: str) -> None:
+    """
+    Try to print a line in red.
+    :param line: The line to print.
+    """
     if os.name == "posix":
         os.system("echo -e \"\\e[31m" + line + "\\e[0m\"")
     else:
         print(line)
 
 
-def print_yellow(line):
+def print_yellow(line: str) -> None:
+    """
+    Try to print a line in yellow.
+    :param line: The line to print.
+    """
     if os.name == "posix":
         os.system("echo -e \"\\e[33m" + line + "\\e[0m\"")
     else:
