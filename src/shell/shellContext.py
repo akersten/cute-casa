@@ -4,10 +4,11 @@
 # the Context object in the core extends this class.
 # ######################################################################################################################
 
-import os, sqlite3
+import os
+import sqlite3
 
 from multiprocessing import Process
-from typing import Type, TYPE_CHECKING
+from typing import Type
 
 from core.database.zdb import Zdb
 from shell.shell import Shell
@@ -191,6 +192,7 @@ class ShellContext:
     def request_teardown(self, exception: BaseException) -> None:
         """
         Take care of any teardown after a request.
+        :param exception: Any exception that occurred during the processing of this request.
         """
         db = getattr(g, 'db', None)
         if db is not None:
@@ -206,7 +208,6 @@ class ShellContext:
         :return: The connection object.
         """
         return sqlite3.connect(self._db_sql)
-
 
     # endregion
 

@@ -1,7 +1,7 @@
 # ######################################################################################################################
 # The global context for the CuteCasa application. This object tracks the global state and singletons for an instance.
 # ######################################################################################################################
-from core import logger
+
 from core.notification.yo.yoer import Yoer
 from shell.shellContext import ShellContext
 from route import routes
@@ -24,10 +24,10 @@ class Context(ShellContext):
         :param db_sql: The name of the SQL database. Defaults from environment.
         :param db_object: The name of the object database. Defaults from environment.
         """
-        super(shell, port, dir_static, dir_templates, db_sql, db_object)
+        super.__init__(shell, port, dir_static, dir_templates, db_sql, db_object)
 
         # Set up singleton fields specific to the CuteCasa application.
-        self.Yoer = None
+        self._yoer = None
 
 
     # region Initialization
@@ -37,7 +37,7 @@ class Context(ShellContext):
         Check that the required environment variables are present.
         :return: False if we are missing an environment variable, True otherwise.
         """
-        if not super():
+        if not super().init_env_verify():
             return False
 
         return self.shell.env_expect([
@@ -60,7 +60,7 @@ class Context(ShellContext):
         """
         The target for the context's start method. Starts the Flask application.
         """
-        self.flaskApp.run(host='0.0.0.0', port=self._port)
+        self._flask_app.run(host='0.0.0.0', port=self._port)
 
     # endregion
 
@@ -71,7 +71,7 @@ class Context(ShellContext):
         Set up the singletons on the request object so they accessible in the Flask context.
         :return:
         """
-        super()
+        super().singleton_request_init()
 
         # The context object (this one) should have methods to get the following singletons. We'll expose them on g.s
         # for ease of access.
@@ -103,7 +103,7 @@ class Context(ShellContext):
         singletons that are more specific to the application context as well. At this point, the database connection is
         not yet open, so we don't want to attempt any accesses to the DB.
         """
-        super.request_before_first()
+        super().request_before_first()
 
         if not self.singleton_get_zdb().root.globalSettings.yoApiKey:
             self.singleton_set_yoer(self.singleton_get_zdb().root.globalSettings.yoApiKey)
@@ -112,13 +112,14 @@ class Context(ShellContext):
         """
         Do any bringup for things that we need during a request.
         """
-        super.request_before()
+        super().request_before()
         # TODO: Run before-request integrity checks.
 
-    def request_teardown(self, exception):
+    def request_teardown(self, exception: BaseException) -> None:
         """
         Take care of any teardown after a request.
+        :param exception: Any exception that occurred during the processing of this request.
         """
-        super.request_teardown()
+        super().request_teardown(exception)
 
     # endregion
