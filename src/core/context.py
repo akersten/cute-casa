@@ -24,11 +24,10 @@ class Context(ShellContext):
         :param db_sql: The name of the SQL database. Defaults from environment.
         :param db_object: The name of the object database. Defaults from environment.
         """
-        super.__init__(shell, port, dir_static, dir_templates, db_sql, db_object)
+        super().__init__(shell, port, dir_static, dir_templates, db_sql, db_object)
 
         # Set up singleton fields specific to the CuteCasa application.
         self._yoer = None
-
 
     # region Initialization
 
