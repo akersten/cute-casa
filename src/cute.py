@@ -3,8 +3,6 @@
 # this via cute.sh so that environment variables are set for the context.
 # ######################################################################################################################
 
-import shell.shellContext as shellContext
-
 from shell.shell import Shell
 from shell.manifest import Manifest
 
@@ -26,6 +24,5 @@ APP_PREFIX = "CUTECASA"
 # Initialize and spawn the application shell. Point the shell framework to the application's context.
 # ######################################################################################################################
 
-shellContext.default_context_set(Context)
-shell = Shell(Manifest(APP_TITLE, APP_VERSION, APP_PREFIX))
+shell = Shell(Manifest(APP_TITLE, APP_VERSION, APP_PREFIX, Context))
 shell.start()

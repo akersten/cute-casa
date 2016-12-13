@@ -7,10 +7,10 @@ import os
 import random
 import math
 
-import shell.shellContext as shellContext
-
 from threading import Thread
 from typing import List, Union
+
+import shell.shellContext
 
 from shell.repl import Repl
 from shell.manifest import Manifest
@@ -236,7 +236,13 @@ class Shell:
         # scheme. Just run it as a single standalone app in debug mode, with the assumed defaults.
         if self.env_get("DEBUG"):
             print_red("Running in standalone debug mode.")
-            context = shellContext.default_context_create(self)
+
+            if shell.shellContext.default_context_get():
+                print_red("Default context already exists.")
+                return
+
+            shell.shellContext.default_context_set(self.manifest.default_context)
+            context = shell.shellContext.default_context_create(self)
             context.start()
             return
 

@@ -3,10 +3,11 @@
 # for environment variables.
 # ######################################################################################################################
 
+from shell.shellContext import ShellContext
 
 class Manifest:
 
-    def __init__(self, name: str, version: str, env_prefix: str) -> None:
+    def __init__(self, name: str, version: str, env_prefix: str, default_context: ShellContext) -> None:
         """
         Creates the manifest for a CuteWorks application.
         :param name: The name of this application (e.g. "CuteCasa").
@@ -16,3 +17,4 @@ class Manifest:
         self.name = name
         self.version = version
         self.env_prefix = env_prefix
+        self.default_context = default_context
