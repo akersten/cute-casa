@@ -22,6 +22,11 @@ _default_context_instance = None
 
 
 class ShellContext:
+    """
+    The shell launches an application context. This is an abstract class that the specific application should extend.
+    This structure is so that shell.py doesn't have to import something out of the application's core package; instead,
+    the Context object in the core extends this class.
+    """
 
     def __init__(self, shell: Shell, port: int = None, dir_static: str = None, dir_templates: str = None,
                  db_sql: str = None, db_object: str = None):
@@ -38,6 +43,11 @@ class ShellContext:
         self.running = False
 
         self._process = None
+
+        self._requests_issued = 0
+        self._requests_completed = 0
+        self._requests_in_flight = 0
+        self._requests_failed = 0
 
         # Verify any environment variables that we need.
         if not self.init_env_verify():
@@ -109,6 +119,31 @@ class ShellContext:
         :param flask_app: The Flask instance in which to set routes.
         """
         pass
+
+    # endregion
+
+    # region Inspection
+
+    def get_port(self) -> int:
+        """
+        Gets the port number that this application runs on.
+        :return: The port number for this application.
+        """
+        return self._port
+
+    def db_sql_get(self) -> str:
+        """
+        Gets the path of the SQL database.
+        :return: The path to the SQL database.
+        """
+        return self._db_sql
+
+    def db_object_get(self) -> str:
+        """
+        Gets the path of the object database.
+        :return: The path to the object database.
+        """
+        return self._db_object
 
     # endregion
 
@@ -186,6 +221,9 @@ class ShellContext:
         """
         Do any bringup for things that we need during a request, like setting up the singleton references.
         """
+        self._requests_issued += 1
+        self._requests_in_flight += 1
+
         g.db = self.db_sql_connect()
         self.singleton_request_init()
 
@@ -197,6 +235,12 @@ class ShellContext:
         db = getattr(g, 'db', None)
         if db is not None:
             db.close()
+
+        self._requests_in_flight -= 1
+        if exception:
+            self._requests_failed += 1
+        else:
+            self._requests_completed += 1
 
     # endregion
 

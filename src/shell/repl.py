@@ -2,7 +2,12 @@
 # This REPL is launched by the shell to accept input once the program launches.
 # ######################################################################################################################
 
+from typing import List, TYPE_CHECKING
+
 from core.context import Context
+
+if TYPE_CHECKING:
+    from shell.shell import Shell
 
 REPL_PROMPT = "cute $ "  # The REPL prompt that the user will see.
 
@@ -15,22 +20,21 @@ class Repl:
     def __init__(self, shell):
         self._shell = shell
 
-        # The function pointer dictionary containing the list of commands that
+        # The function pointer dictionary containing the list of commands that can be executed.
         self._commands = {
-            "status": self.cmd_status,
-            "context": self.cmd_context
+            "context": self.cmd_context,
         }
 
         self.running = False
 
-    def run(self):
+    def run(self) -> None:
         self.running = True
 
         while self.running:
             cmd = self.prompt()
             self.eval(cmd)
 
-    def get_shell(self):
+    def get_shell(self) -> Shell:
         """
         Returns a reference to the shell (that has application contexts), which this REPL is running within.
         :return: The Shell object reference.
@@ -44,13 +48,13 @@ class Repl:
         :return: A well-formed user input.
         """
         user_input = ""
-        while user_input == "":
+        while user_input == "" and self.running:
             user_input = input(REPL_PROMPT)
             if user_input == "":
                 continue
         return user_input
 
-    def eval(self, cmd: str):
+    def eval(self, cmd: str) -> None:
         """
         Execute user input received after prompting. The input probably needs to be parsed.
         :param cmd: The raw user input to evaluate.
@@ -67,6 +71,10 @@ class Repl:
             self.cmd_exit()
             return
 
+        if cmd_base == "status":
+            self.cmd_status()
+            return
+
         if cmd_base == "?":
             self.show_help()
             return
@@ -75,7 +83,7 @@ class Repl:
             self._commands[cmd_base](cmd_ary)
             return
 
-    def show_help(self):
+    def show_help(self) -> None:
         """
         Shows help for  available commands.
         """
@@ -83,31 +91,29 @@ class Repl:
         for cmd in self._commands.keys():
             print("\t" + cmd)
 
-    def cmd_exit(self):
+    def cmd_exit(self) -> None:
         """
         Exit the REPL and terminate any subprocesses that we spawened.
         :return:
         """
         i = len(self.get_shell().context_get_raw_list())
         while i > 0:
-            i = i - 1
+            i -= 1
             self.get_shell().context_get_raw_list()[i].stop()
             self.get_shell().context_remove(i)
 
         self.running = False
 
-    def cmd_status(self, cmd_ary):
+    def cmd_status(self) -> None:
         """
         The status command shows the current status of all application contexts.
-        :param cmd_ary: The full command array.
         """
-
         ctx_idx = 0
         for context in self.get_shell().context_get_raw_list():
-            print(str(ctx_idx) + " - " + ("Active" if context.running else "Ready") + " - :" + str(context._port))
+            print(str(ctx_idx) + " - " + ("Active" if context.running else "Ready") + " - :" + str(context.get_port()))
             ctx_idx += 1
 
-    def cmd_context(self, cmd_ary):
+    def cmd_context(self, cmd_ary: List[str]) -> None:
         """
         The context command controls the behavior of individual application contexts (starting, stopping, status, etc.).
         :param cmd_ary: The full command array.
@@ -130,13 +136,22 @@ class Repl:
         if sub_cmd == "stop":
             self.cmd_context_stop(cmd_ary)
 
-    def cmd_context_create(self, cmd_ary):
+    def cmd_context_create(self, cmd_ary: List[str]) -> None:
         """
         Creates a context for this application and adds it to the shell.
         :param cmd_ary: The full command array.
         """
+        port = None
 
-        port = input("Port: ")
+        if len(cmd_ary) > 1:
+            try:
+                port = int(cmd_ary[1])
+            except ValueError:
+                pass
+
+        if not port:
+            port = input("Port: ")
+
         sql_database = input("SQL database: ")
         object_database = input("Object database: ")
 
@@ -154,17 +169,22 @@ class Repl:
         try:
             port = int(port)
         except ValueError:
-            port = ""
+            print("Invalid port number.")
+            return
+
+        if port > 65535 or port < 1:
+            print("Port out of range.")
+            return
 
         # Make sure this context wouldn't be running on the same port or with any of the same database.
         for ctx in self.get_shell().context_get_raw_list():
-            if ctx._port == port:
+            if ctx.get_port() == port:
                 self.get_shell().print_error("A context with this port already exists: " + str(port))
                 return
-            if ctx._sql_database == sql_database:
+            if ctx.db_sql_get() == sql_database:
                 self.get_shell().print_error("A context with this SQL database already exists: " + sql_database)
                 return
-            if ctx._object_database == object_database:
+            if ctx.db_object_get() == object_database:
                 self.get_shell().print_error("A context with this object database already exists: " + object_database)
                 return
 
@@ -173,9 +193,9 @@ class Repl:
         context = Context(self.get_shell(), port, None, None, sql_database, object_database)
         self.get_shell().context_add(context)
 
-        self.cmd_status([])
+        self.cmd_status()
 
-    def cmd_context_start(self, cmd_ary):
+    def cmd_context_start(self, cmd_ary: List[str]) -> None:
         """
         Brings up a context and causes it to run.
         :param cmd_ary: The full command array.
@@ -188,13 +208,11 @@ class Repl:
         except ValueError:
             return
 
-        contexts = self.get_shell().context_get_raw_list()
-
         self.get_shell().context_start(ctx_idx)
 
-        self.cmd_status([])
+        self.cmd_status()
 
-    def cmd_context_stop(self, cmd_ary):
+    def cmd_context_stop(self, cmd_ary: List[str]) -> None:
         """
         Shuts down a context completely and removes it from the list of contexts.
         :param cmd_ary: The full command array.
@@ -210,4 +228,4 @@ class Repl:
         self.get_shell().context_stop(idx)
         self.get_shell().context_remove(idx)
 
-        self.cmd_status([])
+        self.cmd_status()
