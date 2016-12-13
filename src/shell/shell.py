@@ -68,6 +68,8 @@ class Shell:
         self._contexts = []
         self._env = {}
         self._env_expected = set()
+        self._count_errors = 0
+        self._count_warnings = 0
 
         os.system("clear")
         print("CuteShell " + CUTESHELL_VERSION + " initializing...\n")
@@ -258,6 +260,7 @@ class Shell:
         Prints an error message - in the future, we might log this error somewhere to the shell error log.
         :param message: The message to print.
         """
+        self._count_errors += 1
         print_red(message)
 
     def print_warning(self, message: str) -> None:
@@ -265,6 +268,7 @@ class Shell:
         Prints a warning message - in the future, we might log this warning somewhere to the shell warning log.
         :param message: The message to print.
         """
+        self._count_warnings += 1
         print_yellow(message)
 
 # ######################################################################################################################
