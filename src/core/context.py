@@ -6,7 +6,7 @@ from core.notification.yo.yoer import Yoer
 from shell.shellContext import ShellContext
 from route import routes
 
-from flask import g
+from flask import g, Flask
 
 
 class Context(ShellContext):
@@ -31,7 +31,7 @@ class Context(ShellContext):
 
     # region Initialization
 
-    def init_env_verify(self):
+    def init_env_verify(self) -> bool:
         """
         Check that the required environment variables are present.
         :return: False if we are missing an environment variable, True otherwise.
@@ -43,7 +43,7 @@ class Context(ShellContext):
 
         ])
 
-    def init_routes(self, flask_app):
+    def init_routes(self, flask_app: Flask) -> None:
         """
         Initializes the default routes for the application with the specified Flask application object. We farm this out
         to the __init__.py's of each area's packages (Admin, Billing, etc.).
@@ -55,7 +55,7 @@ class Context(ShellContext):
 
     # region Application control
 
-    def _start_impl(self):
+    def _start_impl(self) -> None:
         """
         The target for the context's start method. Starts the Flask application.
         """
@@ -65,7 +65,7 @@ class Context(ShellContext):
 
     # region Singletons
 
-    def singleton_request_init(self):
+    def singleton_request_init(self) -> None:
         """
         Set up the singletons on the request object so they accessible in the Flask context.
         :return:
@@ -94,7 +94,7 @@ class Context(ShellContext):
 
     # region Global Flask handlers
 
-    def request_before_first(self):
+    def request_before_first(self) -> None:
         """
         Any one-time initialization that we want to run only once when the application context starts. When using the
         werkzeug reloader, main will run twice because we're being spawned in a subprocess. This causes locking issues
@@ -107,7 +107,7 @@ class Context(ShellContext):
         if not self.singleton_get_zdb().root.globalSettings.yoApiKey:
             self.singleton_set_yoer(self.singleton_get_zdb().root.globalSettings.yoApiKey)
 
-    def request_before(self):
+    def request_before(self) -> None:
         """
         Do any bringup for things that we need during a request.
         """

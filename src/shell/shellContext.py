@@ -88,7 +88,7 @@ class ShellContext:
 
     # region Initialization
 
-    def init_env_verify(self):
+    def init_env_verify(self) -> bool:
         """
         Check that the required environment variables are present.
         :return: False if we are missing an environment variable, True otherwise.
@@ -101,7 +101,7 @@ class ShellContext:
             "DEFAULT_OBJECT_DATABASE",
         ])
 
-    def init_routes(self, flask_app):
+    def init_routes(self, flask_app: Flask) -> None:
         """
         Initializes the default routes for the application with the specified Flask application object. The specific
         application's Context object should override init_routes and specify routes directly on the provided Flask
@@ -114,7 +114,7 @@ class ShellContext:
 
     # region Application control
 
-    def start(self):
+    def start(self) -> None:
         """
         Starts this process running with the application-defined behavior in _start_impl. This should usually start the
         Flask application.
@@ -123,13 +123,13 @@ class ShellContext:
         self._process = Process(target=self._start_impl)
         self._process.start()
 
-    def _start_impl(self):
+    def _start_impl(self) -> None:
         """
         The target for the context's start method. Should be implemented by the application context object.
         """
         pass
 
-    def stop(self):
+    def stop(self) -> None:
         """
         Trigger any shutdown requirements and terminate the process hosting this context.
         """
@@ -140,7 +140,7 @@ class ShellContext:
 
     # region Singletons
 
-    def singleton_request_init(self):
+    def singleton_request_init(self) -> None:
         """
         Set up the singletons on the request object so they accessible in the Flask context.
         """
@@ -171,7 +171,7 @@ class ShellContext:
 
     # region Global Flask handlers
 
-    def request_before_first(self):
+    def request_before_first(self) -> None:
         """
         Any one-time initialization that we want to run only once when the application context starts. When using the
         werkzeug reloader, main will run twice because we're being spawned in a subprocess. This can causes locking
@@ -182,7 +182,7 @@ class ShellContext:
         # Initialize the object database.
         self.singleton_set_zdb(Zdb(self._db_object))
 
-    def request_before(self):
+    def request_before(self) -> sqlite3.Connection:
         """
         Do any bringup for things that we need during a request, like setting up the singleton references.
         """
