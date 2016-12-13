@@ -31,18 +31,6 @@ class Context(ShellContext):
 
     # region Initialization
 
-    def init_env_verify(self) -> bool:
-        """
-        Check that the required environment variables are present.
-        :return: False if we are missing an environment variable, True otherwise.
-        """
-        if not super().init_env_verify():
-            return False
-
-        return self.shell.env_expect([
-
-        ])
-
     def init_routes(self, flask_app: Flask) -> None:
         """
         Initializes the default routes for the application with the specified Flask application object. We farm this out
@@ -105,7 +93,7 @@ class Context(ShellContext):
         super().request_before_first()
 
         if not self.singleton_get_zdb().root.globalSettings.yoApiKey:
-            self.singleton_set_yoer(self.singleton_get_zdb().root.globalSettings.yoApiKey)
+            self.singleton_set_yoer(Yoer(self.singleton_get_zdb().root.globalSettings.yoApiKey))
 
     def request_before(self) -> None:
         """
@@ -113,12 +101,5 @@ class Context(ShellContext):
         """
         super().request_before()
         # TODO: Run before-request integrity checks.
-
-    def request_teardown(self, exception: BaseException) -> None:
-        """
-        Take care of any teardown after a request.
-        :param exception: Any exception that occurred during the processing of this request.
-        """
-        super().request_teardown(exception)
 
     # endregion
