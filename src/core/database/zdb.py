@@ -32,16 +32,12 @@ class Zdb():
         Initialize the object database.
         :return:
         """
-        logger.logSystem("Bringing up ZODB...")
-
         storage = ZODB.FileStorage.FileStorage(dbPath) # usually 'config/secret/cute.zdb'
         self.zdb = ZODB.DB(storage)
         connection = self.zdb.open()
         self.root = connection.root
 
         self.schemaCheckAndCreate()
-
-        logger.logSystem("... ZODB bringup finished.")
 
 
     def teardown(self):

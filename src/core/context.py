@@ -92,7 +92,7 @@ class Context(ShellContext):
         """
         super().request_before_first()
 
-        if not self.singleton_get_zdb().root.globalSettings.yoApiKey:
+        if self.singleton_get_zdb().root.globalSettings.yoApiKey:
             self.singleton_set_yoer(Yoer(self.singleton_get_zdb().root.globalSettings.yoApiKey))
 
     def request_before(self) -> None:
