@@ -4,8 +4,6 @@
 
 from typing import List, TYPE_CHECKING
 
-from core.context import Context
-
 if TYPE_CHECKING:
     from shell.shell import Shell
 
@@ -34,7 +32,7 @@ class Repl:
             cmd = self.prompt()
             self.eval(cmd)
 
-    def get_shell(self) -> Shell:
+    def get_shell(self) -> 'Shell':
         """
         Returns a reference to the shell (that has application contexts), which this REPL is running within.
         :return: The Shell object reference.
@@ -190,7 +188,7 @@ class Repl:
 
         # TODO: Maybe if the DB/ZDB doesn't exist, run a basic init.
 
-        context = Context(self.get_shell(), port, None, None, sql_database, object_database)
+        context = self.get_shell().context_create(port, None, None, sql_database, object_database)
         self.get_shell().context_add(context)
 
         self.cmd_status()

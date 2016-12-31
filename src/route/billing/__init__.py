@@ -1,2 +1,4 @@
-def route_setup():
+from flask import Flask
+
+def init_routes(flask_app: Flask):
     pass

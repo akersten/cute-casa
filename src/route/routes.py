@@ -1,6 +1,6 @@
 import hashlib
 
-from flask import session, redirect, url_for, render_template, abort, request, flash
+from flask import session, redirect, url_for, render_template, abort, request, flash, Flask
 
 from core import logger
 from core.database import db, queries
@@ -15,10 +15,8 @@ from route.admin import admin
 from route.billing import billing
 from route.household import household
 
-from flask import Flask
 
-
-def route_setup(flask_app: Flask) -> None:
+def init_routes(flask_app: Flask) -> None:
     """
     Sets up the application routes on the Flask object by looking into each area's package __init__.py and running its
     route initialization.
@@ -28,10 +26,10 @@ def route_setup(flask_app: Flask) -> None:
     flask_app.add_url_rule('/login', 'login', methods=["GET","POST"], view_func=login)
     flask_app.add_url_rule('/register', 'register', methods=["GET","POST"], view_func=register)
 
-    route.admin.route_setup(flask_app)
-    route.billing.route_setup(flask_app)
-    route.household.route_setup(flask_app)
-    route.user.route_setup(flask_app)
+    route.admin.init_routes(flask_app)
+    route.billing.init_routes(flask_app)
+    route.household.init_routes(flask_app)
+    route.user.init_routes(flask_app)
 
 
 

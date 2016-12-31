@@ -6,15 +6,17 @@
 import os
 import random
 import math
+import sqlite3
 
+from multiprocessing import Process
 from threading import Thread
-from typing import List, Union
+from typing import Type, List, Union
 
-import shell.shellContext
+from flask import Flask, g
 
+from core.database.zdb import Zdb
 from shell.repl import Repl
 from shell.manifest import Manifest
-from shell.shellContext import ShellContext
 
 # The CuteWorks string is used for prefixing environment variables.
 CUTEWORKS = "CUTEWORKS"
@@ -44,13 +46,9 @@ ENV_EXPECTED = [
     "DEBUG",
 ]
 
-
-def get_inspiration():
-    """
-    Returns an inspirational phrase to display during shell initialization.
-    :return: An inspirational phrase from the inspirations array.
-    """
-    return INSPIRATIONS[math.floor(random.random() * len(INSPIRATIONS))]
+# The default context that will be launched by the shell. Set _default_context_name before launching the application.
+_default_context_name = None
+_default_context_instance = None
 
 
 class Shell:
@@ -88,7 +86,21 @@ class Shell:
 
     # region Context
 
-    def context_add(self, context: ShellContext) -> None:
+    def context_create(self, port: int = None, dir_static: str = None, dir_templates: str = None, db_sql: str = None,
+                       db_object: str = None) -> 'ShellContext':
+        """
+        Creates an instance of the default context with the specified parameters, using this shell.
+        :param port: The port to listen on. Looks to environment variables if not defined.
+        :param dir_static: The static files directory. Defaults to the project root's /static directory.
+        :param dir_templates: The template files directory. Defaults to the project root's /templates directory.
+        :param db_sql: The name of the SQL database. Defaults from environment.
+        :param db_object: The name of the object database. Defaults from environment.
+        :return The ShellContext that was created.
+        """
+        global _default_context_name
+        return _default_context_name(self, port, dir_static, dir_templates, db_sql, db_object)
+
+    def context_add(self, context: 'ShellContext') -> None:
         """
         Adds a context to this shell's list of contexts that can be inspected by the command line operations.
         :param context: The context to add.
@@ -136,7 +148,7 @@ class Shell:
 
         self._contexts[context_idx].stop()
 
-    def context_get_raw_list(self) -> List[ShellContext]:
+    def context_get_raw_list(self) -> List['ShellContext']:
         """
         Get the raw list backing the context array. Shouldn't use this too often, mostly used from the REPL where we
         want to do things like inspect the list directly.
@@ -144,7 +156,7 @@ class Shell:
         """
         return self._contexts
 
-    def context_get(self, context_idx: int) -> ShellContext:
+    def context_get(self, context_idx: int) -> 'ShellContext':
         """
         Gets the object representing the context.
         :param context_idx: The number of the context to get.
@@ -178,10 +190,7 @@ class Shell:
 
                 # Do any necessary casting.
                 if key in ENV_BOOLEANS:
-                    if val in ['True', 'true', '1', 'yes']:
-                        val = True
-                    else:
-                        val = False
+                    val = True if val in ['True', 'true', '1', 'yes'] else False
 
                 self._env[key] = val
 
@@ -237,13 +246,13 @@ class Shell:
         if self.env_get("DEBUG"):
             print_red("Running in standalone debug mode.")
 
-            if shell.shellContext.default_context_get():
+            if default_context_get():
                 print_red("Default context already exists.")
                 return
 
-            shell.shellContext.default_context_set(self.manifest.default_context)
-            context = shell.shellContext.default_context_create(self)
-            context.start()
+            default_context_set(self.manifest.default_context)
+            default_context_create(self)
+            _default_context_instance.start()
             return
 
         user_input = ""
@@ -277,10 +286,247 @@ class Shell:
         self._count_warnings += 1
         print_yellow(message)
 
+
+class ShellContext:
+    """
+    The shell launches an application context. This is an abstract class that the specific application should extend.
+    This structure is so that shell.py doesn't have to import something out of the application's core package; instead,
+    the Context object in the core extends this class.
+    """
+
+    def __init__(self, shell: Shell, port: int = None, dir_static: str = None, dir_templates: str = None,
+                 db_sql: str = None, db_object: str = None):
+        """
+        Construct a context for this application and initialize the application.
+        :param shell: The CuteWorks shell hosting this application.
+        :param port: The port to listen on. Looks to environment variables if not defined.
+        :param dir_static: The static files directory. Defaults to the project root's /static directory.
+        :param dir_templates: The template files directory. Defaults to the project root's /templates directory.
+        :param db_sql: The name of the SQL database. Defaults from environment.
+        :param db_object: The name of the object database. Defaults from environment.
+        """
+        self.shell = shell
+        self.running = False
+
+        self._process = None
+
+        self._requests_issued = 0
+        self._requests_completed = 0
+        self._requests_in_flight = 0
+        self._requests_failed = 0
+
+        # Verify any environment variables that we need.
+        if not self.init_env_verify():
+            print("Missing required environment variable.")
+            quit(1)
+
+        # Set up the context based on parameters, and set defaults for context variables that might not be set.
+        if port is None:
+            port = int(self.shell.env_get("DEFAULT_PORT"))
+
+        if dir_templates is None:
+            dir_templates = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../templates")
+
+        if dir_static is None:
+            dir_static = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../static")
+
+        if db_sql is None:
+            db_sql = self.shell.env_get("DEFAULT_SQL_DATABASE")
+
+        if db_object is None:
+            db_object = self.shell.env_get("DEFAULT_OBJECT_DATABASE")
+
+        self._port = port
+        self._db_sql = db_sql
+        self._db_object = db_object
+
+        # Set Flask variables on this object for configuration, set up a reference to the Flask application, set
+        # instance variables for Flask, and create the Flask object based on the configuration variables we set on this
+        # object.
+        self.DEBUG = self.shell.env_get("DEBUG")
+        self.SALT = self.shell.env_get("SALT")
+        self.SECRET_KEY = self.shell.env_get("SECRET_KEY")
+
+        # Set our own instance variables.
+        self._flask_app = Flask(__name__,
+                                static_folder=dir_static,
+                                template_folder=dir_templates)
+        self._flask_app.config.from_object(self)
+        self._flask_app.before_first_request(self.request_before_first)
+        self._flask_app.before_request(self.request_before)
+        self._flask_app.teardown_request(self.request_teardown)
+
+        # Set up singleton fields.
+        self._zdb = None
+
+        # Set up routes for Flask.
+        self.init_routes(self._flask_app)
+
+    # region Initialization
+
+    def init_env_verify(self) -> bool:
+        """
+        Check that the required environment variables are present.
+        :return: False if we are missing an environment variable, True otherwise.
+        """
+        return self.shell.env_expect([
+            "DEFAULT_PORT",
+            "SALT",
+            "SECRET_KEY",
+            "DEFAULT_SQL_DATABASE",
+            "DEFAULT_OBJECT_DATABASE",
+        ])
+
+    def init_routes(self, flask_app: Flask) -> None:
+        """
+        Initializes the default routes for the application with the specified Flask application object. The specific
+        application's Context object should override init_routes and specify routes directly on the provided Flask
+        object.
+        :param flask_app: The Flask instance in which to set routes.
+        """
+        pass
+
+    # endregion
+
+    # region Inspection
+
+    def get_port(self) -> int:
+        """
+        Gets the port number that this application runs on.
+        :return: The port number for this application.
+        """
+        return self._port
+
+    def db_sql_get(self) -> str:
+        """
+        Gets the path of the SQL database.
+        :return: The path to the SQL database.
+        """
+        return self._db_sql
+
+    def db_object_get(self) -> str:
+        """
+        Gets the path of the object database.
+        :return: The path to the object database.
+        """
+        return self._db_object
+
+    # endregion
+
+    # region Application control
+
+    def start(self) -> None:
+        """
+        Starts this process running with the application-defined behavior in _start_impl. This should usually start the
+        Flask application.
+        """
+        self.running = True
+        self._process = Process(target=self._start_impl)
+        self._process.start()
+
+    def _start_impl(self) -> None:
+        """
+        The target for the context's start method. Should be implemented by the application context object.
+        """
+        pass
+
+    def stop(self) -> None:
+        """
+        Trigger any shutdown requirements and terminate the process hosting this context.
+        """
+        self.running = False
+        self._process.terminate()
+
+    # endregion
+
+    # region Singletons
+
+    def singleton_request_init(self) -> None:
+        """
+        Set up the singletons on the request object so they accessible in the Flask context.
+        """
+        g.s = lambda: None
+
+        g.s.shell = self.shell
+        g.s.context = self
+
+        # The context object (this one) should have methods to get the following singletons. We'll expose them on g.s
+        # for ease of access.
+        g.s.zdb = self.singleton_get_zdb()
+
+    def singleton_get_zdb(self) -> Zdb:
+        """
+        Gets the object database associated with the context.
+        :return: The object database associated with the context.
+        """
+        return self._zdb
+
+    def singleton_set_zdb(self, zdb: Zdb) -> None:
+        """
+        Sets the object database associated with the context.
+        :param zdb: The object database to use as the singleton.
+        """
+        self._zdb = zdb
+
+    # endregion
+
+    # region Global Flask handlers
+
+    def request_before_first(self) -> None:
+        """
+        Any one-time initialization that we want to run only once when the application context starts. When using the
+        werkzeug reloader, main will run twice because we're being spawned in a subprocess. This can causes locking
+        issues, so possibly only initialize sensitive objects when we're actually ready to process the first request.
+        At this point, the database connection is not yet open, so we don't want to attempt any accesses to the DB.
+        """
+
+        # Initialize the object database.
+        self.singleton_set_zdb(Zdb(self._db_object))
+
+    def request_before(self) -> sqlite3.Connection:
+        """
+        Do any bringup for things that we need during a request, like setting up the singleton references.
+        """
+        self._requests_issued += 1
+        self._requests_in_flight += 1
+
+        g.db = self.db_sql_connect()
+        self.singleton_request_init()
+
+    def request_teardown(self, exception: BaseException) -> None:
+        """
+        Take care of any teardown after a request.
+        :param exception: Any exception that occurred during the processing of this request.
+        """
+        db = getattr(g, 'db', None)
+        if db is not None:
+            db.close()
+
+        self._requests_in_flight -= 1
+        if exception:
+            self._requests_failed += 1
+        else:
+            self._requests_completed += 1
+
+    # endregion
+
+    # region Database
+
+    def db_sql_connect(self) -> sqlite3.Connection:
+        """
+        Connect to the SQL database in order to insert the schema.
+        :return: The connection object.
+        """
+        return sqlite3.connect(self._db_sql)
+
+    # endregion
+
+
 # ######################################################################################################################
 # Static functions to implement shell functionality.
 # ######################################################################################################################
 
+# region Printing
 
 def print_italic(line: str) -> None:
     """
@@ -326,3 +572,54 @@ def print_yellow(line: str) -> None:
         os.system("echo -e \"\\e[33m" + line + "\\e[0m\"")
     else:
         print(line)
+
+# endregion
+
+
+# region Default context
+
+def default_context_set(default_context_name: 'Type(ShellContext)') -> None:
+    """
+    Sets the default context that will be launched.
+    :param default_context_name: The default context object type for the application.
+    """
+    global _default_context_name
+    _default_context_name = default_context_name
+
+
+def default_context_get() -> ShellContext:
+    """
+    If the default context has been initialized (via the default_context_create) method, return the context instance.
+    :return: The instance of the default context.
+    """
+    return _default_context_instance
+
+
+def default_context_create(shell: Shell, port: int = None, dir_static: str = None, dir_templates: str = None,
+                           db_sql: str = None, db_object: str = None) -> ShellContext:
+    """
+    Using the default context class, initialize the default context and return it as a reference. Does not invoke .start
+    on the context, only initializes it.
+    :param shell: The CuteWorks shell hosting this application.
+    :param port: The port to listen on. Looks to environment variables if not defined.
+    :param dir_static: The static files directory. Defaults to the project root's /static directory.
+    :param dir_templates: The template files directory. Defaults to the project root's /templates directory.
+    :param db_sql: The name of the SQL database. Defaults from environment.
+    :param db_object: The name of the object database. Defaults from environment.
+    """
+    global _default_context_instance, _default_context_name
+    _default_context_instance = _default_context_name(shell, port, dir_static, dir_templates, db_sql, db_object)
+
+# endregion
+
+
+# Region Miscellaneous
+
+def get_inspiration():
+    """
+    Returns an inspirational phrase to display during shell initialization.
+    :return: An inspirational phrase from the inspirations array.
+    """
+    return INSPIRATIONS[math.floor(random.random() * len(INSPIRATIONS))]
+
+# endregion

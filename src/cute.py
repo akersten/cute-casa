@@ -3,10 +3,9 @@
 # this via cute.sh so that environment variables are set for the context.
 # ######################################################################################################################
 
-from shell.shell import Shell
-from shell.manifest import Manifest
-
 from core.context import Context
+from shell.manifest import Manifest
+from shell.shell import Shell
 
 # ######################################################################################################################
 # First, set up the application shell and read configuration from environment variables set in the secret shell script

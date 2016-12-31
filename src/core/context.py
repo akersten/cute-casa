@@ -3,7 +3,7 @@
 # ######################################################################################################################
 
 from core.notification.yo.yoer import Yoer
-from shell.shellContext import ShellContext
+from shell.shell import ShellContext
 from route import routes
 
 from flask import g, Flask
@@ -37,7 +37,7 @@ class Context(ShellContext):
         to the __init__.py's of each area's packages (Admin, Billing, etc.).
         :param flask_app: The Flask instance in which to set routes.
         """
-        routes.route_setup(flask_app)
+        routes.init_routes(flask_app)
 
     # endregion
 
