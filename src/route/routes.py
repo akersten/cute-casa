@@ -7,6 +7,7 @@ from core.database import db, queries
 from core.user import user
 
 import route.admin
+import route.authentication
 import route.billing
 import route.household
 import route.user
@@ -26,6 +27,7 @@ def init_routes(flask_app: Flask) -> None:
 
 
     route.admin.init_routes(flask_app)
+    route.authentication.init_routes(flask_app)
     route.billing.init_routes(flask_app)
     route.household.init_routes(flask_app)
     route.user.init_routes(flask_app)

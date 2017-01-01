@@ -101,5 +101,6 @@ class Context(ShellContext):
         """
         super().request_before()
         # TODO: Run before-request integrity checks.
+        # TODO: Run before-request permission checks (e.g. checkLogin, checkAdmin) based on the route we are attempting.
 
     # endregion
