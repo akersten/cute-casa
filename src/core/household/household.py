@@ -45,6 +45,13 @@ def getUsersForHousehold(householdId):
     """
     return db.query_db(queries.HOUSEHOLD_GET_USERS, [householdId, ])
 
+def getUsersForCurrentHousehold():
+    """
+    Returns a list of users for the currently selected household.
+    :return: A list of users for the currently selected household.
+    """
+    return getUsersForHousehold(session["householdId"])
+
 def setHousehold(householdId):
     """
     Set the current household for this session. Checks the validity of the household as well as the membership of the

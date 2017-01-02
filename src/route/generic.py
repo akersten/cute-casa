@@ -24,4 +24,4 @@ def dashboard():
     """
     if not session.get('householdId'):
         return redirect(url_for('household_select'))
-    return render_template('dashboard.html', members=household.getUsersForHousehold(session['householdId']))
+    return render_template('dashboard.html', members=household.getUsersForCurrentHousehold())
