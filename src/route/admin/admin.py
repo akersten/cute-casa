@@ -14,7 +14,7 @@ def dashboard():
     return render_template('admin/dashboard.html')
 
 
-def logviewer(logname, after):
+def view_log(logname, after):
     """
     The admin log viewer shows administrative events. Render the logviewer.
     :return: The render template.
@@ -37,7 +37,7 @@ def logviewer(logname, after):
                            next=int(after)+50,
                            prev=max(int(after)-50, 0))
 
-def nodeviewer(node, index):
+def view_node(node, index):
     """
     The node viewer shows a node in z.dog.zdb.root . Right now, only first-level objects, first-level iterables,
     and objects stored in first-level iterables are supported (e.g. a btree inside a btree won't look right when
@@ -63,14 +63,7 @@ def nodeviewer(node, index):
 
     return render_template('admin/nodeviewer.html', node=node, children=children, index=index)
 
-def styletest():
-    """
-    A page with all of our styles in one place to test how things look.
-    :return: The render template.
-    """
-    return render_template('admin/styletest.html')
-
-def globalSettings():
+def settings():
     """
     The page for global settings.
     :return: The render template.

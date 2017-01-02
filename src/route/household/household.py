@@ -109,6 +109,7 @@ def select(householdId):
     which is then populated in the session.
 
     Render the household select view.
+    :param householdId: The household ID to choose.
     :return: The render template.
     """
     if householdId:
@@ -142,8 +143,7 @@ def search(partial):
     """
     return jsonify(result=db.query_db(queries.HOUSEHOLD_SEARCH, ['%' + partial + '%', ]))
 
-# Don't name this just 'request' because it will alias the Flask request variable
-def household_request(householdId):
+def request_join(householdId):
     """
     Request to join this household.
     :param id: The household to join.
@@ -163,32 +163,32 @@ def household_request(householdId):
     return redirect(url_for('household_select'))
 
 
-def household_approve(householdId, id):
+def request_approve(householdId, userId):
     """
     Approve a user's request to join a certain household.
     :param householdId: The household id to approve.
-    :param id: The user id to approve.
+    :param userId: The user id to approve.
     :return: The household profile view after allowing the request.
     """
     #TODO: Check that the logged in user is an admin of this household and that the target user actually requested this,
     #TODO: That is, the target user must be in the memberships db with the correct relation (3)
 
-    db.post_db(queries.HOUSEHOLD_MEMBERSHIP_UPDATE, [enums.e_household_relation.member, householdId, id])
+    db.post_db(queries.HOUSEHOLD_MEMBERSHIP_UPDATE, [enums.e_household_relation.member, householdId, userId])
 
     flash('Approved user to join household.', 'info')
     return redirect(url_for('household_profile'))
 
-def household_deny(householdId, id):
+def request_deny(householdId, userId):
     """
     Deny a user's request to join a certain household. Also used as a way to remove a user from a household.
     :param householdId: The household id to deny or remove.
-    :param id: The user id to deny or remove.
+    :param userId: The user id to deny or remove.
     :return: The household profile view after denying the request or removing the user.
     """
     #TODO: Check that the logged in user is an admin of this household
     #TODO: Check that we're not removing ourselves
 
-    db.post_db(queries.HOUSEHOLD_MEMBERSHIP_REMOVE, [householdId, id])
+    db.post_db(queries.HOUSEHOLD_MEMBERSHIP_REMOVE, [householdId, userId])
 
     flash('Removed user from household.', 'info')
     return redirect(url_for('household_profile'))
