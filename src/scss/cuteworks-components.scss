@@ -1,0 +1,93 @@
+@import "cuteworks-variables";
+
+div.cwxs-spinner-ajax-container {
+  background-color: $cuteworks-primary-subtle;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  &.is-loading {
+    animation-name: is-loading;
+    animation-duration: 0.25s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+  }
+
+  @keyframes is-loading {
+    from {
+      height: 0;
+    }
+
+    to {
+      height: 1.5rem;
+    }
+  }
+
+  div.sub--loader-blue, div.sub--loader-pink {
+    display: inline-block;
+    /* filter: drop-shadow(1px 1px 1px black); One day. */
+  }
+
+  div.sub--loader-blue {
+    background-color: $cuteworks-primary;
+
+    height: 1.75rem;
+    width: 2rem;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    clip-path: polygon(0 0, 100% 0, calc(100% - 1.75rem) 100%, 0 100%);
+    z-index: 1100;
+  }
+
+  div.sub--loader-pink {
+    background-color: $cuteworks-secondary;
+
+    height: 2rem;
+    width: 1.5rem;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    clip-path: polygon(0 0, 100% 0, calc(100% - 2rem) 100%, 0 100%);
+    z-index: 1200;
+  }
+
+  /* Until browsers support drop shadows on clip-path shapes, we get to do it manually. */
+  div.sub--loader-blue-shadow {
+    background-color: #333;
+
+    height: calc(1.75rem + 1px);
+    width: calc(2rem + 1px);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    clip-path: polygon(0 0, 100% 0, calc(100% - (1.75rem + 1px)) 100%, 0 100%);
+    z-index: 1050;
+  }
+
+  div.sub--loader-pink-shadow {
+    background-color: #333;
+
+    height: calc(2rem + 1px);
+    width: calc(1.5rem + 1px);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    clip-path: polygon(0 0, 100% 0, calc(100% - (2rem + 1px)) 100%, 0 100%);
+    z-index: 1150;
+  }
+
+}
+

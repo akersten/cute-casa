@@ -1,11 +1,12 @@
 /* Here we define any variables we use across CuteCasa. They're defined here in order to be accessible to all the SCSS
  * files we build with the project. They are read in cutecasa.scss and used there to override the default framework
  * styles. */
+@import "cuteworks-variables";
 
 $cutecasa-sans-serif-font: 'Yantramanav', sans-serif;
 $cutecasa-serif-font: 'Roboto Slab', serif;
 
-$cutecasa-primary: #1FC8DB;
-$cutecasa-primary-subtle: #F0F7F7;
-$cutecasa-secondary: #DB1F83;
-$cutecasa-secondary-subtle: #F7F0F4;
+$cutecasa-primary: $cuteworks-primary;
+$cutecasa-primary-subtle: $cuteworks-primary-subtle;
+$cutecasa-secondary: $cuteworks-secondary;
+$cutecasa-secondary-subtle: $cuteworks-secondary-subtle;

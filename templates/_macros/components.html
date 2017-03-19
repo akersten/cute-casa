@@ -3,7 +3,7 @@
     <div class="form-group">
         <div class="input-group">
             <label for="{{ name }}">{{ title }}</label>
-            <input type="text" id="{{ name }}" class="form-control" />
+            <input type="text" id="{{ name }}" class="form-control"/>
 
         </div>
     </div>
@@ -14,7 +14,7 @@
 
     <script type="text/javascript">
         var el = $('#{{ name }}');
-        el.on('input', function() {
+        el.on('input', function () {
             var e = $('#' + this.id);
             var msgc = $('#' + this.id + '_errorContainer');
             var msg = $('#' + this.id + '_errorText');
@@ -46,32 +46,33 @@
                 }
             {% else %}
                 if (true) {
-                    msg.text('Invalid validator type: {{ datatype }}');
-                    msgc.show();
-                }
+                msg.text('Invalid validator type: {{ datatype }}');
+                msgc.show();
+            }
             {% endif %}
 
-            else {
-                msgc.hide();
-            }
+        else
+        {
+            msgc.hide();
+        }
         });
 
     </script>
 {% endmacro %}
 
 {% macro submit(title, name, endpoint, values, callback) %}
-<!--
-    A submit button for an ajax request.
-    title: The text for the button.
-    name: The id for the button.
-    endpoint: The ajax endpoint for the button (use url_for).
-    values: A dictionary of values to submit to the endpoint.
-    callback: Delegate to call when the ajax call returns successfully.
--->
+    <!--
+        A submit button for an ajax request.
+        title: The text for the button.
+        name: The id for the button.
+        endpoint: The ajax endpoint for the button (use url_for).
+        values: A dictionary of values to submit to the endpoint.
+        callback: Delegate to call when the ajax call returns successfully.
+    -->
     <button class="btn btn-primary" id="{{ name }}">{{ title }}</button>
 
     <script type="text/javascript">
-        $('#{{ name }}').on('click', function() {
+        $('#{{ name }}').on('click', function () {
             $.ajax({
                 url: {{ endpoint }},
                 data: {{ values }},
@@ -82,5 +83,34 @@
             });
         });
     </script>
+
+{% endmacro %}
+
+{% macro spinner_ajax() %}
+    <!--
+        A page-wide spinner to indicate that an ajax call is in-flight.
+    -->
+
+    <script type="text/javascript">
+        function spinner_start() {
+
+        }
+
+        function spinner_stop() {
+
+        }
+    </script>
+
+    <div class="cwxs-spinner-ajax-container">
+        <div class=
+        <div class="sub--loader-blue">
+        </div>
+        <div class="sub--loader-pink">
+        </div>
+        <div class="sub--loader-blue-shadow">
+        </div>
+        <div class="sub--loader-pink-shadow">
+        </div>
+    </div>
 
 {% endmacro %}
