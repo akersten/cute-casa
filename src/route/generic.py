@@ -14,7 +14,7 @@ def splash():
     """
     if session.get("logged_in"):
         return redirect(url_for("dashboard"))
-    return render_template("splash.html")
+    return generic_path_render("splash.html")
 
 
 def dashboard():
@@ -25,3 +25,12 @@ def dashboard():
     if not session.get('householdId'):
         return redirect(url_for('household_select'))
     return render_template('dashboard.html', members=household.getUsersForCurrentHousehold())
+
+
+def generic_path_render(file):
+    """
+    A generic renderer for a static page.
+    :param route: The filename to render.
+    :return: The rendered template for a static page.
+    """
+    return render_template(file)

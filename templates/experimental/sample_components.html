@@ -1,0 +1,22 @@
+{% extends "head.html" %}
+
+{% block header %}
+    {% include "_headers/outside.html" %}
+{% endblock %}
+
+{% block body %}
+<section class="section">
+    <div class="container">
+        <div class="content">
+            <h1>Component and Layout Test</h1>
+            <p>Use the following controls to test the components and layout of the CuteWorks styling.</p>
+        </div>
+        <div>
+            <p>
+                <a href="#" class="button" onclick="spinner_start();">Start loading</a>
+                <a href="#" class="button" onclick="spinner_stop();">Stop loading</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

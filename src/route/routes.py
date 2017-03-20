@@ -7,6 +7,8 @@ import route.billing
 import route.household
 import route.user
 
+import route.experimental
+
 from route.household import household
 
 
@@ -22,3 +24,5 @@ def init_routes(flask_app: Flask) -> None:
     route.billing.init_routes(flask_app)
     route.household.init_routes(flask_app)
     route.user.init_routes(flask_app)
+
+    route.experimental.init_routes(flask_app)
