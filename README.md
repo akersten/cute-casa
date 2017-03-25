@@ -28,7 +28,6 @@ future paid/dedicated hosting.
 * * [ZODB](http://www.zodb.org/en/latest/)
 * [Sass](http://sass-lang.com/) (`sass`)
 * [Typescript](https://www.typescriptlang.org/) (`tsc`)
-* pytesseract (requires python3-image package and Tesseract OCR package)
 
 ### Running CuteCasa
 
